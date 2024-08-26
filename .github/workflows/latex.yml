@@ -3,7 +3,7 @@ name: Build LaTeX Document
 on:
   push:
     branches:
-      - main  # Adjust if your default branch is not 'main'
+      - main  
   pull_request:
     branches:
       - main
@@ -14,12 +14,12 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  
 
     - name: Set up LaTeX environment
       uses: xu-cheng/latex-action@v2
       with:
-        root_file: src/paper.tex  # Path to your .tex file inside the 'src' folder
+        root_file: src/paper.tex 
 
     - name: Move PDF to root directory
-      run: mv src/paper.pdf ./  # Move the generated PDF from 'src' to the root directory
+      run: mv src/paper.pdf ./ 

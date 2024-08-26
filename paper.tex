@@ -1,0 +1,136 @@
+\documentclass[ms,twoside,print]{nuthesis}
+% Note: Leaving out print or twoside will result in oneside printing.
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[sc,osf]{mathpazo}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage{color}
+\definecolor{dark-red}{rgb}{0.6,0,0}
+\definecolor{dark-green}{rgb}{0,0.6,0}
+\definecolor{dark-blue}{rgb}{0,0,0.6}
+
+%% If you use hyperref, you need to load memhfixc *after* it.
+%% See the memoir docs for details.
+\usepackage[
+pdfauthor={Andrei Modiga},
+pdftitle={Master Thesis},
+pdfsubject={Education and AI},
+pdfkeywords={LaTeX, Thesis, AI, Education},
+linkcolor=dark-blue,
+pagecolor=dark-green,
+citecolor=dark-blue,
+urlcolor=dark-red,
+colorlinks=true,
+backref,
+plainpages=false, % This helps to fix the issue with hyperref with page numbering
+pdfpagelabels % This helps to fix the issue with hyperref with page numbering
+]{hyperref}
+%% Needed by memoir to fix things with hyperref
+\usepackage{memhfixc}
+
+\begin{document}
+%% Start formatting the first few special pages
+\frontmatter
+
+\title{Master Thesis}
+\author{Andrei Modiga}
+\adviser{Professor Anderson}
+\adviserAbstract{Scot Anderson, Ph.D.}
+\major{Computer Science}
+\degreemonth{August}
+\degreeyear{2024}
+
+%% Optional fields (uncomment and modify if needed)
+%% \college{School of Computing}
+%% \city{Collegedale, Tennessee}
+
+\doctype{THESIS} % Options: Thesis, Thesis Proposal, or Dissertation
+
+\maketitle
+
+\begin{abstract}
+In the educational landscape, grading written student work is a task of high importance, directly influencing the learning experience and providing crucial feedback to both students and educators. This thesis explores the use of Large Language Models (LLMs) in automating and enhancing the grading process.
+\end{abstract}
+
+%% Optional: Copyright Page
+%\begin{copyrightpage}
+%This file may be distributed and/or modified under the conditions of
+%the \LaTeX{} Project Public License, either version 1.3c of this license
+%or (at your option) any later version. The latest version of this
+%license is in:
+%\begin{center}
+%   \url{http://www.latex-project.org/lppl.txt}
+%\end{center}
+%and version 1.3c or later is part of all distributions of \LaTeX version
+%2006/05/20 or later.
+%\end{copyrightpage}
+
+%% Optional: Dedication, Acknowledgments, Grant Information
+%\begin{dedication}
+%Dedication text goes here.
+%\end{dedication}
+
+%\begin{acknowledgments}
+%Acknowledgments text goes here.
+%\end{acknowledgments}
+
+%\begin{grantinfo}
+%Grant information goes here.
+%\end{grantinfo}
+
+%% The Table of Contents is required
+\tableofcontents
+%% Uncomment these if needed
+%\listoffigures
+%\listoftables
+
+%% Main content starts here
+\mainmatter
+
+\chapter{Introduction}
+In the educational landscape, grading written student work is a task of high importance, directly influencing the 
+learning experience and providing crucial feedback to both students and educators. While traditional grading methods 
+are generally effective, they can be time-consuming and labor-intensive, particularly for teachers managing large
+volumes of student responses. The need for efficient and scalable grading solutions has become increasingly 
+evident as educators seek to streamline their workloads without compromising the quality of their assessments.
+
+Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), 
+offer a promising approach to this challenge. LLMs, such as GPT-4, have shown remarkable proficiency in understanding 
+and generating human-like text by analyzing vast datasets and recognizing patterns in language. This research explores 
+the potential of LLMs not only to recognize correct answers but also to classify student responses by grouping 
+those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless 
+of phrasing or structure, LLMs can assist educators in grading more efficiently while maintaining the integrity of 
+their evaluations.
+
+The primary goal of this research is to test and analyze two different LLM models, OpenAI's GPT-4 and Meta's LLaMA, 
+to determine their effectiveness in simplifying the grading process for teachers, including the ability to recognize 
+handwritten text. By comparing these models, the study aims to identify which one better categorizes student responses 
+based on semantic similarity, providing insights into their strengths and limitations. This approach seeks to enhance 
+the grading process, making it quicker and more consistent, thereby allowing teachers to focus on more critical aspects 
+of instruction while ensuring that students receive fair and accurate feedback.
+
+However, the integration of LLMs into the grading process presents certain challenges that must be carefully 
+addressed. One of the key considerations is the models' ability to accurately differentiate between nuanced 
+meanings and appropriately group responses that, while semantically similar, may vary in their correctness. 
+Additionally, the effectiveness of these models in handling a diverse range of student expressions and 
+potential errors needs to be thoroughly evaluated.
+
+\chapter{Methodology}
+% Include your methodology here
+
+\chapter{Results}
+% Include your results here
+
+\chapter{Conclusion}
+% Include your conclusion here
+
+\backmatter
+
+%% Bibliography section
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

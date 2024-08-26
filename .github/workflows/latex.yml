@@ -22,5 +22,11 @@ jobs:
           root_file: paper.tex
           working_directory: src
 
+      - name: List files for debugging
+        run: ls -la
+
+      - name: List files in 'src' directory
+        run: ls -la src/
+
       - name: Move PDF to root directory
-        run: mv paper.pdf ../
+        run: mv src/paper.pdf ./

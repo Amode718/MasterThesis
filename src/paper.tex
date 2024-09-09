@@ -1,5 +1,7 @@
 \documentclass[ms,twoside,print]{nuthesis}
 % Note: Leaving out print or twoside will result in oneside printing.
+
+% Include necessary packages
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage[sc,osf]{mathpazo}
@@ -12,30 +14,30 @@
 \definecolor{dark-green}{rgb}{0,0.6,0}
 \definecolor{dark-blue}{rgb}{0,0,0.6}
 
-%% If you use hyperref, you need to load memhfixc *after* it.
-%% See the memoir docs for details.
+% Load memhfixc after hyperref to fix issues with hyperref in memoir
 \usepackage[
-pdfauthor={Andrei Modiga},
-pdftitle={Master Thesis},
-pdfsubject={Education and AI},
-pdfkeywords={LaTeX, Thesis, AI, Education},
-linkcolor=dark-blue,
-pagecolor=dark-green,
-citecolor=dark-blue,
-urlcolor=dark-red,
-colorlinks=true,
-backref,
-plainpages=false, % This helps to fix the issue with hyperref with page numbering
-pdfpagelabels % This helps to fix the issue with hyperref with page numbering
+    pdfauthor={Andrei Modiga},
+    pdftitle={Automating Grading in Education Using Large Language Models: A Comparative Study of GPT-4 and LLaMA},
+    pdfsubject={Education and AI},
+    pdfkeywords={LaTeX, Project Proposal, AI, Education, Grading},
+    linkcolor=dark-blue,
+    pagecolor=dark-green,
+    citecolor=dark-blue,
+    urlcolor=dark-red,
+    colorlinks=true,
+    backref,
+    plainpages=false, % This helps to fix the issue with hyperref with page numbering
+    pdfpagelabels % This helps to fix the issue with hyperref with page numbering
 ]{hyperref}
-%% Needed by memoir to fix things with hyperref
 \usepackage{memhfixc}
 
 \begin{document}
-%% Start formatting the first few special pages
+
+% Start formatting the first few special pages
 \frontmatter
 
-\title{Master Thesis}
+% Title and author information
+\title{Automating Grading in Education Using Large Language Models: A Comparative Study of GPT-4 and LLaMA}
 \author{Andrei Modiga}
 \adviser{Professor Anderson}
 \adviserAbstract{Scot Anderson, Ph.D.}
@@ -43,30 +45,21 @@ pdfpagelabels % This helps to fix the issue with hyperref with page numbering
 \degreemonth{August}
 \degreeyear{2024}
 
-%% Optional fields (uncomment and modify if needed)
-%% \college{School of Computing}
-%% \city{Collegedale, Tennessee}
+% Optional fields (uncomment and modify if needed)
+% \college{School of Computing}
+% \city{Collegedale, Tennessee}
 
-\doctype{THESIS} % Options: Thesis, Thesis Proposal, or Dissertation
+\doctype{PROJECT PROPOSAL}
 
 \maketitle
 
 \begin{abstract}
-In the educational landscape, grading written student work is a task of high importance, directly influencing the learning experience and providing crucial feedback to both students and educators. This thesis explores the use of Large Language Models (LLMs) in automating and enhancing the grading process.
+    In the educational landscape, grading written student work is a task of high importance, directly influencing the learning 
+    experience and providing crucial feedback to both students and educators. This project focuses on building a high-level AI system 
+    that leverages Large Language Models (LLMs) to automate and enhance the grading process. Specifically, the system classifies student responses 
+    by semantic similarity, streamlining the grading process and allowing educators to provide more consistent and efficient feedback.
 \end{abstract}
-
-%% Optional: Copyright Page
-%\begin{copyrightpage}
-%This file may be distributed and/or modified under the conditions of
-%the \LaTeX{} Project Public License, either version 1.3c of this license
-%or (at your option) any later version. The latest version of this
-%license is in:
-%\begin{center}
-%   \url{http://www.latex-project.org/lppl.txt}
-%\end{center}
-%and version 1.3c or later is part of all distributions of \LaTeX version
-%2006/05/20 or later.
-%\end{copyrightpage}
+    
 
 %% Optional: Dedication, Acknowledgments, Grant Information
 %\begin{dedication}
@@ -82,10 +75,10 @@ In the educational landscape, grading written student work is a task of high imp
 %\end{grantinfo}
 
 %% The Table of Contents is required
+\setcounter{tocdepth}{2} % Adjust this number to control the depth of the Table of Contents
 \tableofcontents
-%% Uncomment these if needed
-%\listoffigures
-%\listoftables
+\listoffigures
+\listoftables
 
 %% Main content starts here
 \mainmatter
@@ -118,14 +111,335 @@ meanings and appropriately group responses that, while semantically similar, may
 Additionally, the effectiveness of these models in handling a diverse range of student expressions and 
 potential errors needs to be thoroughly evaluated.
 
-\chapter{Methodology}
-% Include your methodology here
+\chapter{Background}
 
-\chapter{Results}
-% Include your results here
+Emerging research in AI-assisted grading is rapidly evolving, especially in handling complex tasks 
+such as handwritten responses in educational assessments. This chapter explores studies that demonstrate 
+both the effectiveness and limitations of using AI technologies, such as Large Language Models (LLMs), 
+in automating the grading process. The research further highlights the gap that the proposed AI system 
+for OICLearning.com will address, with particular focus on integrating LLMs like GPT-4 and Meta's LLaMA.
+
+\section{AI-Assisted Grading Techniques} Recent advancements in artificial intelligence have introduced 
+new possibilities for automating the grading of student work, particularly in handling diverse response 
+types, including handwritten solutions. These systems aim to reduce manual grading workload while 
+maintaining accuracy and fairness. Below are the techniques that will be relevant to the proposed project.
+
+\subsection{Automated Grading of Handwritten Responses}
+
+AI tools, such as MathPix and GPT-4, have been leveraged to grade handwritten responses in exams. 
+For instance, Liu et al. (2024) \cite{Liu2024} demonstrate the effectiveness of using a pre-trained 
+GPT-4 model to evaluate semi-open handwritten responses in university-level mathematics exams. Their 
+study suggests that such systems can offer reliable and cost-effective initial grading, although human 
+verification is still essential to ensure accuracy and reliability.
+
+Similarly, Kortemeyer (2023) \cite{Kortemeyer2023} conducted a feasibility study on grading 
+handwritten physics derivations using MathPix for scanning handwritten solutions and GPT-4 for 
+grading. The study found an R-squared value of 0.84 when compared to human graders, showing that 
+AI tools can effectively assist in providing formative feedback. However, the study concluded that 
+AI should still complement human graders, particularly in final evaluations, due to the complexity 
+and diversity of student responses.
+
+\subsection{Challenges in Grading Handwritten Exams with AI}
+
+Grading handwritten exams presents several challenges. Converting handwritten text into a 
+machine-readable format is one of the primary obstacles, as noted by Kortemeyer et al. (2024) 
+\cite{Kortemeyer2024}. For example, in grading thermodynamics exams, they found that using 
+fine-grained rubrics for entire problems often led to errors, while grading parts of problems 
+separately was more reliable but tended to miss nuanced details. This is particularly true for 
+hand-drawn graphics, such as process diagrams, where AI struggles to distinguish essential content 
+from extraneous information.
+
+This highlights the need for developing robust AI models capable of accurately parsing handwritten 
+responses while ensuring high precision in scoring complex visual and textual content. 
+These challenges will need to be addressed when designing the grading system for OICLearning.com, 
+which aims to automate both online and scanned assignment grading.
+
+\subsection{Advancements in Large Language Models for Grading}
+
+The use of LLMs, such as GPT-4 and Meta's LLaMA, marks a significant advancement in AI-assisted 
+grading. These models have shown promise in understanding and generating human-like text, making 
+them suitable for recognizing patterns in student responses and grouping answers by semantic similarity. 
+For instance, Liu et al. (2024) \cite{Liu2024} evaluated GPT-4’s ability to handle diverse response 
+types and found that it can reliably assess even semi-open responses.
+
+However, integrating LLMs into grading processes comes with its own challenges. One of the key 
+issues is ensuring that the AI can accurately differentiate between nuanced meanings in student 
+responses. Another challenge is enhancing the system’s ability to process handwritten responses, 
+which remains a significant hurdle in automating grading effectively.
+
+\subsection{Reducing Grading Workload with Machine Learning}
+
+Weegar and Idestam-Almquist (2023) \cite{RebeckaWeegar2024} investigated machine learning methods for 
+grading short answers in computer science exams. Their research found that even with manual 
+review, the workload could be reduced by up to 74\%. This reduction was achieved through a 
+two-step grading process involving clustering of similar answers and automated scoring. 
+This kind of workload reduction is a key goal of the proposed AI grading system for OICLearning.com.
+
+\subsection{Implications for Future Research}
+
+The aforementioned studies underscore the importance of refining AI models and algorithms 
+to enhance their effectiveness in grading. Future research should focus on improving the 
+accuracy of these models in grading handwritten and graphical content, as well as 
+developing more sophisticated techniques for grouping responses by semantic similarity. 
+Additionally, the ability to process a diverse range of student expressions with minimal 
+errors will be crucial in achieving reliable and scalable AI-assisted grading systems.
+
+The proposed project for OICLearning.com will build on this body of research by evaluating the 
+potential of GPT-4 and LLaMA for automating grading. By addressing the challenges highlighted in 
+existing studies, the project aims to create a system that not only reduces the grading workload 
+but also improves the quality of feedback provided to students.
+
+\section{Summary}
+
+In conclusion, while AI technologies such as GPT-4, MathPix, and LLaMA offer promising tools 
+for automating the grading process, there are still significant challenges to overcome, 
+particularly in grading handwritten responses and ensuring accuracy. The proposed system for 
+OICLearning.com will incorporate lessons learned from these studies, using LLMs to automate the 
+grading of various assignment types and reduce manual effort for educators.
+
+
+\chapter{Proposal}
+
+This chapter outlines the key requirements for developing an AI-assisted grading system 
+using Large Language Models (LLMs) like GPT-4 and Meta's LLaMA, implemented in Python. 
+The goal is to automate the grading process for various types of assignments on OICLearning.com 
+and eventually incorporate this system into a web application for broader accessibility and usability.
+
+\section{Summary of Requirements}
+
+The project aims to automate the grading process for different types of assignments submitted on 
+OICLearning.com. The system will utilize LLMs for grading assignments, both scanned and online 
+submissions, using a combination of Python-based AI tools and later integration into a web app. The 
+following sections describe the manual grading process requirements and how the AI-based grading 
+system will be developed to fulfill these needs.
+
+\subsection{OICLearning Grading Process}
+
+OICLearning.com does not currently have an existing grading process in place. The proposed 
+AI-assisted grading system will be implemented from the ground up to handle various types of 
+assignments, both scanned and online submissions. The system will streamline the grading process 
+for educators by utilizing LLMs and automating key tasks that would otherwise require manual effort.
+
+\subsubsection{Big Picture Process}
+
+The current manual grading process involves several steps:
+\begin{enumerate}
+    \item A teacher creates an assignment on OICLearning.com.
+    \item A student submits an assignment.
+    \item The teacher grades the assignment.
+    \item The teacher copies the grades to the Learning Management System (LMS).
+\end{enumerate}
+
+The new AI-assisted system will automate steps 3 and 4, significantly reducing the time and effort required from educators.
+
+\subsubsection{Creating Assignments}
+
+Assignments on OICLearning.com fall into three categories:
+\begin{enumerate}
+    \item \textbf{Filled-Form Scanned Assignments}: These are written tests that students fill out manually and are later scanned and uploaded.
+    \item \textbf{Free-Form Written Assignments}: These assignments have flexible content, and the location of questions and answers may vary.
+    \item \textbf{Filled-Form Online Assignments}: These are completed online directly through the platform.
+\end{enumerate}
+
+The AI system must be able to handle grading for all three types of assignments.
+
+\subsection{Filled-Form Assignments}
+
+For filled-form assignments, the AI system must meet the following requirements:
+
+\subsubsection{Requirements}
+\begin{enumerate}
+    \item The assignment is printed as a form by the teacher for the students to fill out.
+    \item A PDF of the assignment is pre-loaded into OICLearning.
+    \item The system must identify the locations of Name and ID number (or Email).
+    \item Question and Answer locations are identified by the teacher using a user-friendly interface to draw rectangles on the pre-loaded PDF, specifying the question number (e.g., 1.a., 1.b., etc.) and points.
+\end{enumerate}
+
+The system should support both teacher and student uploads of PDFs, automatically assigning them to the correct students and handling various PDF lengths.
+
+\subsubsection{Process for Grading Filled-Form Assignments}
+\begin{enumerate}
+    \item After uploading the assignment, the AI identifies the student using handwriting recognition.
+    \item Upon accessing the grading page, the AI lists questions and whether they are graded.
+    \item The teacher selects a question to grade or review, and the AI starts grouping answers, which can be manually adjusted by the teacher.
+    \item Default grouping by AI includes all answers. Teachers can create additional groups, drag and drop answers, rename groups, and override AI decisions.
+    \item Once groups are finalized, the teacher grades each group by selecting representative answers, adding comments, and assigning points.
+    \item The grades are then applied to all members of each group, and the teacher proceeds to the next question.
+    \item Once all questions are graded, a final score is recorded for each student.
+\end{enumerate}
+
+\subsection{Free-Form Written Assignments}
+
+Free-form assignments require a slightly different approach due to their variability.
+
+\subsubsection{Requirements}
+\begin{enumerate}
+    \item Teachers must identify Question and Answer pairs, specifying question numbers and points.
+    \item Assignments are uploaded as PDFs, and the AI handles varying lengths by grouping them appropriately for each student.
+    \item The AI system allows for manual marking of each answer within the PDF, flagging unanswered questions, and overwriting old data if new PDFs are submitted before the deadline.
+\end{enumerate}
+
+\subsubsection{Process for Grading Free-Form Assignments}
+\begin{enumerate}
+    \item The teacher uploads the assignment, and the AI processes the content to identify question locations.
+    \item Answers are grouped by the AI, with manual adjustments available to the teacher.
+    \item Teachers can add comments and assign points as they grade each group.
+    \item Grades are automatically applied to all students in each group, with a final score calculated upon completion.
+\end{enumerate}
+
+\subsection{Objective-Form Assignments/Assessments}
+
+Objective-form assignments are distinct and require a focus on grouping readability and markdown input for mathematical content.
+
+\subsubsection{General Issues and Requirements}
+\begin{enumerate}
+    \item Answers must be legible, with the ability to scroll to view all responses.
+    \item Blank responses should be automatically grouped under “Not Submitted.”
+    \item Multiple answers can be selected and grouped at once, facilitating batch processing.
+    \item Markdown input is required, including support for LaTeX for complex mathematical expressions.
+    \item The system must isolate selected PDF areas for grading, potentially converting these to images for clarity.
+\end{enumerate}
+
+\section{Proposed Approach}
+
+The AI-assisted grading system will be developed using Python and integrated with LLMs like GPT-4 and LLaMA to automate the grading process. 
+The initial phase involves developing a Python-based backend that interacts with scanned PDFs and online submissions to recognize and categorize 
+student responses. The long-term goal is to integrate this backend into a web application to provide an intuitive user interface for teachers and students.
+
+\subsection{Python-Based AI Grading System}
+The Python-based backend will use OCR (Optical Character Recognition) for scanned assignments and natural language processing capabilities 
+of LLMs for understanding and grading responses.
+
+\subsubsection{Development Steps}
+\begin{enumerate}
+    \item Develop OCR functionality to accurately convert scanned assignments into text format.
+    \item Integrate LLMs to understand and categorize student responses based on semantic similarity.
+    \item Implement a user interface for teachers to upload assignments, view AI-generated groupings, and adjust them as needed.
+    \item Develop grading algorithms to assign points and provide feedback, incorporating both AI and manual grading options.
+    \item Test the system with sample data to ensure accuracy and reliability.
+\end{enumerate}
+
+\subsection{Web Application Integration}
+Following the backend development, the system will be integrated into a web application.
+
+\subsubsection{Integration Steps}
+\begin{enumerate}
+    \item Develop a web-based front end using frameworks like React or Angular.
+    \item Connect the Python backend with the web front end to allow seamless interaction for users.
+    \item Implement authentication and role management to secure the application and ensure only authorized users can access grading features.
+    \item Test the web application with real users to gather feedback and improve usability.
+\end{enumerate}
+
+\subsection{Beta and User Testing}
+The application will undergo thorough beta testing to ensure all features function as intended. This phase includes:
+\begin{itemize}
+    \item \textbf{Functionality Testing}: All grading features and functionalities are rigorously tested to ensure they work correctly.
+    \item \textbf{Performance Optimization}: The system is optimized for speed and efficiency, ensuring quick response times during grading.
+    \item \textbf{User Testing}: Real users, such as teachers and students, will test the application to provide feedback on usability and functionality.
+    \item \textbf{Compatibility Testing}: The system is tested across various devices and browsers to ensure compatibility and smooth performance.
+\end{itemize}
+
+\subsection{Final Changes, Bug Fixes, Testing, and Documentation}
+After beta testing, the final task includes:
+\begin{itemize}
+    \item Fixing any identified bugs and making necessary optimizations.
+    \item Completing thorough testing to ensure all remaining issues are resolved.
+    \item Creating comprehensive documentation for users and developers, detailing the system's functionalities, usage, and development setup.
+    \item Preparing the application for deployment on OICLearning.com and future integration into other platforms if needed.
+\end{itemize}
+
+\section{Final Deliverables}
+Once the project is complete, the following deliverables will be provided:
+\begin{itemize}
+    \item \textbf{Application Source Code}: The full source code for the AI-assisted grading system.
+    \item \textbf{Administrative Access to Project Source Control}: Access to the code repository for ongoing maintenance and updates.
+    \item \textbf{User and Developer Documentation}: Detailed guides on the application's general structure, codebase, and usage instructions.
+    \item \textbf{Testing and Evaluation Report}: A comprehensive report on all testing phases, including beta testing results and user feedback.
+    \item \textbf{Final Project Report}: A detailed report summarizing the project's goals, implementation, challenges, and outcomes.
+\end{itemize}
+
+\section{Development Prerequisites}
+To develop and test the AI-assisted grading system, the following hardware and software are required:
+\begin{itemize}
+    \item \textbf{Hardware}: High-performance servers for backend processing, modern computers for development, and various devices for compatibility testing (e.g., tablets, smartphones).
+    \item \textbf{Software}: Python, TensorFlow/PyTorch for AI model implementation, React/Angular for front-end development, and Git for version control.
+    \item \textbf{Tools}: OCR software for text recognition in scanned documents, database management systems (e.g., PostgreSQL), and cloud services for deployment and scaling.
+\end{itemize}
+
+\section{Task Delineation}
+This section outlines the specific tasks and timelines required to complete the project.
+
+\subsection{Task Breakdown}
+\begin{enumerate}
+    \item \textbf{Backend Development} - Develop and test the Python-based AI grading system (3 months).
+    \item \textbf{Frontend Development} - Develop the web application interface and integrate it with the backend (2 months).
+    \item \textbf{System Testing} - Perform extensive testing of both backend and frontend with sample data (1 month).
+    \item \textbf{Deployment and Feedback} - Deploy the application on OICLearning.com and gather user feedback (1 month).
+\end{enumerate}
+
+\subsection{Timeline}
+
+\chapter{Testing and Evaluation Plan}
+\section{Overview}
+This chapter outlines the plan for testing and evaluating the AI models used in the grading process. The goal is to ensure the system's accuracy, reliability, and usability.
+
+\section{Testing Phases}
+\subsection{Unit Testing}
+Individual components of the system will be tested to ensure they function correctly in isolation.
+
+\subsection{Integration Testing}
+Testing will focus on ensuring that all components work together seamlessly within the overall system.
+
+\subsection{System Testing}
+Comprehensive testing of the entire system will be conducted to ensure all features function as expected.
+
+\subsection{User Acceptance Testing}
+The system will be tested by end-users to ensure it meets their needs and expectations.
+
+\section{Evaluation Metrics}
+\subsection{Accuracy}
+The accuracy of the AI models will be evaluated based on their ability to correctly grade student responses.
+
+\subsection{Efficiency}
+The time required to grade assignments using the AI system will be compared to manual grading to assess efficiency gains.
+
+\subsection{Usability}
+User feedback will be collected to evaluate the usability of the system and identify areas for improvement.
 
 \chapter{Conclusion}
-% Include your conclusion here
+This project aims to develop an AI-assisted grading system that leverages Large Language Models (LLMs) to automate and enhance the grading process. By evaluating the effectiveness of GPT-4 and LLaMA, the project seeks to provide insights into their strengths and limitations, ultimately aiming to streamline grading for educators and improve the educational experience for students.
+
+\appendix
+\chapter{Requirements Specification}
+\section{Task Delineation}
+
+
+\section{Hardware Requirements}
+
+
+\section{Application Requirements}
+
+
+\subsection{General}
+
+
+\subsection{Download and Installation}
+
+
+\subsection{Opening and Managing Assignments}
+
+
+\subsection{Presentation Mode}
+
+
+\subsection{Edit Mode}
+
+
+\subsection{Settings}
+
+
+\chapter{Optional Requirements}
+
 
 \backmatter
 

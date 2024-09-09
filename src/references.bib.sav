@@ -1,0 +1,33 @@
+@Misc{RebeckaWeegar2024,
+  author = {Rebecka Weegar and Peter Idestam‑Almquist},
+  month  = jun,
+  title  = {Reducing Workload in Short Answer Grading Using Machine Learning},
+  year   = {2024},
+  url    = {https://link.springer.com/article/10.1007/s40593-022-00322-1#Bib1},
+}
+
+@Misc{Liu2024,
+  author = {Tianyi Liu and Julia Chatain and Laura Kobel-Keller and Gerd Kortemeyer and Thomas Willwacher and Mrinmaya Sachan},
+  month  = aug,
+  title  = {AI-assisted Automated Short Answer Grading of Handwritten University Level Mathematics Exams},
+  year   = {2024},
+  url    = {https://arxiv.org/abs/2408.11728},
+}
+
+@Misc{Kortemeyer2023,
+  author = {Gerd Kortemeyer},
+  month  = nov,
+  title  = {Toward AI grading of student problem solutions in introductory physics: A feasibility study},
+  year   = {2023},
+  url    = {https://journals.aps.org/prper/abstract/10.1103/PhysRevPhysEducRes.19.020163},
+}
+
+@Misc{Kortemeyer2024,
+  author = {Gerd Kortemeyer, Julian Noh, Daria Onishchuk},
+  month  = jun,
+  title  = {Grading Assistance for a Handwritten Thermodynamics Exam using Artificial Intelligence: An Exploratory Study},
+  year   = {2024},
+  url    = {https://arxiv.org/abs/2406.17859},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

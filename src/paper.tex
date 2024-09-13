@@ -17,7 +17,7 @@
 % Load memhfixc after hyperref to fix issues with hyperref in memoir
 \usepackage[
     pdfauthor={Andrei Modiga},
-    pdftitle={Automating Grading in Education Using Large Language Models: A Comparative Study of GPT-4 and LLaMA},
+    pdftitle={Developing an AI-Assisted Grading System Using Large Language Models},
     pdfsubject={Education and AI},
     pdfkeywords={LaTeX, Project Proposal, AI, Education, Grading},
     linkcolor=dark-blue,
@@ -37,7 +37,7 @@
 \frontmatter
 
 % Title and author information
-\title{Automating Grading in Education Using Large Language Models: A Comparative Study of GPT-4 and LLaMA}
+\title{Developing an AI-Assisted Grading System Using Large Language Models}
 \author{Andrei Modiga}
 \adviser{Professor Anderson}
 \adviserAbstract{Scot Anderson, Ph.D.}
@@ -54,10 +54,7 @@
 \maketitle
 
 \begin{abstract}
-    In the educational landscape, grading written student work is a task of high importance, directly influencing the learning 
-    experience and providing crucial feedback to both students and educators. This project focuses on building a high-level AI system 
-    that leverages Large Language Models (LLMs) to automate and enhance the grading process. Specifically, the system classifies student responses 
-    by semantic similarity, streamlining the grading process and allowing educators to provide more consistent and efficient feedback.
+    Grading written student work is a critical component of education, directly influencing the learning experience and providing essential feedback to both students and educators. This project focuses on building a high-level AI system that leverages Large Language Models (LLMs) to automate and enhance the grading process. Specifically, the system classifies student responses by semantic similarity, streamlining the grading process and allowing educators to provide more consistent and efficient feedback. By developing this AI-assisted grading system, the project aims to reduce the manual workload on teachers, improve the consistency of grading, and provide timely feedback to students.
 \end{abstract}
     
 
@@ -84,141 +81,61 @@
 \mainmatter
 
 \chapter{Introduction}
-In the educational landscape, grading written student work is a task of high importance, directly influencing the 
-learning experience and providing crucial feedback to both students and educators. While traditional grading methods 
-are generally effective, they can be time-consuming and labor-intensive, particularly for teachers managing large
-volumes of student responses. The need for efficient and scalable grading solutions has become increasingly 
-evident as educators seek to streamline their workloads without compromising the quality of their assessments.
+In the educational landscape, grading written student work is a task of high importance, directly influencing the learning experience and providing crucial feedback to both students and educators. While traditional grading methods are generally effective, they can be time-consuming and labor-intensive, particularly for teachers managing large volumes of student responses. The need for efficient and scalable grading solutions has become increasingly evident as educators seek to streamline their workloads without compromising the quality of their assessments.
 
-Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), 
-offer a promising approach to this challenge. LLMs, such as GPT-4, have shown remarkable proficiency in understanding 
-and generating human-like text by analyzing vast datasets and recognizing patterns in language. This research explores 
-the potential of LLMs not only to recognize correct answers but also to classify student responses by grouping 
-those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless 
-of phrasing or structure, LLMs can assist educators in grading more efficiently while maintaining the integrity of 
-their evaluations.
+Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), offer a promising approach to this challenge. LLMs, such as OpenAI's GPT-4, have shown remarkable proficiency in understanding and generating human-like text by analyzing vast datasets and recognizing patterns in language. These models have the potential to transform the grading process by automating the evaluation of student responses, thereby reducing the workload on educators and providing quicker feedback to students.
 
-The primary goal of this research is to test and analyze two different LLM models, OpenAI's GPT-4 and Meta's LLaMA, 
-to determine their effectiveness in simplifying the grading process for teachers, including the ability to recognize 
-handwritten text. By comparing these models, the study aims to identify which one better categorizes student responses 
-based on semantic similarity, providing insights into their strengths and limitations. This approach seeks to enhance 
-the grading process, making it quicker and more consistent, thereby allowing teachers to focus on more critical aspects 
-of instruction while ensuring that students receive fair and accurate feedback.
+This project explores the development of an AI-assisted grading system that leverages LLMs to classify student responses by grouping those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless of phrasing or structure, the system can assist educators in grading more efficiently while maintaining the integrity of their evaluations.
 
-However, the integration of LLMs into the grading process presents certain challenges that must be carefully 
-addressed. One of the key considerations is the models' ability to accurately differentiate between nuanced 
-meanings and appropriately group responses that, while semantically similar, may vary in their correctness. 
-Additionally, the effectiveness of these models in handling a diverse range of student expressions and 
-potential errors needs to be thoroughly evaluated.
+The primary goal of this project is to build and implement this AI-assisted grading system, including the ability to recognize handwritten text, and integrate it into an educational platform like OICLearning.com. By focusing on building a practical solution, the project aims to enhance the grading process, making it quicker and more consistent, thereby allowing teachers to focus on more critical aspects of instruction while ensuring that students receive fair and accurate feedback.
+
+However, the integration of LLMs into the grading process presents certain challenges that must be carefully addressed. One of the key considerations is the model's ability to accurately differentiate between nuanced meanings and appropriately group responses that, while semantically similar, may vary in their correctness. Additionally, the effectiveness of these models in handling a diverse range of student expressions and potential errors needs to be thoroughly evaluated.
 
 \chapter{Background}
 
-Emerging research in AI-assisted grading is rapidly evolving, especially in handling complex tasks 
-such as handwritten responses in educational assessments. This chapter explores studies that demonstrate 
-both the effectiveness and limitations of using AI technologies, such as Large Language Models (LLMs), 
-in automating the grading process. The research further highlights the gap that the proposed AI system 
-for OICLearning.com will address, with particular focus on integrating LLMs like GPT-4 and Meta's LLaMA.
+Emerging research in AI-assisted grading is rapidly evolving, especially in handling complex tasks such as handwritten responses in educational assessments. This chapter explores studies that demonstrate both the effectiveness and limitations of using AI technologies, such as Large Language Models (LLMs), in automating the grading process. The research further highlights the gap that the proposed AI system for OICLearning.com will address.
 
-\section{AI-Assisted Grading Techniques} Recent advancements in artificial intelligence have introduced 
-new possibilities for automating the grading of student work, particularly in handling diverse response 
-types, including handwritten solutions. These systems aim to reduce manual grading workload while 
-maintaining accuracy and fairness. Below are the techniques that will be relevant to the proposed project.
+\section{AI-Assisted Grading Techniques}
+
+Recent advancements in artificial intelligence have introduced new possibilities for automating the grading of student work, particularly in handling diverse response types, including handwritten solutions. These systems aim to reduce manual grading workload while maintaining accuracy and fairness. Below are the techniques that are relevant to the proposed project.
 
 \subsection{Automated Grading of Handwritten Responses}
 
-AI tools, such as MathPix and GPT-4, have been leveraged to grade handwritten responses in exams. 
-For instance, Liu et al. (2024) \cite{Liu2024} demonstrate the effectiveness of using a pre-trained 
-GPT-4 model to evaluate semi-open handwritten responses in university-level mathematics exams. Their 
-study suggests that such systems can offer reliable and cost-effective initial grading, although human 
-verification is still essential to ensure accuracy and reliability.
+AI tools, such as MathPix and GPT-4, have been leveraged to grade handwritten responses in exams. For instance, Liu et al. (2024) \cite{Liu2024} demonstrate the effectiveness of using a pre-trained GPT-4 model to evaluate semi-open handwritten responses in university-level mathematics exams. Their study suggests that such systems can offer reliable and cost-effective initial grading, although human verification is still essential to ensure accuracy and reliability.
 
-Similarly, Kortemeyer (2023) \cite{Kortemeyer2023} conducted a feasibility study on grading 
-handwritten physics derivations using MathPix for scanning handwritten solutions and GPT-4 for 
-grading. The study found an R-squared value of 0.84 when compared to human graders, showing that 
-AI tools can effectively assist in providing formative feedback. However, the study concluded that 
-AI should still complement human graders, particularly in final evaluations, due to the complexity 
-and diversity of student responses.
+Similarly, Kortemeyer (2023) \cite{Kortemeyer2023} conducted a feasibility study on grading handwritten physics derivations using MathPix for scanning handwritten solutions and GPT-4 for grading. The study found an R-squared value of 0.84 when compared to human graders, showing that AI tools can effectively assist in providing formative feedback. However, the study concluded that AI should still complement human graders, particularly in final evaluations, due to the complexity and diversity of student responses.
 
 \subsection{Challenges in Grading Handwritten Exams with AI}
 
-Grading handwritten exams presents several challenges. Converting handwritten text into a 
-machine-readable format is one of the primary obstacles, as noted by Kortemeyer et al. (2024) 
-\cite{Kortemeyer2024}. For example, in grading thermodynamics exams, they found that using 
-fine-grained rubrics for entire problems often led to errors, while grading parts of problems 
-separately was more reliable but tended to miss nuanced details. This is particularly true for 
-hand-drawn graphics, such as process diagrams, where AI struggles to distinguish essential content 
-from extraneous information.
+Grading handwritten exams presents several challenges. Converting handwritten text into a machine-readable format is one of the primary obstacles, as noted by Kortemeyer et al. (2024) \cite{Kortemeyer2024}. For example, in grading thermodynamics exams, they found that using fine-grained rubrics for entire problems often led to errors, while grading parts of problems separately was more reliable but tended to miss nuanced details. This is particularly true for hand-drawn graphics, such as process diagrams, where AI struggles to distinguish essential content from extraneous information.
 
-This highlights the need for developing robust AI models capable of accurately parsing handwritten 
-responses while ensuring high precision in scoring complex visual and textual content. 
-These challenges will need to be addressed when designing the grading system for OICLearning.com, 
-which aims to automate both online and scanned assignment grading.
+This highlights the need for developing robust AI models capable of accurately parsing handwritten responses while ensuring high precision in scoring complex visual and textual content. These challenges need to be addressed when designing the grading system for OICLearning.com, which aims to automate both online and scanned assignment grading.
 
 \subsection{Advancements in Large Language Models for Grading}
 
-The use of LLMs, such as GPT-4 and Meta's LLaMA, marks a significant advancement in AI-assisted 
-grading. These models have shown promise in understanding and generating human-like text, making 
-them suitable for recognizing patterns in student responses and grouping answers by semantic similarity. 
-For instance, Liu et al. (2024) \cite{Liu2024} evaluated GPT-4’s ability to handle diverse response 
-types and found that it can reliably assess even semi-open responses.
+The use of LLMs, such as GPT-4, marks a significant advancement in AI-assisted grading. These models have shown promise in understanding and generating human-like text, making them suitable for recognizing patterns in student responses and grouping answers by semantic similarity. For instance, Liu et al. (2024) \cite{Liu2024} evaluated GPT-4’s ability to handle diverse response types and found that it can reliably assess even semi-open responses.
 
-However, integrating LLMs into grading processes comes with its own challenges. One of the key 
-issues is ensuring that the AI can accurately differentiate between nuanced meanings in student 
-responses. Another challenge is enhancing the system’s ability to process handwritten responses, 
-which remains a significant hurdle in automating grading effectively.
+However, integrating LLMs into grading processes comes with its own challenges. One of the key issues is ensuring that the AI can accurately differentiate between nuanced meanings in student responses. Another challenge is enhancing the system’s ability to process handwritten responses, which remains a significant hurdle in automating grading effectively.
 
 \subsection{Reducing Grading Workload with Machine Learning}
 
-Weegar and Idestam-Almquist (2023) \cite{RebeckaWeegar2024} investigated machine learning methods for 
-grading short answers in computer science exams. Their research found that even with manual 
-review, the workload could be reduced by up to 74\%. This reduction was achieved through a 
-two-step grading process involving clustering of similar answers and automated scoring. 
-This kind of workload reduction is a key goal of the proposed AI grading system for OICLearning.com.
-
-\subsection{Implications for Future Research}
-
-The aforementioned studies underscore the importance of refining AI models and algorithms 
-to enhance their effectiveness in grading. Future research should focus on improving the 
-accuracy of these models in grading handwritten and graphical content, as well as 
-developing more sophisticated techniques for grouping responses by semantic similarity. 
-Additionally, the ability to process a diverse range of student expressions with minimal 
-errors will be crucial in achieving reliable and scalable AI-assisted grading systems.
-
-The proposed project for OICLearning.com will build on this body of research by evaluating the 
-potential of GPT-4 and LLaMA for automating grading. By addressing the challenges highlighted in 
-existing studies, the project aims to create a system that not only reduces the grading workload 
-but also improves the quality of feedback provided to students.
+Weegar and Idestam-Almquist (2024) \cite{Weegar2024} investigated machine learning methods for grading short answers in computer science exams. Their research found that even with manual review, the workload could be reduced by up to 74\%. This reduction was achieved through a two-step grading process involving clustering of similar answers and automated scoring. This kind of workload reduction is a key goal of the proposed AI grading system for OICLearning.com.
 
 \section{Summary}
 
-In conclusion, while AI technologies such as GPT-4, MathPix, and LLaMA offer promising tools 
-for automating the grading process, there are still significant challenges to overcome, 
-particularly in grading handwritten responses and ensuring accuracy. The proposed system for 
-OICLearning.com will incorporate lessons learned from these studies, using LLMs to automate the 
-grading of various assignment types and reduce manual effort for educators.
-
+In conclusion, while AI technologies such as GPT-4 and MathPix offer promising tools for automating the grading process, there are still significant challenges to overcome, particularly in grading handwritten responses and ensuring accuracy. The proposed system for OICLearning.com will incorporate lessons learned from these studies, using LLMs to automate the grading of various assignment types and reduce manual effort for educators.
 
 \chapter{Proposal}
 
-This chapter outlines the key requirements for developing an AI-assisted grading system 
-using Large Language Models (LLMs) like GPT-4 and Meta's LLaMA, implemented in Python. 
-The goal is to automate the grading process for various types of assignments on OICLearning.com 
-and eventually incorporate this system into a web application for broader accessibility and usability.
+This chapter outlines the key requirements for developing an AI-assisted grading system using Large Language Models (LLMs) like GPT-4, implemented in Python. The goal is to automate the grading process for various types of assignments on OICLearning.com and eventually incorporate this system into a web application for broader accessibility and usability.
 
 \section{Summary of Requirements}
 
-The project aims to automate the grading process for different types of assignments submitted on 
-OICLearning.com. The system will utilize LLMs for grading assignments, both scanned and online 
-submissions, using a combination of Python-based AI tools and later integration into a web app. The 
-following sections describe the manual grading process requirements and how the AI-based grading 
-system will be developed to fulfill these needs.
+The project aims to automate the grading process for different types of assignments submitted on OICLearning.com. The system will utilize LLMs for grading assignments, both scanned and online submissions, using a combination of Python-based AI tools and later integration into a web app. The following sections describe the manual grading process requirements and how the AI-based grading system will be developed to fulfill these needs.
 
 \subsection{OICLearning Grading Process}
 
-OICLearning.com does not currently have an existing grading process in place. The proposed 
-AI-assisted grading system will be implemented from the ground up to handle various types of 
-assignments, both scanned and online submissions. The system will streamline the grading process 
-for educators by utilizing LLMs and automating key tasks that would otherwise require manual effort.
+OICLearning.com does not currently have an existing grading process in place. The proposed AI-assisted grading system will be implemented from the ground up to handle various types of assignments, both scanned and online submissions. The system will streamline the grading process for educators by utilizing LLMs and automating key tasks that would otherwise require manual effort.
 
 \subsubsection{Big Picture Process}
 
@@ -302,18 +219,17 @@ Objective-form assignments are distinct and require a focus on grouping readabil
 
 \section{Proposed Approach}
 
-The AI-assisted grading system will be developed using Python and integrated with LLMs like GPT-4 and LLaMA to automate the grading process. 
-The initial phase involves developing a Python-based backend that interacts with scanned PDFs and online submissions to recognize and categorize 
-student responses. The long-term goal is to integrate this backend into a web application to provide an intuitive user interface for teachers and students.
+The AI-assisted grading system will be developed using Python and integrated with LLMs like GPT-4 to automate the grading process. The initial phase involves developing a Python-based backend that interacts with scanned PDFs and online submissions to recognize and categorize student responses. The long-term goal is to integrate this backend into a web application to provide an intuitive user interface for teachers and students.
 
 \subsection{Python-Based AI Grading System}
-The Python-based backend will use OCR (Optical Character Recognition) for scanned assignments and natural language processing capabilities 
-of LLMs for understanding and grading responses.
+The Python-based backend will use OCR (Optical Character Recognition) for scanned assignments and natural language processing capabilities of LLMs for understanding and grading responses.
 
 \subsubsection{Development Steps}
 \begin{enumerate}
-    \item Develop OCR functionality to accurately convert scanned assignments into text format.
-    \item Integrate LLMs to understand and categorize student responses based on semantic similarity.
+    \item Develop OCR functionality to accurately convert scanned assignments into text format using tools like Tesseract OCR or commercial alternatives.
+    \item Integrate GPT-4 models to understand and categorize student responses based on semantic similarity.
+    \item Implement algorithms to group similar responses together for efficient grading.
+    \item Develop a database system to store student responses, grades, and feedback securely.
     \item Implement a user interface for teachers to upload assignments, view AI-generated groupings, and adjust them as needed.
     \item Develop grading algorithms to assign points and provide feedback, incorporating both AI and manual grading options.
     \item Test the system with sample data to ensure accuracy and reliability.
@@ -327,6 +243,7 @@ Following the backend development, the system will be integrated into a web appl
     \item Develop a web-based front end using frameworks like React or Angular.
     \item Connect the Python backend with the web front end to allow seamless interaction for users.
     \item Implement authentication and role management to secure the application and ensure only authorized users can access grading features.
+    \item Incorporate APIs to facilitate communication between the frontend, backend, and LLM services.
     \item Test the web application with real users to gather feedback and improve usability.
 \end{enumerate}
 
@@ -361,9 +278,10 @@ Once the project is complete, the following deliverables will be provided:
 \section{Development Prerequisites}
 To develop and test the AI-assisted grading system, the following hardware and software are required:
 \begin{itemize}
-    \item \textbf{Hardware}: High-performance servers for backend processing, modern computers for development, and various devices for compatibility testing (e.g., tablets, smartphones).
+    \item \textbf{Hardware}: High-performance servers or cloud instances with GPU support for running LLMs, modern computers for development, and various devices for compatibility testing (e.g., tablets, smartphones).
     \item \textbf{Software}: Python, TensorFlow/PyTorch for AI model implementation, React/Angular for front-end development, and Git for version control.
     \item \textbf{Tools}: OCR software for text recognition in scanned documents, database management systems (e.g., PostgreSQL), and cloud services for deployment and scaling.
+    \item \textbf{Access to LLMs}: Licenses or API access to GPT-4 models for integration and testing.
 \end{itemize}
 
 \section{Task Delineation}
@@ -371,13 +289,30 @@ This section outlines the specific tasks and timelines required to complete the 
 
 \subsection{Task Breakdown}
 \begin{enumerate}
-    \item \textbf{Backend Development} - Develop and test the Python-based AI grading system (3 months).
-    \item \textbf{Frontend Development} - Develop the web application interface and integrate it with the backend (2 months).
-    \item \textbf{System Testing} - Perform extensive testing of both backend and frontend with sample data (1 month).
-    \item \textbf{Deployment and Feedback} - Deploy the application on OICLearning.com and gather user feedback (1 month).
+    \item \textbf{Requirement Analysis and Planning} (2 weeks)
+    \item \textbf{Backend Development} - Develop and test the Python-based AI grading system (months).
+    \item \textbf{Frontend Development} - Develop the web application interface and integrate it with the backend (months).
+    \item \textbf{System Testing} - Perform extensive testing of both backend and frontend with sample data (month).
+    \item \textbf{Deployment and Feedback} - Deploy the application on OICLearning.com and gather user feedback (month).
+    \item \textbf{Documentation and Final Reporting} ( weeks)
 \end{enumerate}
 
 \subsection{Timeline}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Task} & \textbf{Duration} \\
+\midrule
+Requirement Analysis and Planning &  weeks \\
+Backend Development &  months \\
+Frontend Development &  months \\
+System Testing &  month \\
+Deployment and Feedback &  month \\
+Documentation and Final Reporting &  weeks \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \chapter{Testing and Evaluation Plan}
 \section{Overview}
@@ -385,61 +320,67 @@ This chapter outlines the plan for testing and evaluating the AI models used in 
 
 \section{Testing Phases}
 \subsection{Unit Testing}
-Individual components of the system will be tested to ensure they function correctly in isolation.
+Individual components of the system will be tested to ensure they function correctly in isolation. This includes testing the OCR module, the LLM integration, and the database operations.
 
 \subsection{Integration Testing}
-Testing will focus on ensuring that all components work together seamlessly within the overall system.
+Testing will focus on ensuring that all components work together seamlessly within the overall system. The interaction between the frontend, backend, and AI models will be thoroughly tested.
 
 \subsection{System Testing}
-Comprehensive testing of the entire system will be conducted to ensure all features function as expected.
+Comprehensive testing of the entire system will be conducted to ensure all features function as expected. This phase includes stress testing and performance benchmarking.
 
 \subsection{User Acceptance Testing}
-The system will be tested by end-users to ensure it meets their needs and expectations.
+The system will be tested by end-users, including teachers and students, to ensure it meets their needs and expectations. Feedback collected will be used to make necessary adjustments.
 
 \section{Evaluation Metrics}
 \subsection{Accuracy}
-The accuracy of the AI models will be evaluated based on their ability to correctly grade student responses.
+The accuracy of the AI models will be evaluated based on their ability to correctly grade student responses and group them appropriately. Metrics such as precision, recall, and F1-score will be used.
 
 \subsection{Efficiency}
 The time required to grade assignments using the AI system will be compared to manual grading to assess efficiency gains.
 
 \subsection{Usability}
-User feedback will be collected to evaluate the usability of the system and identify areas for improvement.
+User feedback will be collected through surveys and interviews to evaluate the usability of the system and identify areas for improvement.
+
+\subsection{Scalability}
+The system's performance will be tested under different workloads to ensure it can handle a large number of users and assignments without degradation in performance.
 
 \chapter{Conclusion}
-This project aims to develop an AI-assisted grading system that leverages Large Language Models (LLMs) to automate and enhance the grading process. By evaluating the effectiveness of GPT-4 and LLaMA, the project seeks to provide insights into their strengths and limitations, ultimately aiming to streamline grading for educators and improve the educational experience for students.
+This project aims to develop an AI-assisted grading system that leverages Large Language Models (LLMs) to automate and enhance the grading process. By focusing on building and implementing the system, the project seeks to streamline grading for educators and improve the educational experience for students. The successful development and integration of this system will contribute to the field of AI in education by providing a practical solution to a common challenge faced by educators.
 
 \appendix
 \chapter{Requirements Specification}
 \section{Task Delineation}
-
+Detailed tasks as outlined in the Proposal chapter, providing a clear roadmap for development.
 
 \section{Hardware Requirements}
-
+\begin{itemize}
+    \item add here
+\end{itemize}
 
 \section{Application Requirements}
-
-
 \subsection{General}
-
+The application should be user-friendly, secure, and scalable, with support for multiple assignment types and integration with existing educational platforms.
 
 \subsection{Download and Installation}
-
+Instructions for setting up the development environment and deploying the application on servers.
 
 \subsection{Opening and Managing Assignments}
-
+Features for educators to create, upload, and manage assignments, as well as view and grade student submissions.
 
 \subsection{Presentation Mode}
-
+A user interface that allows educators to view AI-generated groupings of student responses and adjust them as needed.
 
 \subsection{Edit Mode}
-
+Functionality for educators to modify assignment details, grading criteria, and provide feedback to students.
 
 \subsection{Settings}
-
+Options to configure application settings, user preferences, and integration with other systems.
 
 \chapter{Optional Requirements}
-
+Additional features that may enhance the system, such as:
+\begin{itemize}
+    \item add here
+\end{itemize}
 
 \backmatter
 

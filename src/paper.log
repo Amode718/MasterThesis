@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.14)  8 SEP 2024 15:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.14)  12 SEP 2024 23:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -880,7 +880,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 Class memoir Warning: The material used in the footer is too large
 (10.14995pt) for the given foot skip (0.0pt), it is recommended to
 either increase the foot skip or redesign the footer
-(in both cases you will find help in the memoir manual). on input line 24.
+(in both cases you will find help in the memoir manual). on input line 25.
 
 [5
 
@@ -895,29 +895,33 @@ either increase the foot skip or redesign the footer
 ] [2]
 [3
 
-] [4] [5] [6] [7
+] [4]
+
+LaTeX Warning: Citation `Weegar2024' on page 5 undefined on input line 122.
+
+[5] [6] [7
 
 ] [8] [9] [10] [11] [12]
 LaTeX Font Info:    Trying to load font information for TS1+pplj on input line 
-336.
+253.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1pplj.fd
 File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
 ) [13] [14]
-[15] [16] [17
+[15] [16] [17] [18
 
-] [18] [19
+] [19] [20] [21] [22
 
-] [20
+] [23] [24
 
-] [21] [22
-
-] (./paper.bbl (./paper.brf)
+] [25] [26] (./paper.bbl
+(./paper.brf)
 \tf@brf=\write5
 \openout5 = `paper.brf'.
 
- [23]
-[24
+ [27
+
+] [28
 
 ]
 bibitemlist
@@ -926,9 +930,9 @@ bibitemlist
 Class memoir Warning: The material used in the footer is too large
 (10.14995pt) for the given foot skip (0.0pt), it is recommended to
 either increase the foot skip or redesign the footer
-(in both cases you will find help in the memoir manual). on input line 450.
+(in both cases you will find help in the memoir manual). on input line 391.
 
-[25]
+[29]
 \tf@toc=\write6
 \openout6 = `paper.toc'.
 
@@ -943,27 +947,31 @@ either increase the foot skip or redesign the footer
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 30804C75D0276A118C5FD0EC50BA417A;8568.
+(rerunfilecheck)             Checksum: 3107687E2693C9701F5D6C3C2F85E89E;8454.
 Package rerunfilecheck Info: File `paper.brf' has not changed.
-(rerunfilecheck)             Checksum: 018EDB423D559BC886D43FF264B5A6E2;274.
+(rerunfilecheck)             Checksum: DF5A7D97021E2C17479518A0B67E6872;267.
  ) 
 Here is how much of TeX's memory you used:
- 17126 strings out of 474116
- 267799 string characters out of 5743682
+ 17153 strings out of 474116
+ 268058 string characters out of 5743682
  1937187 words of memory out of 5000000
- 38769 multiletter control sequences out of 15000+600000
- 591264 words of font info for 315 fonts, out of 8000000 for 9000
+ 38772 multiletter control sequences out of 15000+600000
+ 591940 words of font info for 327 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,12n,121p,1002b,563s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/fpl/fplbj8a.pfb></usr/
 local/texlive/2024/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></usr/local/te
 xlive/2024/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2
 024/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on paper.pdf (37 pages, 116329 bytes).
+Output written on paper.pdf (41 pages, 119715 bytes).
 PDF statistics:
- 548 PDF objects out of 1000 (max. 8388607)
- 496 compressed objects within 5 object streams
- 146 named destinations out of 1000 (max. 500000)
+ 569 PDF objects out of 1000 (max. 8388607)
+ 512 compressed objects within 6 object streams
+ 155 named destinations out of 1000 (max. 500000)
  52641 words of extra memory for PDF output out of 61914 (max. 10000000)
 

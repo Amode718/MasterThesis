@@ -1,5 +1,12 @@
 \begin{thebibliography}{1}
 
+\bibitem{Alto2023}
+Valentina Alto.
+\newblock {\em Modern Generative AI with ChatGPT and OpenAI Models: Leverage
+  the capabilities of OpenAI's LLM for productivity and innovation with GPT3
+  and GPT4}.
+\newblock Packt Publishing Ltd, 2023.
+
 \bibitem{Kortemeyer2023}
 Gerd Kortemeyer.
 \newblock Toward ai grading of student problem solutions in introductory
@@ -15,6 +22,13 @@ Tianyi Liu, Julia Chatain, Laura Kobel-Keller, Gerd Kortemeyer, Thomas
   Willwacher, and Mrinmaya Sachan.
 \newblock Ai-assisted automated short answer grading of handwritten university
   level mathematics exams, August 2024.
+
+\bibitem{Tossell2024}
+Chad~C. Tossell, Nathan~L. Tenhundfeld, Ali Momen, Katrina Cooley, and Ewart~J.
+  de~Visser.
+\newblock Student perceptions of chatgpt use in a collegeessay assignment:
+  Implications for learning,grading, and trust in artificial intelligence,
+  2024.
 
 \bibitem{RebeckaWeegar2024}
 Rebecka Weegar and Peter Idestam‑Almquist.

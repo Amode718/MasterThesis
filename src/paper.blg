@@ -1,11 +1,14 @@
-This is BibTeX, Version 0.99d (TeX Live 2024)
+This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: paper.aux
+Reallocating 'name_of_file' (item size: 1) to 6 items.
 The style file: plain.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
+Warning--I didn't find a database entry for "CitationNeeded"
 You've used 6 entries,
             2118 wiz_defined-function locations,
-            524 strings with 5131 characters,
+            526 strings with 5159 characters,
 and the built_in function-call counts, 1620 in all, are:
 = -- 132
 > -- 106
@@ -44,3 +47,4 @@ warning$ -- 0
 while$ -- 12
 width$ -- 7
 write$ -- 52
+(There was 1 warning)

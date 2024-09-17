@@ -67,11 +67,11 @@
 \mainmatter
 
 \chapter{Introduction}
-In the educational landscape, grading written student work is a task of high importance, this directly influences the learning experience as wellas being able to provide crucial feedback to both students and educators. While traditional grading methods are effective, they can sometimes be time-consuming and labor-intensive, particularly for teachers managing large volumes of students and their responses. The need for efficient and scalable grading solutions has become increasingly evident as educators seek to streamline their workloads without compromising the quality of their assessments.
+In the educational landscape, grading written student work is a task of high importance, this directly influences the learning experience as well as being able to provide crucial feedback to both students and educators. While traditional grading methods are effective, they can sometimes be time-consuming and labor-intensive, particularly for teachers managing large volumes of students and their responses. The need for efficient and scalable grading solutions has become increasingly evident as educators seek to streamline their workloads without compromising the quality of their assessments.
 
 Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), offer a promising approach to this challenge. LLMs, such as OpenAI's GPT-4, have shown remarkable proficiency in understanding and generating human-like text by analyzing vast datasets and recognizing patterns in language. These models have the potential to transform the grading process by automating the evaluation of student responses, thereby reducing the workload on teachers.
 
-This project explores the development of an AI-assisted grading system that incorporates GPT-4 to classify student responses by grouping those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless of phrasing or structure, the system can assist educators in grading more efficiently.
+This project proposes the development of an AI-assisted grading system that incorporates GPT-4 to classify student responses by grouping those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless of phrasing or structure, the system can assist educators in grading more efficiently.
 
 The primary goal of this project is to build and implement this AI-assisted grading system, including the ability to recognize handwritten text, and integrate it into an educational platform like OICLearning.com. By focusing on building a practical solution, the project aims to enhance the grading process, making it quicker and more consistent, thereby allowing teachers to focus on more critical aspects of instruction while ensuring that students receive fair and accurate feedback.
 
@@ -83,13 +83,13 @@ The integration of artificial intelligence (AI) into education has revolutionize
 
 \section{Artificial Intelligence in Education}
 
-Artificial intelligence has become an significant part of modern education, it offers tools and solutions that enhance learning experiences and streamlines administrative tasks. AI-driven educational platforms can personalize learning paths, adapt content to individual student needs, and provide real-time feedback \cite{Alto2023}. This personalization can be important in accommodating diverse learning styles and improving student engagement.
+Artificial intelligence has become an significant part of modern education, it offers tools and solutions that enhance learning experiences and streamlines administrative tasks. AI-driven educational platforms can personalize learning paths, adapt content to individual student needs, and provide real-time feedback~\cite{Alto2023}. This personalization can be important in accommodating diverse learning styles and improving student engagement.
 
-Moreover, AI systems can analyze vast amounts of data to identify patterns and trends in student performance. Teachers can use these insights to tailor instruction, address knowledge gaps, and improve overall educational outcomes. The automation of administrative tasks, such as scheduling and attendance tracking, allows teachers to focus more on instruction and less on paperwork.
+Moreover, AI systems can analyze vast amounts of data to identify patterns and trends in student performance. Teachers can use these insights to tailor instruction, address knowledge gaps, and improve overall educational outcomes. The automation of administrative tasks, such as scheduling and attendance tracking, allows teachers to focus more on instruction and less on paperwork.~\cite{CitationNeeded}
 
 \subsection{Personalized Learning and Feedback}
 
-One of the most significant contributions of AI in education is the ability to offer personalized learning experiences. Intelligent tutoring systems powered by AI can adjust the difficulty level of exercises based on a student's performance, ensuring optimal learning progression \cite{Alto2023}. These systems can also identify areas where a student is struggling and provide targeted interventions.
+One of the most significant contributions of AI in education is the ability to offer personalized learning experiences. Intelligent tutoring systems powered by AI can adjust the difficulty level of exercises based on a student's performance, ensuring optimal learning progression~\cite{Alto2023}. These systems can also identify areas where a student is struggling and provide targeted interventions.
 
 In the context of grading, AI can provide detailed feedback on assignments, highlighting specific areas of strength and weakness. GPT-4, for instance, can generate personalized comments that help students understand their mistakes and learn from them. This immediate and individualized feedback is more effective than generic responses and can significantly enhance the learning process.
 
@@ -113,79 +113,81 @@ GPT-4's capabilities extends to various educational applications. It can assist 
 
 In grading, GPT-4's ability to understand and evaluate open-ended responses makes it a valuable tool. It can analyze essays, short answers, and problem-solving explanations, providing not only grades but also constructive feedback. This level of assessment requires a deep understanding of the subject matter and the ability to interpret diverse student expressions.
 
+%%% Up to this point you have exactly one reference in this chapter. You need more than that. Either organize your content around the existing reference or add more references to support your content. Surely there are more publications supporting these ideas. 
+
 \section{AI-Assisted Grading Using GPT-4}
 
 \subsection{Automating Short Answer Grading}
 
-Short answer questions are challenging to grade automatically due to the variability in student responses. Traditional grading systems rely on keyword matching or predefined answer patterns, which can miss correct answers phrased differently or accept incorrect answers that contain the right keywords.
+Short answer questions are challenging to grade automatically due to the variability in student responses. Traditional grading systems rely on keyword matching or predefined answer patterns, which can miss correct answers phrased differently or accept incorrect answers that contain the right keywords~\cite{CitationNeeded}.
 
-GPT-4 overcomes these limitations by understanding the semantic meaning behind the text. It can recognize correct answers even when they are expressed in unconventional ways and identify incorrect answers that superficially appear correct \cite{Liu2024}. This semantic understanding allows for more accurate grading of open-ended questions.
+GPT-4 overcomes these limitations by understanding the semantic meaning behind the text. It can recognize correct answers even when they are expressed in unconventional ways and identify incorrect answers that superficially appear correct~\cite{Liu2024}. This semantic understanding allows for more accurate grading of open-ended questions.
 
-Liu et al. (2024) \cite{Liu2024} conducted a study demonstrating GPT-4's effectiveness in grading university-level mathematics exams. The AI model was able to evaluate complex mathematical reasoning and provide grades that closely aligned with human graders. This study highlights GPT-4's potential in handling subjects that require critical thinking and problem-solving skills.
+Liu et al. (2024)~\cite{Liu2024} conducted a study demonstrating GPT-4's effectiveness in grading university-level mathematics exams. The AI model was able to evaluate complex mathematical reasoning and provide grades that closely aligned with human graders. This study highlights GPT-4's potential in handling subjects that require critical thinking and problem-solving skills.
 
 \subsection{Grading Handwritten Responses}
 
 Grading handwritten assignments poses additional challenges due to the need for accurate handwriting recognition. Optical Character Recognition (OCR) technologies have improved, but they still struggle with illegible handwriting or complex symbols commonly used in subjects like mathematics and physics.
 
-Kortemeyer (2023) \cite{Kortemeyer2023} explored the feasibility of using AI to grade handwritten physics solutions. By integrating OCR technologies with GPT-4, the study achieved a significant correlation between AI-generated grades and human grading. However, the study also noted limitations in accurately interpreting diagrams and notations, indicating areas where further improvement is needed.
+Kortemeyer (2023)~\cite{Kortemeyer2023} explored the feasibility of using AI to grade handwritten physics solutions. By integrating OCR technologies with GPT-4, the study achieved a significant correlation between AI-generated grades and human grading. However, the study also noted limitations in accurately interpreting diagrams and notations, indicating areas where further improvement is needed. %%% Dr. A - Excellent observation!
 
 \subsection{Semantic Understanding and Contextual Evaluation}
 
 GPT-4's advanced natural language processing capabilities enable it to understand context and semantics deeply. It can evaluate not just the correctness of an answer but also the reasoning process behind it. This is important in subjects where the method is as important as the final answer, such as mathematics and science.
 
-For example, GPT-4 can assess a student's problem-solving approach, identify logical errors, and provide specific feedback on where the reasoning went astray \cite{Alto2023}. This level of detailed evaluation helps students understand their mistakes and learn more effectively.
+For example, GPT-4 can assess a student's problem-solving approach, identify logical errors, and provide specific feedback on where the reasoning went astray~\cite{Alto2023}. This level of detailed evaluation helps students understand their mistakes and learn more effectively.
 
 \section{Challenges in AI-Assisted Grading with GPT-4}
 
 \subsection{Accuracy and Reliability}
 
-While GPT-4 demonstrates high proficiency in understanding and evaluating text, it is not immune to errors. Misinterpretations can occur, especially with ambiguous or poorly constructed responses. Liu et al. (2024) \cite{Liu2024} emphasized the importance of human oversight to ensure the reliability of AI-generated grades.
+While GPT-4 demonstrates high proficiency in understanding and evaluating text, it is not immune to errors. Misinterpretations can occur, especially with ambiguous or poorly constructed responses. Liu et al. (2024)~\cite{Liu2024} emphasized the importance of human oversight to ensure the reliability of AI-generated grades.
 
 Moreover, AI models may sometimes be overconfident in their assessments, potentially leading to incorrect grading. Implementing mechanisms for uncertainty estimation and flagging ambiguous cases for human review can lower this issue this issue.
 
 \subsection{Bias and Fairness}
 
-AI models can inadvertently show biases present in their training data. This raises concerns about fairness, as certain groups of students might be disadvantaged by biased grading. Tossell et al. (2024) \cite{Tossell2024} highlighted the importance of addressing these biases to ensure equitable treatment of all students.
+AI models can inadvertently show biases present in their training data. This raises concerns about fairness, as certain groups of students might be disadvantaged by biased grading. Tossell et al. (2024)~\cite{Tossell2024} highlighted the importance of addressing these biases to ensure equitable treatment of all students.
 
 Strategies to mitigate bias include using diverse and representative training data, implementing fairness-aware algorithms, and regularly auditing AI systems for discriminatory patterns.
 
 \subsection{Handwriting Recognition Limitations}
 
-Despite advancements in OCR technologies, accurately recognizing handwritten text remains challenging. Variations in handwriting styles, the use of non-standard symbols, and poor scan quality can hinder recognition accuracy.
+Despite advancements in OCR technologies, accurately recognizing handwritten text remains challenging. Variations in handwriting styles, the use of non-standard symbols, and poor scan quality can hinder recognition accuracy. %%% Dr. A - Didn't you say this already?
 
-Kortemeyer et al. (2024) \cite{Kortemeyer2024} found that AI struggled with interpreting hand-drawn diagrams and complex notations, which are common in STEM subjects. Improving OCR algorithms and combining them with context-aware models like GPT-4 can enhance performance, but human intervention may still be necessary in some cases.
+Kortemeyer et al. (2024)~\cite{Kortemeyer2024} found that AI struggled with interpreting hand-drawn diagrams and complex notations, which are common in STEM subjects. Improving OCR algorithms and combining them with context-aware models like GPT-4 can enhance performance, but human intervention may still be necessary in some cases. %%% Dr. A - Didn't you say this already?
 
 \subsection{Ethical and Privacy Concerns}
 
-The use of AI in grading involves processing sensitive student data, raising ethical and privacy considerations. Compliance with regulations such as the Family Educational Rights and Privacy Act (FERPA) is essential.
+The use of AI in grading involves processing sensitive student data, raising ethical and privacy considerations. Compliance with regulations such as the Family Educational Rights and Privacy Act (FERPA)~\cite{CitationNeeded} is essential.
 
-Alto (2023) \cite{Alto2023} emphasizes the need for robust data protection measures, transparency in AI operations, and obtaining informed consent from users. Ensuring that AI systems are secure and that data is handled responsibly is crucial for maintaining trust.
+Alto (2023)~\cite{Alto2023} emphasizes the need for robust data protection measures, transparency in AI operations, and obtaining informed consent from users. Ensuring that AI systems are secure and that data is handled responsibly is crucial for maintaining trust.
 
 \section{Existing Research on AI Grading Systems}
 
 \subsection{Machine Learning Approaches}
 
-Before the blowup of LLMs like GPT-4, machine learning approaches to grading primarily involved training models on labeled datasets to recognize correct answers. Weegar and Idestam-Almquist (2024) \cite{RebeckaWeegar2024} explored such methods for grading short answers in computer science exams.
+Before the blowup of LLMs like GPT-4, machine learning approaches to grading primarily involved training models on labeled datasets to recognize correct answers. Weegar and Idestam-Almquist (2024)~\cite{RebeckaWeegar2024} explored such methods for grading short answers in computer science exams.
 
 Their research demonstrated that machine learning could significantly reduce grading workload by clustering similar answers and automating scoring. However, these systems often required extensive preprocessing and were limited in handling the full variability of human language.
 
 \subsection{Feasibility Studies with GPT-4}
 
-Studies utilizing GPT-4 have shown promising results in various subjects. Kortemeyer (2023) \cite{Kortemeyer2023} conducted a feasibility study on using GPT-4 for grading physics problems. The AI's grades correlated highly with human graders, indicating its potential effectiveness.
+Studies utilizing GPT-4 have shown promising results in various subjects. Kortemeyer (2023)~\cite{Kortemeyer2023} conducted a feasibility study on using GPT-4 for grading physics problems. The AI's grades correlated highly with human graders, indicating its potential effectiveness. %%% Dr. A - Did they provide answers to GPT-4 in the form of prompts or did they just let GPT-4 try to grade without prompts?
 
-However, the study also noted that GPT-4 sometimes missed nuanced aspects of the solutions, particularly in assessing the quality of reasoning and the appropriateness of assumptions. This suggests that while GPT-4 can assist in grading, it should complement rather than replace human judgment.
+However, the study also noted that GPT-4 sometimes missed nuanced aspects of the solutions, particularly in assessing the quality of reasoning and the appropriateness of assumptions. This suggests that while GPT-4 can assist in grading, it should complement rather than replace human judgment. %%% Dr. A - Nicely put. This drives our own goal of grouping for human review. 
 
 \subsection{Student Perceptions of AI Grading}
 
-The acceptance of AI-assisted grading by students is crucial for its successful implementation. Tossell et al. (2024) \cite{Tossell2024} examined student perceptions of using AI tools like ChatGPT in academic settings.
+The acceptance of AI-assisted grading by students is crucial for its successful implementation. Tossell et al. (2024)~\cite{Tossell2024} examined student perceptions of using AI tools like ChatGPT in academic settings.
 
-While students appreciated the promptness and consistency of AI feedback, they expressed concerns about the transparency of the grading process and the AI's ability to understand their unique perspectives. Building trust requires clear communication about how the AI operates and opportunities for students to contest or discuss their grades.
+While students appreciated the promptness and consistency of AI feedback, they expressed concerns about the transparency of the grading process and the AI's ability to understand their unique perspectives. Building trust requires clear communication about how the AI operates and opportunities for students to contest or discuss their grades. %%% Dr. A - Also a great point that we need to consider in our system design.
 
 \section{Potential Benefits of GPT-4 in Grading}
 
 \subsection{Efficiency and Scalability}
 
-Implementing GPT-4 in grading systems can significantly reduce the time educators spend on evaluating assignments. This is especially beneficial in large classes where manual grading is impractical. AI systems can handle vast amounts of data quickly, providing timely feedback to students \cite{Alto2023}.
+Implementing GPT-4 in grading systems can significantly reduce the time educators spend on evaluating assignments. This is especially beneficial in large classes where manual grading is impractical. AI systems can handle vast amounts of data quickly, providing timely feedback to students~\cite{Alto2023}.
 
 \subsection{Consistency and Fairness}
 
@@ -219,26 +221,24 @@ This chapter outlines the key requirements for developing an AI-assisted grading
 
 The project aims to automate the grading process for different types of assignments submitted on OICLearning.com. The system will utilize GPT-4 and GPT-4 Vision for grading assignments, both scanned and online submissions, using a Python-based AI tool that will later be integrated into a web application. The following sections describe the current manual grading process requirements and how the AI-based grading system will be developed to fulfill these needs.
 
-\subsection{OICLearning Grading Process}
+\section{OICLearning Grading Process}
 
-OICLearning.com currently lacks an automated grading system. The proposed AI-assisted grading system will be developed from the ground up to handle various types of assignments, including scanned handwritten submissions and online text entries. By leveraging GPT-4 Vision's ability to interpret images and perform NLP, along with custom grading algorithms, the system will streamline grading for educators by automating tasks that would otherwise require significant manual effort.
+OICLearning.com currently lacks an automated grading system for general questions such as, short answer, mathematical and scientific questions, that do not require diagrams or figures in the answer. The proposed AI-assisted grading system handle these various types of assignments, including scanned handwritten submissions and online text entries. By leveraging GPT-4 Vision's ability to interpret images and perform NLP, along with custom grading algorithms, the system will streamline grading for educators by automating tasks that would otherwise require significant manual effort.
 
-\subsubsection{Big Picture Process}
+%\subsection{Big Picture Process}
+
+%This is not quite accurate, because we don't have any non-automated grading of assignments on OICLearning.com. We need to rephrase this to reflect the fact that we are adding a new feature to the platform.
 
 The current manual grading process involves several steps:
 
 \begin{enumerate}
-    \item A teacher creates an assignment on OICLearning.com.
+    \item A teacher creates an assignment on Moodle.
     \item A student submits an assignment.
     \item The teacher grades the assignment.
-    \item The teacher copies the grades to the Learning Management System (LMS).
+    \item The teacher realizes that nothing good happens after 2 AM and ponders existential questions.
 \end{enumerate}
 
-The new AI-assisted system will automate steps 3 and 4, significantly reducing the time and effort required from educators.
-
-\subsubsection{Creating Assignments}
-
-Assignments on OICLearning.com fall into three categories:
+The new AI-assisted system will automate step 3 and remove step 4, significantly reducing the time and effort required from educators. Assignments on OICLearning.com fall into three categories:
 
 \begin{enumerate}
     \item \textbf{Filled-Form Scanned Assignments}: These are written tests that students fill out manually and are later scanned and uploaded.
@@ -248,28 +248,28 @@ Assignments on OICLearning.com fall into three categories:
 
 The AI system must be able to handle grading for all three types of assignments by utilizing GPT-4 Vision to read and interpret images directly, performing OCR and NLP in a single step, and applying grading algorithms to assign appropriate grades.
 
-\subsection{Filled-Form Assignments}
+\subsection{Requirements for Filled-Form Assignments}
 
 For filled-form assignments, the AI system must meet the following requirements:
 
-\subsubsection{Requirements}
+%\subsubsection{Requirements}  %%% Dr. A - I don't think you need a subsection for this. 
 
 \begin{enumerate}
     \item The assignment is printed as a form by the teacher for the students to fill out.
     \item A PDF or image of the assignment is pre-loaded into OICLearning.
     \item The system must identify the locations of Name and ID number (or Email) directly from the image using GPT-4 Vision.
     \item Question and Answer locations are identified by the teacher using a user-friendly interface to draw rectangles on the pre-loaded image, specifying the question number (e.g., 1.a., 1.b., etc.) and points.
+    \item The teacher inputs the expected answers for each question into the system. In editing an assignment, a teacher may update this information and request a regrade. 
     \item The system must incorporate grading algorithms that compare student responses to expected answers for each question to assign appropriate grades.
 \end{enumerate}
 
 The system should support both teacher and student uploads of images or PDFs, automatically assigning them to the correct students and handling various document lengths. GPT-4 Vision will read the images directly, extracting the necessary information without the need for separate OCR processes.
 
-\subsubsection{Process for Grading Filled-Form Assignments}
+The process for Grading Filled-Form Assignments is as follows:
 
 \begin{enumerate}
     \item After uploading the assignment, GPT-4 Vision identifies the student by reading the handwritten Name and ID from the image.
     \item Upon accessing the grading page, the AI lists questions and whether they are graded.
-    \item The teacher inputs the expected answers for each question into the system.
     \item GPT-4 Vision reads and interprets student responses directly from the images.
     \item The AI compares student responses to the expected answers using the grading algorithms, assigning grades based on correctness and completeness.
     \item Default groupings are created based on semantic similarity and correctness. Teachers can create additional groups, adjust groupings, rename groups, and override AI decisions.
@@ -278,61 +278,63 @@ The system should support both teacher and student uploads of images or PDFs, au
     \item Once all questions are graded, a final score is recorded for each student.
 \end{enumerate}
 
-\subsection{Free-Form Written Assignments}
+\subsection{Requirements for Free-Form Written Assignments}
 
 Free-form assignments require a flexible approach due to their variability.
 
-\subsubsection{Requirements}
-
 \begin{enumerate}
-    \item Teachers must identify Question and Answer pairs, specifying question numbers and points.
-    \item Assignments are uploaded as images or PDFs, and GPT-4 Vision handles varying lengths by interpreting the content directly from the images.
-    \item The AI system allows for manual marking of each answer within the image, flagging unanswered questions, and overwriting old data if new submissions are made before the deadline.
+    \item Teachers must identify Question and Answer pairs, specifying question numbers and points similar to Filled-Form Assignments.
+    \item Assignments are uploaded as images or PDFs, and GPT-4 Vision handles varying length PDFs by interpreting the content directly from the images. 
+    \begin{enumerate}
+        \item A student may upload answers as individual images or
+        \item A student may identify each answer by drawing rectangles on an upload PDF
+    \end{enumerate}
+    \item The system allows for manual marking of each answer within the image, flagging unanswered questions, and overwriting old data if new submissions are allowed before the deadline.
     \item Grading algorithms compare student responses to expected answers provided by the teacher.
 \end{enumerate}
 
-\subsubsection{Process for Grading Free-Form Assignments}
+The grading process follows:
 
 \begin{enumerate}
     \item The teacher uploads the assignment and inputs the expected answers for each question.
     \item GPT-4 Vision processes the images to identify question locations and extract responses.
-    \item The AI compares student responses to the expected answers using the grading algorithms, assigning grades accordingly.
-    \item Answers are grouped by the AI based on semantic similarity and correctness, with manual adjustments available to the teacher.
+    \item The AI compares student responses to the expected answers using the grading algorithms, assigning grades accordingly (Pre-grading the assignments). %%% Dr. A - I like this!
+    \item Answers are grouped by the AI based on semantic similarity and correctness by using the pre-grading information. Teachers may then make manual adjustments to the groups.
     \item Teachers can add comments and adjust grades as they review each group.
     \item Grades are automatically applied to all students in each group, with a final score calculated upon completion.
 \end{enumerate}
 
-\subsection{Filled-Form Online Assignments}
+\subsection{Requirements for Filled-Form Online Assignments}
 
-For online submissions, the process is streamlined since the input is already in text format.
+For online submissions, the process is streamlined since the input is already in text format. The major difference comes in how the teacher creates the assignment. There must be an editor that allows the teacher to create and add question/answer pairs to the assignment. This will be saved in a database and an assignment viewer will allow the student to view any such assignment and submit their answers.
 
-\subsubsection{Process for Grading Online Assignments}
+The process for Grading Online Assignments is as follows:
 
 \begin{enumerate}
     \item Students submit their answers directly through the platform.
-    \item The teacher inputs the expected answers for each question into the system.
-    \item GPT-4 processes the text responses, comparing them to the expected answers using the grading algorithms.
+    \item GPT-4 processes the text responses, comparing them to the expected answers using the grading algorithms (Pre-grading the assignment).
     \item Responses are grouped based on semantic similarity and correctness.
     \item Grading and feedback generation follow the same procedure as with scanned assignments.
 \end{enumerate}
 
-\subsection{Objective-Form Assignments/Assessments}
+\subsection{Requirements for Objective-Form Assignments/Assessments}
 
-Objective-form assignments, such as multiple-choice or fill-in-the-blank questions, can also benefit from GPT-4 Vision's capabilities.
+Objective-form assignments, such as multiple-choice or fill-in-the-blank questions, can also benefit from GPT-4 Vision's capabilities. The process for creating and grading these can be somewhat simplified since we are dealing with a special case of printed assignments. In this case student must fill in a blank, circle an answer or underline an answer. Each annotation is objective and the AI only needs to ascertain if the correct mark was made. 
 
-\subsubsection{General Issues and Requirements}
 
 \begin{enumerate}
     \item GPT-4 Vision reads the selected answers directly from the images.
     \item The system must handle various answer formats, including circling, underlining, or filling boxes.
     \item The AI compares the selected answers to the correct options provided by the teacher, assigning grades accordingly.
-    \item Responses are automatically grouped under correct or incorrect categories.
-    \item Teachers can review groupings and adjust as necessary.
+    \item Groupings are still made for the purposes of adjusting those grades should the teacher wish to overide the AI scoring.
+    \item Teachers can review grades and adjust scores as necessary.
 \end{enumerate}
 
 \section{Proposed Approach}
 
-The AI-assisted grading system will be developed using Python and integrated with GPT-4 and GPT-4 Vision to automate the grading process. GPT-4 Vision will read and interpret images directly, performing both OCR and NLP in a single step, while the grading algorithms will compare student responses to expected answers to assign grades. This approach simplifies the architecture and improves efficiency.
+The approach breaks down the requirements into manageable tasks that will be implemented in a phased manner. This includes development steps necessary to build the AI-assisted grading system and integration with OICLearning.com, and testing methods, 
+
+%The AI-assisted grading system will be developed using Python and integrated with GPT-4 and GPT-4 Vision to automate the grading process. GPT-4 Vision will read and interpret images directly, performing both OCR and NLP in a single step, while the grading algorithms will compare student responses to expected answers to assign grades. This approach simplifies the architecture and improves efficiency. %% Repeated below
 
 \subsection{Python-Based AI Grading System}
 
@@ -356,8 +358,6 @@ The Python-based backend will utilize GPT-4 and GPT-4 Vision for processing both
 
 Following the backend development, the system will be integrated into a web application to provide an accessible interface for users.
 
-\subsubsection{Integration Steps}
-
 \begin{enumerate}
     \item \textbf{Frontend Development}: Use modern web technologies like React or Angular to build an interactive user interface.
     \item \textbf{API Development}: Expose backend functionalities through secure APIs for frontend consumption.
@@ -371,7 +371,7 @@ Following the backend development, the system will be integrated into a web appl
 To ensure the system meets user needs and functions correctly:
 
 \begin{enumerate}
-    \item \textbf{Pilot Program}: Conduct a pilot with select educators and students to gather initial feedback.
+    \item \textbf{Pilot Program}: Conduct a pilot session with select educators and students to gather initial feedback.
     \item \textbf{Iterative Improvements}: Use feedback to refine system functionalities, fix bugs, and enhance usability.
     \item \textbf{Performance Monitoring}: Assess system performance under real-world conditions, making adjustments as necessary.
     \item \textbf{Documentation and Training}: Provide comprehensive documentation and training materials to support users during the beta phase.
@@ -396,7 +396,7 @@ To develop and test the AI-assisted grading system, the following hardware and s
 \begin{itemize}
     \item \textbf{Hardware}: computer for development
     \item \textbf{Software}: Python for AI model implementation, React/Angular for front-end development, and Git for version control.
-    \item \textbf{Tools}: Database management systems (e.g., PostgreSQL), cloud services for deployment and scaling, and tools for developing and testing grading algorithms.
+    \item \textbf{Tools}: Database management systems (e.g., MySql), cloud services for deployment and scaling, and tools for developing and testing grading algorithms.
     \item \textbf{Access to GPT-4 and GPT-4 Vision}: Licenses or API access to OpenAI's GPT-4 and GPT-4 Vision models for integration and testing.
 \end{itemize}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.14)  15 SEP 2024 22:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.14)  23 SEP 2024 23:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -884,48 +884,38 @@ either increase the foot skip or redesign the footer
 
 [5
 
-] [6]) [7] [8
+]) [6] (./paper.lof) [7
 
-] (./paper.lof) [9] [10
+] [8
 
-] (./paper.lot) [11] [12
+] (./paper.lot) [9] [10
 
 ] [1
 
-] [2]
-[3
+] [2] [3
 
-] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13
+] [4] [5]
+[6] [7] [8] [9] [10] [11] [12] [13
 
-] [14] [15] [16] [17] [18]
-[19] [20] [21]
-LaTeX Font Info:    Trying to load font information for TS1+pplj on input line 
-385.
- (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1pplj.fd
-File: ts1pplj.fd 2004/09/06 font definitions for TS1/pplj.
-) [22] [23] [24] [25] [26] [27
-
-] [28
-
-] [29] [30
+] [14
 
 ] (./paper.bbl (./paper.brf)
 \tf@brf=\write5
 \openout5 = `paper.brf'.
 
-
-[31] [32
+ [15]
+[16
 
 ]
 bibitemlist
-[33])
+[17])
 
 Class memoir Warning: The material used in the footer is too large
 (10.14995pt) for the given foot skip (0.0pt), it is recommended to
 either increase the foot skip or redesign the footer
-(in both cases you will find help in the memoir manual). on input line 509.
+(in both cases you will find help in the memoir manual). on input line 230.
 
-[34]
+[18]
 \tf@toc=\write6
 \openout6 = `paper.toc'.
 
@@ -941,28 +931,28 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 4FE3B809EA3B8D802111AFC71B99DACA;10037.
+(rerunfilecheck)             Checksum: 28F6E06E0117430B561F30FD028B2878;6389.
 Package rerunfilecheck Info: File `paper.brf' has not changed.
-(rerunfilecheck)             Checksum: 554979C64328DEBB418316899778F17F;892.
+(rerunfilecheck)             Checksum: 55CD3B0881B15F8BB45D06087C336B92;1361.
  ) 
 Here is how much of TeX's memory you used:
- 17250 strings out of 474116
- 269005 string characters out of 5743682
- 1938187 words of memory out of 5000000
- 38785 multiletter control sequences out of 15000+600000
- 595875 words of font info for 369 fonts, out of 8000000 for 9000
+ 17044 strings out of 474116
+ 266793 string characters out of 5743682
+ 1935187 words of memory out of 5000000
+ 38765 multiletter control sequences out of 15000+600000
+ 593446 words of font info for 308 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 123i,12n,121p,1002b,648s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 123i,12n,121p,1002b,604s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/fpl/fplbj8a.pfb></usr/
 local/texlive/2024/texmf-dist/fonts/type1/public/fpl/fplrc8a.pfb></usr/local/te
 xlive/2024/texmf-dist/fonts/type1/public/fpl/fplrij8a.pfb></usr/local/texlive/2
 024/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2024/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2024/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on paper.pdf (46 pages, 159490 bytes).
+Output written on paper.pdf (28 pages, 140832 bytes).
 PDF statistics:
- 666 PDF objects out of 1000 (max. 8388607)
- 600 compressed objects within 6 object streams
- 183 named destinations out of 1000 (max. 500000)
- 60857 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 411 PDF objects out of 1000 (max. 8388607)
+ 365 compressed objects within 4 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 58641 words of extra memory for PDF output out of 61914 (max. 10000000)
 

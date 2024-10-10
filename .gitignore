@@ -1,31 +1,28 @@
 # LaTeX temporary files
-*.aux
-*.log
-*.toc
+**/*.aux
+**/*.log
+**/*.toc
 
 # PDF output - usually a bad idea to keep this in Git
-*.pdf
+**/*.pdf
 
 # Latexmk
-*.fdb_latexmk
-*.fls
+**/*.fdb_latexmk
+**/*.fls
 
 # SyncTeX
-*.synctex.gz
+**/*.synctex.gz
 
 # LaTeX Beamer
-*.snm
-*.vrb
-*.nav
-*.out
+**/*.snm
+**/*.vrb
+**/*.nav
+**/*.out
 
 # BibTeX
-*.bbl
-*.blg
-
-# Log created by Adobe Reader
-C:\\nppdf32Log\\debuglog.txt
+**/*.bbl
+**/*.blg
 
 # Sublime Text Project Files (usually contain absolute paths)
-*.sublime-project
-*.sublime-workspace
+**/*.sublime-project
+**/*.sublime-workspace

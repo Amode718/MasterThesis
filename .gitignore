@@ -9,6 +9,9 @@
 # Latexmk
 **/*.fdb_latexmk
 **/*.fls
+**/*.brf
+**/*.lof
+**/*.lot
 
 # SyncTeX
 **/*.synctex.gz

@@ -215,15 +215,87 @@ The proposed AI-assisted grading system aims to build upon this foundation, addr
 
 This chapter outlines the key requirements for developing an AI-assisted grading system using Large Language Models (LLMs) like GPT-4 and GPT-4 Vision, implemented in Python. The goal is to automate the grading process for various types of assignments on OICLearning.com by utilizing GPT-4 Vision to read images directly, performing both Optical Character Recognition (OCR) and Natural Language Processing (NLP) in a unified model. Additionally, the system will incorporate grading algorithms to assign grades based on expected answers for each question. This integration simplifies the workflow and enhances the system's ability to accurately interpret and grade student submissions.
 
-% [Rest of the document remains unchanged]
+\section{Summary of Requirements}
+
+The AI-assisted grading system will require the development of both backend and frontend components. The backend will handle the processing of student submissions, including images and text, and communicate with GPT-4 and GPT-4 Vision via API calls. The frontend will provide an interface for instructors to review, sort, and manage graded assignments.
+
+Key requirements include:
+
+\begin{itemize}
+    \item \textbf{Backend API Development:} Implement a backend API in Python that can receive images and text submissions from students and send them to GPT-4 and GPT-4 Vision for processing.
+    \item \textbf{Integration with GPT-4 Vision:} Utilize GPT-4 Vision's capabilities to perform OCR and NLP on images of student submissions.
+    \item \textbf{Grading Algorithm:} Develop algorithms to compare the processed student responses against expected answers and assign appropriate grades.
+    \item \textbf{Frontend Interface:} Create a user-friendly frontend interface that allows instructors to view, sort, and manage graded assignments.
+    \item \textbf{Data Security and Privacy:} Ensure the system complies with data protection regulations, implementing necessary security measures.
+    \item \textbf{Scalability:} Design the system to handle a large number of student submissions and various types of assignments.
+    \item \textbf{User Authentication:} Implement secure login and access control mechanisms for instructors.
+\end{itemize}
+
+\section{Proposed Approach}
+
+The proposed AI-assisted grading system will be implemented using a modular architecture, separating the backend processing from the frontend user interface. The backend will be developed in Python and will utilize the OpenAI API to interact with GPT-4 and GPT-4 Vision. The system will process images submitted by students, perform OCR to extract text, and then use NLP to interpret the content.
+
+\subsection{Backend Implementation}
+
+The backend API will handle the following tasks:
+
+\begin{itemize}
+    \item Receive images and text submissions from the frontend.
+    \item Send images to GPT-4 Vision via API calls for OCR and NLP processing.
+    \item Parse and handle responses from GPT-4.
+    \item Compare the interpreted responses to predefined expected answers.
+    \item Calculate grades based on a grading rubric or algorithm.
+    \item Store the results in a database.
+\end{itemize}
+
+\subsection{Frontend Development}
+
+The frontend will be a web-based application that allows instructors to:
+
+\begin{itemize}
+    \item Securely log in to the system.
+    \item View graded assignments and student responses.
+    \item Sort and filter submissions based on various criteria (e.g., grade, date submitted).
+    \item Override grades or make manual adjustments.
+\end{itemize}
+
+\subsection{System Integration}
+
+By leveraging GPT-4 Vision's capabilities, the system simplifies the grading workflow by handling both OCR and NLP tasks within a single model, reducing complexity and potential points of failure. The modular design allows for scalability and ease of maintenance.
+
+\section{Final Deliverables}
+
+Upon completion of the project, the following deliverables will be provided:
+
+\begin{itemize}
+    \item Fully functional AI-assisted grading system integrated with OICLearning.com.
+    \item Source code for both backend and frontend components.
+    \item Technical documentation detailing system architecture, setup, and usage.
+    \item User guide for instructors on how to use the system.
+    \item Test cases and testing reports.
+    \item Deployment scripts and configuration files.
+\end{itemize}
+
+\section{Development Prerequisites}
+
+The development of this AI-assisted grading system requires the following:
+
+\begin{itemize}
+    \item Access to OpenAI's GPT-4 and GPT-4 Vision APIs.
+    \item Development environment set up with Python 3.x.
+    \item Web server and hosting for the frontend application.
+    \item Secure database server for storing data.
+    \item Knowledge of data protection regulations applicable to student data.
+\end{itemize}
 
 \appendix
+
 \chapter{Requirements Specification}
-% (Appendices remain unchanged)
+
+% (Content of the Requirements Specification goes here.)
 
 \backmatter
 
-%% Bibliography section
 \bibliographystyle{plain}
 \bibliography{references}
 

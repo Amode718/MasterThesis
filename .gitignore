@@ -3,8 +3,7 @@
 **/*.log
 **/*.toc
 
-# PDF output - usually a bad idea to keep this in Git
-**/*.pdf
+# We are leaving PDFs in!
 
 # Latexmk
 **/*.fdb_latexmk

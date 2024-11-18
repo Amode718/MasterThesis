@@ -1,0 +1,46 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram name="Page-1" id="pihQvEg84QCelgff-Mua">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="700" pageHeight="220" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WsJUFZ7xU4K2eXf2Rj6Z-1" target="WsJUFZ7xU4K2eXf2Rj6Z-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-1" value="Create&amp;nbsp;&lt;div&gt;Rubrics&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="140" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WsJUFZ7xU4K2eXf2Rj6Z-3" target="WsJUFZ7xU4K2eXf2Rj6Z-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-3" value="Edit&amp;nbsp;&lt;div&gt;Outline&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="20" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WsJUFZ7xU4K2eXf2Rj6Z-4" target="WsJUFZ7xU4K2eXf2Rj6Z-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-4" value="Manage&amp;nbsp;&lt;div&gt;Scans&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="260" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WsJUFZ7xU4K2eXf2Rj6Z-5" target="WsJUFZ7xU4K2eXf2Rj6Z-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-5" value="Manage&amp;nbsp;&lt;div&gt;Submissions&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="380" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WsJUFZ7xU4K2eXf2Rj6Z-6" target="WsJUFZ7xU4K2eXf2Rj6Z-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-6" value="Grade&amp;nbsp;&lt;div&gt;Submissions&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="500" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WsJUFZ7xU4K2eXf2Rj6Z-15" value="Reivew&lt;div&gt;Grades&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" parent="1" vertex="1">
+          <mxGeometry x="620" y="7" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0eL-oUof_dES49ooM_87-1" value="Student Submits&amp;nbsp;&lt;div&gt;PDF and Marks Answers&lt;/div&gt;" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.concepts.web_page;" vertex="1" parent="1">
+          <mxGeometry x="260" y="121" width="50" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

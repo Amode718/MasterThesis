@@ -395,25 +395,52 @@ Upon completion of the project, the following deliverables will be provided:
     \item Deployment scripts and configuration files.
 \end{itemize}
 
-% \section{Development Prerequisites}
+\chapter{Testing}
 
-% The development of this AI-assisted grading system requires the following:
+While a full testing methodology is not required at this stage, we plan to conduct targeted testing activities to ensure that the system meets its key objectives. The testing will focus on verifying functionality, accuracy, and usability.
 
-% \begin{itemize}
-%     \item Access to OpenAI's GPT-4 and GPT-4 Vision APIs.
-%     \item Development environment set up with Python 3.x.
-%     \item Web server and hosting for the frontend application.
-%     \item Secure database server for storing data.
-%     \item Knowledge of data protection regulations applicable to student data.
-% \end{itemize}
+\section{Planned Testing Activities}
 
-%\appendix
+\begin{itemize}
+    \item \textbf{Basic Functional Tests:}  
+    Verify that the backend API correctly processes images and text submissions, interacts with GPT-4 Vision, and returns the expected output. Confirm that the frontend can display graded results, allow for rubric application, and handle user authentication.
 
-%\chapter{Requirements Specification}
+    \item \textbf{OCR and NLP Accuracy Checks:}  
+    Provide known inputs (e.g., a set of handwritten and typed responses with known correct answers) to ensure the OCR accurately extracts text and GPT-4 Vision semantically interprets answers as intended.
 
-% (Content of the Requirements Specification goes here.)
+    \item \textbf{Semantic Grouping Verification:}  
+    Input multiple variations of a correct response and a few incorrect ones. Check that the AI groups similar answers together and isolates outliers. Teachers reviewing these groups should find the clustering logical and helpful for grading.
 
-%\backmatter
+    \item \textbf{Rubric and Grading Validation:}  
+    Apply rubrics to test questions and confirm that the final scores are computed as expected. Check that changing a rubric value updates all affected scores consistently.
+
+    \item \textbf{User Interface and Workflow Checks:}  
+    Have a small set of instructors perform typical grading tasks. Gather feedback on the interface clarity, ease of navigation, and overall efficiency. Any confusing elements or inefficiencies will be noted for improvement.
+
+    \item \textbf{Export and Integration Tests:}  
+    Generate sample CSV/Excel output and ensure that the data is correctly formatted, including student identifiers, scores, and comments. Test the upload of these files into a mock LMS environment to confirm interoperability.
+\end{itemize}
+
+\section{Expected Outcomes}
+
+By focusing on these testing activities, we aim to:
+
+\begin{itemize}
+    \item Confirm that the system’s core functionality (OCR, NLP interpretation, semantic grouping, and grading) operates as intended.
+    \item Identify any major usability issues and address them early.
+    \item Ensure that the grading results are consistent, transparent, and easily transferable to external systems.
+    \item Build confidence that the system will reduce manual grading effort and maintain or improve grading quality.
+\end{itemize}
+
+These initial tests will inform further refinements and pave the way for more comprehensive evaluations in a future development phase.
+
+\chapter{Conclusion}
+
+This project proposes the development of an AI-assisted grading system integrated with OICLearning.com, leveraging GPT-4 and GPT-4 Vision capabilities. By automating OCR, NLP interpretation, and semantic grouping of student answers, the system aims to streamline the grading process, ensure greater consistency, and provide timely, meaningful feedback to students.
+
+While challenges exist—such as ensuring accuracy, handling diverse input formats, and maintaining fairness—thoughtful design, targeted testing, and human oversight can help address these concerns. The planned testing activities will help validate functionality and usability, guiding improvements prior to deployment.
+
+Overall, this project sets the stage for a more efficient and equitable grading process. By reducing teachers’ manual workload, improving feedback quality, and helping identify common misconceptions, the system can ultimately enhance educational experiences for instructors and students alike.
 
 \bibliographystyle{plain}
 \bibliography{references}

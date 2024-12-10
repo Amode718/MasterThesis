@@ -397,24 +397,24 @@ Upon completion of the project, the following deliverables will be provided:
 
 \chapter{Testing}
 
-While a full testing methodology is not required at this stage, we plan to conduct targeted testing activities to ensure that the system meets its key objectives. The testing will focus on verifying functionality, accuracy, and usability.
+We plan to conduct targeted testing activities to ensure that the system meets its key objectives. The testing will focus on verifying \emph{functionality}, \emph{accuracy}, and \emph{usability}.
 
 \section{Planned Testing Activities}
 
 \begin{itemize}
     \item \textbf{Basic Functional Tests:}  
-    Verify that the backend API correctly processes images and text submissions, interacts with GPT-4 Vision, and returns the expected output. Confirm that the frontend can display graded results, allow for rubric application, and handle user authentication.
+    Verify that the backend API correctly processes submissions, interacts with GPT-4 Vision, and returns the expected output. Confirm that the frontend can display graded results, and rubric application.
 
     \item \textbf{OCR and NLP Accuracy Checks:}  
     Provide known inputs (e.g., a set of handwritten and typed responses with known correct answers) to ensure the OCR accurately extracts text and GPT-4 Vision semantically interprets answers as intended.
 
-    \item \textbf{Semantic Grouping Verification:}  
+    \item \textbf{Semantic Grouping, Accuracy Verification:}  
     Input multiple variations of a correct response and a few incorrect ones. Check that the AI groups similar answers together and isolates outliers. Teachers reviewing these groups should find the clustering logical and helpful for grading.
 
-    \item \textbf{Rubric and Grading Validation:}  
+    \item \textbf{Rubric and Grading Accuracy Tests:}  
     Apply rubrics to test questions and confirm that the final scores are computed as expected. Check that changing a rubric value updates all affected scores consistently.
 
-    \item \textbf{User Interface and Workflow Checks:}  
+    \item \textbf{User Interface and Workflow Usability Checks:}  
     Have a small set of instructors perform typical grading tasks. Gather feedback on the interface clarity, ease of navigation, and overall efficiency. Any confusing elements or inefficiencies will be noted for improvement.
 
     \item \textbf{Export and Integration Tests:}  
@@ -432,7 +432,7 @@ By focusing on these testing activities, we aim to:
     \item Build confidence that the system will reduce manual grading effort and maintain or improve grading quality.
 \end{itemize}
 
-These initial tests will inform further refinements and pave the way for more comprehensive evaluations in a future development phase.
+These tests will inform further refinements and pave the way for more comprehensive evaluations in a future development phase.
 
 \chapter{Conclusion}
 

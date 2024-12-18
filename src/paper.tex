@@ -70,7 +70,7 @@ Grading written student work is a critical component of education, directly infl
 \chapter{Introduction}
 In the educational landscape, grading written student work is a task of high importance; it directly influences the learning experience and provides crucial feedback to both students and educators. Traditional grading methods, while effective, can be time-consuming and labor-intensive, especially for teachers managing large volumes of student submissions. The demand for efficient and scalable grading solutions has become increasingly evident as educators seek to streamline their workloads without compromising assessment quality.
 
-Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), offer a promising approach to this challenge. LLMs like OpenAI's GPT-4 have demonstrated remarkable proficiency in understanding and generating human-like text by analyzing vast datasets and recognizing patterns in language. These models have the potential to transform the grading process by automating the evaluation of student responses, thereby reducing the workload on teachers.
+Recent advancements in artificial intelligence, particularly in the development of Large Language Models (LLMs), offer a promising approach to this challenge. LLMs like OpenAI's GPT-4 have demonstrated remarkable proficiency in processing and generating human-like text by analyzing vast datasets and recognizing patterns in language. These models have the potential to transform the grading process by automating the evaluation of student responses, thereby reducing the workload on teachers.
 
 This project explores the development of an AI-assisted grading system that incorporates GPT-4 to classify student responses by grouping those that are semantically similar. By identifying clusters of answers that convey the same meaning, regardless of phrasing or structure, the system can assist educators in grading more efficiently.
 
@@ -122,7 +122,7 @@ Short answer questions are challenging to grade automatically due to the variabi
 
 GPT-4 overcomes these limitations by understanding the semantic meaning behind the text. It can recognize correct answers even when they are expressed in unconventional ways and identify incorrect answers that superficially appear correct~\cite{Liu2023}. This semantic understanding allows for more accurate grading of open-ended questions.
 
-Liu et al. (2023)~\cite{Liu2023} conducted a study demonstrating GPT-4's effectiveness in grading university-level mathematics exams. The AI model was able to evaluate complex mathematical reasoning and provide grades that closely aligned with human graders. This study highlights GPT-4's potential in handling subjects that require critical thinking and problem-solving skills.
+Liu et al.~\cite{Liu2023} conducted a study demonstrating GPT-4's effectiveness in grading university-level mathematics exams. The AI model was able to evaluate complex mathematical reasoning and provide grades that closely aligned with human graders. This study highlights GPT-4's potential in handling subjects that require critical thinking and problem-solving skills.
 
 \subsection{Grading Handwritten Responses}
 
@@ -288,7 +288,7 @@ When a teacher creates an assignment, they choose from different kinds of AI ass
     \item Online Filled-form assignments. E.g. a quiz that is taken online where answers that contains digital responses from students. This is not within the scope of this project.
 \end{itemize}
 
-For Filled-Form type assignments, the teacher needs to prompt the system by uploading a blank of the form. Figure~\ref{fig:filled-form} shows an example of what this page might look like. The teacher first identifies the location of the student identity (name and/or ID number). In the Figure, this is shown by the tan box added by the teacher around the area where a student is instructed to place their name. To add a question, the teacher clicks on the ``New Question'' link at the bottom right. The system adds a new question to the list and an associated box to go with it. Then the teach must: name the question, give the points , locate and size the associated box (shown in green) of the answer area over the blank spot they expect students to write in, and give the expected answer (not shown). Figure~\ref{fig:filled-form} shows the name area and a single question where the teacher can accomplish all these things. Here when a teacher clicks on a question in the list, they can edit the box size/location along with the name or points. The plus sign next to the red X, allows the teacher to add a sub-question. Sub-questions work the same way as questions except they appear as a sublist under the question.
+For Filled-Form type assignments, the teacher needs to prompt the system by uploading a blank of the form. Figure~\ref{fig:filled-form} shows an example of what this page might look like. The teacher first identifies the location of the student identity (name and/or ID number). In the Figure, this is shown by the tan box added by the teacher around the area where a student is instructed to place their name. To add a question, the teacher clicks on the ``New Question'' link at the bottom right. The system adds a new question to the list and an associated box to go with it. Then the teacher must: name the question, assign points, locate and size the associated box (shown in green) of the answer area over the blank spot they expect students to write in, and give the expected answer (not shown). Figure~\ref{fig:filled-form} shows the name area and a single question where the teacher can accomplish all these things. Here when a teacher clicks on a question in the list, they can edit the box size/location along with the name or points. The plus sign next to the red X, allows the teacher to add a sub-question. Sub-questions work the same way as questions except they appear as a sublist under the question.
 
 \begin{figure}[htb]
     \centering
@@ -297,11 +297,11 @@ For Filled-Form type assignments, the teacher needs to prompt the system by uplo
     \label{fig:filled-form}
 \end{figure}
 
-This process is called editing the outline and includes everything the system needs to define the assignment. The teacher can then save the outline and the system will be ready to accept student submissions. The teacher can create rubrics at this point or, more likely, defer this step grading. If the teacher decides to create the rubrics now, they progress to the webpage called ``Create Rubrics'' (see Figure~\ref{fig:page-flow}). Otherwise, they can add rubrics during grading.
+This process is called ``editing the outline'' and includes everything the system needs to define the assignment. The teacher can then save the outline and the system will be ready to accept student submissions. The teacher can create rubrics at this point or, more likely, defer this step until grading. If the teacher decides to create the rubrics now, they progress to the webpage called ``Create Rubrics'' (see Figure~\ref{fig:page-flow}). Otherwise, they can add rubrics during grading.
 
-A rubric defines a value subtracted from a score when applied, and a description of the reason for the deduction. The teacher can add up to 36 rubrics and they shall be numbered 0-9, and a-z. Teachers assign one or more rubrics to an answer (or group of answers when grading groups) during grading.  
+A rubric scoring guide defines text describing the error with a value subtracted from a score when applied. The teacher can add up to 36 rubrics and they shall be numbered 0-9, and a-z. Teachers assign one or more rubrics to an answer (or group of answers when grading groups) during grading.  
 
-In the case of Free-formed typed or written assignments, the teacher gives the students questions, and the students turn in their answers as a PDF. Students may or may not include the questions, so the answer's location will vary from student to student. Here the teacher does not need to identify the location of an answer, but they do need to provide question identifiers and points for students to use when turning in the document. Figure~\ref{fig:free-form} shows an example of the teacher creating a Free-Form assignment. Notice that there is no need to draw a rectangle around the answer area and except for that task the teacher's work is identical to the filled-form assignment above.
+In the case of Free-form typed or written assignments, the teacher gives the students questions, and the students turn in their answers as a PDF. Students may or may not include the questions, so the answer's location will vary from student to student. Here the teacher does not need to identify the location of an answer, but they do need to provide question identifiers and points for students to use when turning in the document. Figure~\ref{fig:free-form} shows an example of the teacher creating a Free-Form assignment. Notice that there is no need to draw a rectangle around the answer area and except for that task the teacher's work is identical to the filled-form assignment above.
 
 \begin{figure}[htb]
     \centering
@@ -312,7 +312,7 @@ In the case of Free-formed typed or written assignments, the teacher gives the s
 
 \subsection{Preparing Submissions to be graded}
 
-The two tasks at this stage are uploading submissions and assigning names to them. This is done in two steps. First, the assignments are uploaded by the teacher or by the individual student. Second, the teacher approves/assigns names to the assignments. This takes two screeens Manage Scans and Manage Submissions, or one screen when uploaded by the student (refer to the pages list in Figure~\ref{fig:page-flow}).
+The two tasks at this stage are uploading submissions and assigning names to them. This is done in two steps. First, the assignments are uploaded by the teacher or by the individual student. Second, the teacher approves/assigns names to the assignments. This takes two screeens: Manage Scans and Manage Submissions, or one screen when uploaded by the student (refer to the pages list in Figure~\ref{fig:page-flow}).
 
 \textit{Manage scans}: After a teacher has logged in and gone to a filled-in assignment, they upload all the assignments as a single PDF. The system already knows how many pages are in each assignment because it identified that number in the creation process above. The system separates the PDF into individual documents and attempts to assign the names of students based on the identity. This is accomplished on a screen called Manage. However, this page does not show the individual assignments or the names it has assigned. It only shows the number of assignments it assigned~\footnote{\scriptsize{In other grading systems, PDFs are converted to images. Although we would like to deal with PDFs natively, this is an acceptable solution}}. 
 
@@ -322,7 +322,7 @@ The two tasks at this stage are uploading submissions and assigning names to the
 
 The process starts with a list of questions for an assignment that needs grading. Each question is a link to a page where grouping can occur. The AI assists in this process by default, but the teacher can override the AI's grouping, or stop the process and manually group answers. 
 
-In the AI assisted process, the screen shows the list of groups on the right with the main screen showing the student answers as images in a grid. Figure~\ref{fig:answer-grouping} shows an example with eight answers. The first three in the left column have been selected by clicking on the images, and at this point would form a new group if the user clicks on the ``+Create a Group'' button. The AI should group the results first, but may leave some in an ungrouped ``group.'' That is, single submissions that don't fit into a group need not be put in a separate group, but should be kept in an ``ungrouped'' group. \textit{All} groups should be listed at the right. When clicking on the group, the system should de-select any images currently selected and then show the newly selected group's images in the main page. When images are selected and the ``Create a Group'' button is clicked, the system should create the group and move the images from the current group to the new group, then display the new group and it's images. 
+In the AI assisted process, the screen shows the list of groups on the right with the main screen showing the student answers as images in a grid. Figure~\ref{fig:answer-grouping} shows an example with eight answers. The first three in the left column have been selected by clicking on the images, and at this point would form a new group if the user clicks on the ``+Create a Group'' button. The AI should group the results first, but may leave some in an uncategorized group. That is, single submissions that don't fit into a group need not be put in a separate group, but should be kept in an uncategorized group. \textit{All} groups should be listed at the right. When clicking on the group, the system should de-select any images currently selected and then show the newly selected group's images in the main page. When images are selected and the ``Create a Group'' button is clicked, the system should create the group and move the images from the current group to the new group, then display the new group and its images. 
 
 \begin{figure}[htb]
     \centering
@@ -335,7 +335,7 @@ Selecting a group shows the group's Information. This information includes the i
 
 Before moving to the next step it is important that the teacher review all the groups and that they are satisfied that the groups are correct. If the teacher decides that the grouping is incorrect, they must come back to this page to regroup them. 
 
-Once the system has groups created, the teach can proceed to grade the answers. The teacher does this by clicking on the Grade Answers button at the lower right in Figure~\ref{fig:answer-grouping}. Groups are graded in order that they appear on the screen with the sole exception that no matter where the ungrouped group is, it is always graded last. 
+Once the system has groups created, the teach can proceed to grade the answers. The teacher does this by clicking on the Grade Answers button at the lower right in Figure~\ref{fig:answer-grouping}. Groups are graded in order that they appear on the screen with the sole exception that no matter where the uncategorized group is, it is always graded last. 
 
 When grading a group, the teacher is shown the group name, the number of images in the group, a sample answer(s) from the group, and the description of the group. The teacher can then assign rubrics that subtract points and provide feedback to students. The description of the group is part of the feedback that the student will see. Figure~\ref{fig:grading-answers} shows and example of what the grading page might look like. Several important requirements come into play for ease of use, specifically key presses and mouse movements have the following meaning:
 
@@ -346,7 +346,7 @@ When grading a group, the teacher is shown the group name, the number of images 
 \end{figure}
 
 \begin{itemize}
-    \item Pressing 0--9 or some key combination with a--z toggles the rubric as assigned or not-assigned to the group. 
+    \item Pressing 0--9 or some key combination with a--z toggles the rubric between assigned and not-assigned to the group. 
     \item Left arrow takes the teacher to the previous group or individual submission.
     \item Right arrow takes the teacher to the next group or individual submission.
     \item Scrolling up or down over the rubrics scrolls through the available rubrics.
@@ -356,7 +356,7 @@ When grading a group, the teacher is shown the group name, the number of images 
 
 Suppose a teacher decides to change the value of a rubric. They can simple edit the rubric while grading and all grades where this rubric applies are updated with the new value.
 
-When the teacher completes all of the groups and each individual assignment in the ``ungroupped'' group, they can move on to the next question in the assignment. When they are finished with all the questions, they can publish the results so that students can see them. This ``Review Grades'' page allows the teacher to see a list of all the grades has buttons to do the following actions:
+When the teacher completes all of the groups and each individual assignment in the uncategorized group, they can move on to the next question in the assignment. When they are finished with all the questions, they can publish the results so that students can see them. This ``Review Grades'' page allows the teacher to see a list of all the grades has buttons to do the following actions:
 
 \begin{itemize}
     \item Publish or Unpublish grades (Students see grades or not)
@@ -442,7 +442,7 @@ While challenges exist—such as ensuring accuracy, handling diverse input forma
 
 Overall, this project sets the stage for a more efficient and equitable grading process. By reducing teachers’ manual workload, improving feedback quality, and helping identify common misconceptions, the system can ultimately enhance educational experiences for instructors and students alike.
 
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
 
 \end{document}

@@ -1,0 +1,25 @@
+% ocr-pipeline.tikz — cleaner with a decision diamond and clear Yes/No
+\begin{tikzpicture}[
+  font=\small,
+  node distance=12mm and 14mm,
+  box/.style={draw,rounded corners,align=center,minimum width=30mm,minimum height=8mm,fill=white},
+  io/.style={draw,align=center,minimum width=30mm,minimum height=10mm,fill=white},
+  decision/.style={draw,diamond,aspect=2,align=center,inner sep=1pt},
+  arrow/.style={-Latex,thick}
+]
+\node[io]   (crop) {Identity region\\crop (PNG)};
+\node[box,right=of crop] (ocr) {Tesseract OCR\\(lang: \texttt{eng})};
+\node[box,right=of ocr] (post) {Normalize text\\(trim, de-noise)};
+\node[box,right=of post] (match) {Roster match\\(distance/ID)};
+\node[decision,right=of match] (resolve) {Resolved?};
+\node[io,below=12mm of match] (manual) {Manual pick-list\\(instructor)};
+\node[io,right=18mm of resolve] (assign) {Auto-assign\\submission};
+
+\draw[arrow] (crop) -- (ocr);
+\draw[arrow] (ocr) -- (post);
+\draw[arrow] (post) -- (match);
+\draw[arrow] (match) -- (resolve);
+\draw[arrow] (resolve) -- node[above]{Yes} (assign);
+\draw[arrow] (resolve) |- node[pos=.25,left]{No} (manual);
+\draw[arrow] (manual.east) -| (assign.south);
+\end{tikzpicture}

@@ -1,0 +1,609 @@
+\documentclass[ms,twoside,print]{nuthesis}
+% Note: Leaving out print or twoside will result in oneside printing.
+
+% ===================== Packages =====================
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[sc,osf]{mathpazo}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}        % for [H] placement if desired
+\usepackage{tikz}         % Diagrams
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,matrix}
+\usepackage{siunitx}      % Optional but useful
+\sisetup{detect-all}
+\PassOptionsToPackage{hyphens}{url} % Make long URLs break better in refs (must come before hyperref)
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[nameinlink,capitalize,noabbrev]{cleveref}
+\usepackage{bookmark}     % better PDF outlines
+\usepackage{csquotes}     % for \enquote
+\usepackage{tabularx}     % better tables that auto-wrap
+\urlstyle{same}
+\usepackage{listings}
+\usepackage{lstautogobble} % trims common indent
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{makecell}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  frame=single,
+  autogobble=true,
+  xleftmargin=1ex,
+  xrightmargin=1ex,
+}
+
+% Minimal JSON + YAML languages (pretty enough, no external deps)
+\lstdefinelanguage{json}{
+  string=[s]{"}{"},
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  literate=
+   *{0}{{{\color{black}0}}}{1}
+    {1}{{{\color{black}1}}}{1}
+    {2}{{{\color{black}2}}}{1}
+    {3}{{{\color{black}3}}}{1}
+    {4}{{{\color{black}4}}}{1}
+    {5}{{{\color{black}5}}}{1}
+    {6}{{{\color{black}6}}}{1}
+    {7}{{{\color{black}7}}}{1}
+    {8}{{{\color{black}8}}}{1}
+    {9}{{{\color{black}9}}}{1}
+}
+
+\lstdefinelanguage{yaml}{
+  comment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]"
+}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+% --- Safe placeholders + brand names ---
+\newcommand{\ph}[1]{\textit{<#1>}} % use like \ph{value}, never triggers math mode
+\newcommand{\Brand}[1]{\mbox{#1}}  % keep vendor names from awkward hyphenation
+
+% Colors for links
+\definecolor{dark-red}{rgb}{0.6,0,0}
+\definecolor{dark-green}{rgb}{0,0.6,0}
+\definecolor{dark-blue}{rgb}{0,0,0.6}
+\interfootnotelinepenalty=10000 % Prevent breaking footnotes across pages
+
+% Graphics path
+\graphicspath{{images/}}
+
+% Hyperref setup
+\hypersetup{
+    pdfauthor={Andrei Modiga},
+    pdftitle={Final Project Report: AI-Assisted Grading System Using Large Language Models},
+    pdfsubject={Education and AI},
+    pdfkeywords={LaTeX, Final Report, AI, Education, Grading, GPT-4o, OCR},
+    linkcolor=dark-blue,
+    citecolor=dark-blue,
+    urlcolor=dark-red,
+    colorlinks=true,
+    plainpages=false
+}
+
+% Quiet memoir footer warning by giving the footer some space
+\setlength{\footskip}{18pt}
+
+\begin{document}
+
+% ===================== Front Matter =====================
+\frontmatter
+
+\title{Final Project Report: Developing an AI-Assisted Grading System Using Large Language Models}
+\author{Andrei Modiga}
+\adviser{Scot Anderson, Ph.D.}
+\adviserAbstract{Scot Anderson, Ph.D.}
+\major{Computer Science}
+\degreemonth{August}
+\degreeyear{2025}
+\doctype{FINAL PROJECT REPORT}
+
+\maketitle
+
+\begin{abstract}
+We present an instructor-in-the-loop grading system that accelerates evaluation of open-ended student work across scanned and digital workflows. The system crops answer regions from PDFs, assigns submissions via OCR on identity regions only, and groups answers by visual semantics using a vision LLM. Instructors review and edit groups, apply rubric items once per group, and export grades from an on-screen table. The solution integrates Ghostscript rasterization, PdfPig page orchestration, SkiaSharp region extraction, Tesseract identity OCR, and GPT-4o Vision for grouping\cite{ghostscript,pdfpig,skiasharp,tesseract,openai-gpt4o}. We detail the architecture, token-budgeted batching strategy, and persistence design, then describe a testing plan for grouping quality, time-on-task, and usability. The approach avoids brittle handwriting OCR while preserving instructor control, fairness, and auditability. We conclude with limitations, risks, and suggested future work.
+\end{abstract}
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ===================== Main Matter =====================
+\mainmatter
+
+% -------------------------------------------------
+\chapter{Introduction and Motivation}
+\section{Problem Statement}
+Grading open-ended student work (handwritten or typed) is time-consuming, repetitive, and error-prone under deadline pressure. In large classes, feedback latency diminishes learning value. Typical bottlenecks include: (i) organizing mixed-format submissions (bulk scans vs.\ individual PDFs), (ii) locating answer regions for consistent review, and (iii) repeatedly applying identical rubric deductions to similar mistakes. Handwriting OCR is brittle, often forcing manual review even for simple cases.
+
+\section{Specific Project Goals/Requirements}
+The project delivers a practical, instructor-in-the-loop grading system that:
+\begin{compactitem}
+  \item \textit{Bulk Scans (Filled-form):} PDFs are split by known page counts. Ghostscript rasterizes pages; PdfPig validates page counts; SkiaSharp crops defined regions to PNGs.
+  \item \textit{Identity OCR (filled-form only):} Tesseract extracts name/ID from a designated identity region to auto-assign submissions; unresolved items fall back to a manual pick-list. No OCR is performed on answers; grouping uses GPT-4o Vision directly on the cropped images.
+  \item \textit{Identity Matching:} (filled-form) identity text is matched to the class roster; (free-form) uploads are automatically tied to the uploader's account.
+  \item \textit{Editable AI Assistance:} Vision LLM proposes semantic groups; instructors can merge/split groups, move answers, and apply rubric items per-group.
+  \item \textit{Traceability:} All actions and groupings are persisted with timestamps for audit; grades are summarized in an on-screen table for review/copy.
+\end{compactitem}
+
+\section{Motivation and Benefits}
+\begin{compactitem}
+  \item \textbf{Faster feedback:} Instructors grade clusters of similar answers once, reducing turnaround time.
+  \item \textbf{Consistency:} Per-group rubric application reduces drift across similar answers and sessions.
+  \item \textbf{Lower cognitive load:} The system automates extraction, grouping suggestions, and grade totals; instructors focus on judgment.
+  \item \textbf{Reduced brittleness:} Avoiding handwriting OCR on answers eliminates a major failure mode.
+  \item \textbf{Privacy-aware:} Only identity crops contain PII; answer crops are devoid of names or IDs.
+\end{compactitem}
+
+\section{Contributions}
+\begin{compactitem}
+  \item An \textbf{OCR-minimal}, vision-first pipeline that uses OCR only for identity assignment.
+  \item A \textbf{token-budgeted batching} strategy (downscale + tiling) to bound latency/cost at class scale.
+  \item A \textbf{traceable data model \& APIs} with idempotent re-uploads and stable crop filenames.
+  \item An \textbf{instructor-in-the-loop} UX with editable groups, explicit review status, and rubric-first grading.
+\end{compactitem}
+
+\section{Assumptions and Scope}
+We target short-answer problems with recognizable visual structure (boxes/lines). Free-form essays are supported via uploaded PDFs but are not auto-scored; the system focuses on grouping to speed human grading. We assume class rosters are available and that instructors can define answer regions once per assignment.
+
+\section{Report Organization}
+\Cref{chap:bg} reviews related work and context. \Cref{chap:solution} details the system, \Cref{chap:evalplan} presents the evaluation plan, \Cref{chap:results} reports results, and the final chapter concludes with future work.
+
+% -------------------------------------------------
+\chapter{Background and Context}\label{chap:bg}
+\section{AI in Education}
+AI has long promised efficiency gains and personalization in education, from adaptive tutoring to analytics that help instructors intervene earlier. Reviews highlight benefits such as individualized practice, faster feedback, and administrative automation when deployed with appropriate oversight\cite{Alto2023,Chen2020,Luckin2016,Zawacki2019}. Teacher agency, transparency, and contestability remain essential for trust and learning effectiveness.
+
+\section{Automated Grading of Short Answers and Essays}
+Pre-LLM systems typically relied on feature engineering, keyword overlap, or supervised models trained on labeled answers. These reduce load but struggle with paraphrase and reasoning variance\cite{Weegar2022,Konnecke2020}. Clustering similar answers to grade in batches is a recurring theme: once clusters form, instructors can assign rubrics at the group level.
+
+\section{LLMs and GPT-4/4o for Assessment}
+Recent work investigates LLMs for grading and feedback across STEM and writing tasks. Studies report promising alignment with human graders for mathematical reasoning and physics solutions when prompts focus evaluation criteria and preserve human oversight\cite{Liu2023,Kortemeyer2023,Kortemeyer2023b}. LLMs can also aid instructional design and rubric drafting\cite{Lund2023}. We leverage GPT-4o Vision for grouping by meaning from images, bypassing handwriting OCR.
+
+\section{Bias, Fairness, and Student Perceptions}
+Bias can propagate into grading unless monitored and mitigated\cite{Mehrabi2021}. Student acceptance depends on clear processes, contestability, and fairness\cite{Tossell2023}. Effective formative feedback principles—timely, specific, actionable—remain central whether drafted by AI or humans\cite{Nicol2006}.
+
+\section{Similar Implementations}
+To situate this project, we survey adjacent tools and how our system compares. In short,
+\emph{we have not found public documentation of a production system that groups handwritten
+short answers directly from images using a general-purpose vision LLM without first OCRing the
+answer content}. Existing offerings fall into four families:
+
+\paragraph{Commercial paper-exam graders (e.g., \Brand{Gradescope}, \Brand{Crowdmark}).}
+\Brand{Gradescope}~\cite{gradescope} supports fixed-template paper exams with region-based workflows and
+\enquote{Answer Groups} that let instructors grade clusters of similar responses at once. However, the
+grouping method is not publicly documented and is presented at a high level as similarity-based.
+\Brand{Crowdmark}~\cite{crowdmark} provides strong scanning workflows (QR-coded booklets, automated
+student matching via OCR on cover pages) and can auto-grade multiple choice, but does not claim
+semantic grouping of open-ended answers. \textbf{Similarity:} our work also supports fixed templates,
+grouping, and rubrics-first grading. \textbf{Difference:} we group from \emph{images only} (no handwriting
+OCR of answers), use a token-budgeted vision-LLM pipeline to bound cost/latency, and archive
+prompts + model versions for auditability.
+
+\paragraph{OMR/MCQ scanning (e.g., \Brand{Akindi}, \Brand{ZipGrade}).}
+\Brand{Akindi}~\cite{akindi} and \Brand{ZipGrade}~\cite{zipgrade} excel at high-throughput multiple-choice grading from
+bubble sheets (including mobile scanning) and logistics like sheet sorting. \textbf{Similarity:} we likewise
+handle identity intake for large cohorts. \textbf{Difference:} OMR tools target selected-response scoring,
+not clustering of free-form handwritten work.
+
+\paragraph{LMS graders (e.g., \Brand{Canvas} SpeedGrader).}
+Platform-native graders such as \Brand{Canvas} SpeedGrader~\cite{canvas-speedgrader} offer annotation and rubric
+workflows for uploaded files. \textbf{Similarity:} we present rubric-based grading and feedback at scale.
+\textbf{Difference:} LMS graders do not automatically cluster semantically similar answers for batch grading.
+
+\paragraph{Autograding/algorithmic assessment (e.g., \Brand{PrairieLearn}, \Brand{M{\"o}bius}, \Brand{CodeRunner}/\Brand{CodeGrade}).}
+Systems like \Brand{PrairieLearn}~\cite{prairielearn}, \Brand{M{\"o}bius}~\cite{mobius}, \Brand{CodeRunner}~\cite{coderunner}, and
+\Brand{CodeGrade}~\cite{codegrade} autograde parameterized or code questions (randomized variants, unit tests,
+CAS checks) with excellent coverage in constrained domains. \textbf{Similarity:} automation reduces
+repetitive grader effort. \textbf{Difference:} their strength is \emph{automatic scoring} of structured
+responses; they do not aim to \emph{group} heterogeneous, handwritten short answers for a human-in-the-loop
+rubric pass.
+
+\paragraph{Positioning.}
+Our system is closest in spirit to the \enquote{answer grouping} idea in commercial paper-graders, but
+our distinctives are: (1) \textbf{image-only} grouping of handwritten content to avoid brittle OCR,
+(2) a \textbf{cost/latency–bounded} vision-LLM pipeline (downscale + tiling + batching), and
+(3) an explicitly \textbf{auditable, instructor-in-the-loop} workflow (merge/split/move, neutral labels,
+review status), integrated end-to-end with our site.
+
+\section{Takeaways for This Project}
+(1) Group-based grading is an effective accelerator; (2) LLMs help when auditable and editable; (3) OCR of handwriting is fragile—visual grouping bypasses failure modes; (4) fairness and oversight practices must be designed-in.
+
+\chapter{Project Solution and Approach}\label{chap:solution}
+
+\section{Overview}
+The system comprises an ASP.NET Razor Pages app (instructor workflow), a Python FastAPI microservice (AI grouping), a MySQL database (persistence), and a file store (crops/exports). Tools include Ghostscript (rasterization), PdfPig (PDF orchestration), SkiaSharp (region extraction), and Tesseract (identity OCR). GPT-4o Vision provides semantic grouping over cropped answer images.
+
+\section{High-Level Architecture}
+\begin{figure}[htb]
+  \centering
+  \resizebox{\textwidth}{!}{\input{images/architecture.tikz}}
+  \caption{High-level components and data flow.}
+  \label{fig:architecture}
+\end{figure}
+
+\section{Sequence of Operations}
+\begin{figure}[htb]
+  \centering
+  \input{images/sequence-autogroup.tikz}
+  \caption{Sequence for an auto-grouping job.}
+  \label{fig:sequence}
+\end{figure}
+
+\begin{compactenum}
+  \item Web app posts \texttt{/autogroup} with per-answer image paths and per-question max points.
+  \item FastAPI converts PNG$\rightarrow$JPEG (quality 50), computes a token budget at 50\% downscale, and sends images with \texttt{detail:auto}.
+  \item GPT-4o Vision proposes clusters; service shapes results (UUIDs, neutral descriptions, collapse tiny groups, add \emph{Ungrouped}).
+  \item Results persist to MySQL (one row/question); UI polls \texttt{/status/\{job\_id\}} then renders groups for review and grading.
+\end{compactenum}
+
+\section{Instructor-Facing UI Snapshots}
+\paragraph{Assignment creation.}
+Instructors configure the submission layout (\emph{filled-form} vs.\ \emph{free-form}), directions, and dates. The authoring surface then adapts:
+
+\begin{compactitem}
+  \item \textbf{Free-form:} the instructor enters \emph{only} the question labels (e.g., \texttt{Q1}, \texttt{Q2a}) and max points per question. No region editor is shown here because students will upload a PDF and \emph{define their own answer regions} in the next step.
+  \item \textbf{Filled-form:} in addition to questions/points, the instructor binds an exam template and draws the \emph{identity} and \emph{answer} regions once. Those regions are then used to crop all submissions automatically.
+\end{compactitem}
+
+\begin{figure}[htb]
+  \centering
+  \IfFileExists{images/assignment-creation.png}{\includegraphics[width=.92\textwidth]{assignment-creation.png}}{%
+    \fbox{\parbox{.92\textwidth}{Placeholder: add \texttt{images/assignment-creation.png}}}}
+  \caption{Assignment creation form. For free-form, authors enter questions and points only; for filled-form, authors also define identity/answer regions against a template.}
+  \label{fig:assignment-creation}
+\end{figure}
+
+\paragraph{Course assignments page.}
+The course view summarizes assignment state (open/closed, submissions, grading progress) and links to grouping/grading.
+
+\begin{figure}[htb]
+  \centering
+  \IfFileExists{images/course-page.png}{\includegraphics[width=.92\textwidth]{course-page.png}}{%
+    \fbox{\parbox{.92\textwidth}{Placeholder: add \texttt{images/course-page.png}}}}
+  \caption{Course assignments overview with status indicators and quick actions.}
+  \label{fig:course-page}
+\end{figure}
+
+\paragraph{Region extraction (shared tool).}
+The same cropping widget is used to verify identity/answer regions for filled-form scans and, in free-form flows, to let students mark their own answer areas.
+
+\begin{figure}[htb]
+  \centering
+  \IfFileExists{images/region-extraction.png}{\includegraphics[width=.92\textwidth]{region-extraction.png}}{%
+    \fbox{\parbox{.92\textwidth}{Placeholder: add \texttt{images/region-extraction.png}}}}
+  \caption{Region cropping widget used in two contexts: (i) instructor verification for filled-form scans and (ii) student free-form ``mark your answers'' flow.}
+  \label{fig:ui-crops}
+\end{figure}
+
+\paragraph{Auto-grouping UI.}
+After crops are generated, the grouping page proposes semantic clusters; instructors can merge/split groups, move items, and apply rubric items per group.
+
+\begin{figure}[htb]
+  \centering
+  \IfFileExists{images/grouping-answers.png}{\includegraphics[width=.92\textwidth]{grouping-answers.png}}{%
+    \fbox{\parbox{.92\textwidth}{Placeholder: add \texttt{images/grouping-answers.png}}}}
+  \caption{Auto-grouping page with proposed clusters, edit tools, and rubric-first grading.}
+  \label{fig:ui-grouping}
+\end{figure}
+
+\section{Region Extraction and File Lifecycle}
+For \textbf{filled-form} assignments, instructors define identity and answer regions once per assignment; the worker then applies those regions to every scanned booklet and enforces stable filenames (e.g., \texttt{Q27a.png}) for reproducibility and idempotent re-uploads. For \textbf{free-form}, students upload a PDF and mark their own answer regions; the saved boxes are used to generate per-question crops for grouping and grading. Debug images are suppressed outside development builds. Re-uploads replace prior crops and metadata to avoid drift.
+
+\section{Identity Assignment}
+Filled-form batches use Tesseract to extract roster identifiers from the identity region. Low-confidence matches are flagged for manual resolution with a roster pick-list and thumbnail preview. Free-form uploads are tied to the uploader’s account; no answer OCR is executed.
+
+\section{Grouping Heuristics}
+We instruct the model to produce \emph{fewer, larger clusters}, to route unreadable/singletons into \emph{Ungrouped}, and to emit neutral descriptions (\enquote{Group 1}, \enquote{Group 2}). Tiny groups under a threshold are collapsed into \emph{Ungrouped}. Groups are sequentially re-numbered for clarity. All prompts and model versions are archived with the \texttt{job\_id}.
+
+\section{Data Model}
+\begin{table}[htb]
+  \centering
+  \caption{Key table: \texttt{GroupingResults}.}
+  \label{tab:groupingresults}
+  \setlength\tabcolsep{6pt}
+  \renewcommand{\arraystretch}{1.2}
+  \footnotesize
+  \begin{tabularx}{\textwidth}{@{}L{4.3cm}L{2.8cm}Y@{}}
+    \toprule
+    \textbf{Column} & \textbf{Type} & \textbf{Notes} \\
+    \midrule
+    Id & BIGINT (PK) & Surrogate primary key. \\
+    AssignmentId & BIGINT (FK) & Links to the assignment entity. \\
+    AssignmentQuestionId & BIGINT (FK) & Equals \texttt{template\_region\_id} sent by client. \\
+    GroupData & JSON & Array of groups with files, description, \texttt{is\_correct}, \texttt{points}. \\
+    \makecell[l]{CreatedAt\\UpdatedAt} & DATETIME & Audit timestamps (UTC). \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Prompting \& JSON Schema}
+The service uses a system message with practical grouping guidelines (fewer, larger clusters; neutral labels; unreadable/singletons $\rightarrow$ \emph{Ungrouped}). We archive the exact prompts and model/version with the \texttt{job\_id} for reproducibility. The model returns JSON of the following form (abbrev.):
+{\small
+\begin{verbatim}
+{
+  "groups": [
+    {
+      "group_id": "uuid",
+      "files": [{ "file_path": "...", "user_id": "...",
+                  "template_region_id": "...", "question_label": "...",
+                  "content_type": "image/jpeg", "user_name": "..." }],
+      "description": "Group 1",
+      "is_correct": true | false | null,
+      "points": 5.0
+    }
+  ]
+}
+\end{verbatim}
+}
+
+\section{Token Budget, Cost \& Rate Limiting}
+For an image of width $w$ and height $h$, the service estimates tokens after a 50\% downscale: $w' = \lfloor w/2 \rfloor$, $h' = \lfloor h/2 \rfloor$. The number of 512$\times$512 tiles is $T=\lceil w'/512 \rceil\cdot\lceil h'/512 \rceil$, and the cost estimate is $85 + 170\,T$ tokens/image. Batches exceeding a threshold are split. On rate limits, the client retries up to 10 times with exponential backoff. For a representative $768\times 768$ downscaled image ($T=3$), the estimate is $\sim595$ tokens/image.
+
+\section{Integration with ASP.NET}
+The web app calls \texttt{QueueAutoGroupAsync} (server) to POST to \texttt{/autogroup}, records a \texttt{GroupingJob}, and renders a progress UI that polls \texttt{/status/\{job\_id\}}; when the background job completes, the page automatically refreshes into the results view. Subsequent instructor actions (save groups, apply/remove rubric items, scoring method toggles) are persisted in the relational database and mirrored in a \texttt{GroupScore} table; a background grade recalculator keeps submission grades in sync.
+
+\section{Student-Facing Assignment UI}
+Students reach an assignment-specific page that adapts to the configured layout:
+
+\paragraph{Filled-form (read-only).}
+Students cannot upload; they can download the submitted booklet (when present) and view the grade once posted. The page surfaces \texttt{Directions} and a simple status panel.
+
+\paragraph{Free-form (student upload).}
+Students upload a single PDF, then are routed to a \texttt{DefineAnswerRegions} step to mark answer boxes. When submissions are open (\texttt{DueDate}/\texttt{AllowLateWork}/\texttt{CutoffDate} enforced via \texttt{CanSubmit()}), they can resubmit; otherwise the page displays a \enquote{Resubmissions have closed} notice. \emph{Note:} The region-marking widget for free-form uploads reuses the same cropping interface shown in \Cref{fig:ui-crops}; we avoid duplicating the screenshot here.
+
+\begin{figure}[htb]
+  \centering
+  \IfFileExists{images/student-assignment.png}{\includegraphics[width=.92\textwidth]{student-assignment.png}}{%
+    \fbox{\parbox{.92\textwidth}{Placeholder: add \texttt{images/student-assignment.png}}}}
+  \caption{Student assignment page: layout indicator (filled vs.\ free-form), PDF upload (free-form only), download of submitted file, and grade display.}
+  \label{fig:ui-student}
+\end{figure}
+
+\section{Rubrics and Grading UX}
+While grading a group, instructors select and apply rubric items; zoom/pan is supported where available. Changing a rubric value propagates to all affected answers. The Question tab surfaces review status: each group displays a status badge (\enquote{Graded} or \enquote{Needs grading}). Instructors can either apply at least one rubric item or, if none are needed, click \texttt{Save All Groups for Question} to mark the question as reviewed.
+
+\section{Security \& Privacy}
+Only course roster identifiers and per-answer images are processed; no plaintext student content is transmitted for grouping. Access is limited to authenticated instructor actions. The design aligns with FERPA expectations around access control and least-privilege handling of student records \cite{FERPA1974}.
+
+\section{Threat Model \& Data Handling}
+\begin{table}[H]\centering
+\caption{Abbreviated threat model and mitigations}\label{tab:threats}
+\begin{tabularx}{\textwidth}{@{}p{3.8cm}Xp{4.6cm}@{}}
+\toprule
+\textbf{Threat} & \textbf{Risk} & \textbf{Mitigation} \\
+\midrule
+Unauthorized access & Disclosure of student data & Role-based auth; per-course ACLs; audit logs \\
+Model data exposure & PII leakage to third party & Only identity crops contain PII; answer crops exclude names \\
+Prompt injection & Manipulated grouping suggestions & Server-side prompts; normalize outputs; edit/override tools \\
+Data retention & Oversharing over time & Rotation policy; per-course retention config; export/purge \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Limitations \& Risks}
+\begin{compactitem}
+  \item \textbf{Generalization:} Prompts tuned on one course may not transfer perfectly to other subjects; mitigated by neutral labels and editable groups.
+  \item \textbf{Model drift:} Vision model updates can shift behavior; we pin model/version and archive prompts with run IDs.
+  \item \textbf{Edge cases:} Faint pencil, skew, or multiple answers in one crop reduce grouping confidence; flagged to \emph{Ungrouped}.
+  \item \textbf{Human factors:} Instructor trust varies; we surface why/where groups changed and keep full override tools.
+\end{compactitem}
+
+% -----------------------------------------------------------------------------------------------
+
+\chapter{Testing and Evaluation Plan}\label{chap:evalplan}
+
+
+% -------------------------------------------------
+\chapter{Results}\label{chap:results}
+
+
+% -------------------------------------------------
+\chapter{Conclusion}
+\section{Summary of Problem and Goals}
+We addressed the effort and inconsistency of grading open-ended work by building an instructor-in-the-loop system that extracts regions, assigns identity via OCR, groups answers with a vision LLM, and enables rubric-first grading with auditability.
+
+\section{Evaluation Summary (Aligned to Proposal Tests)}
+
+\section{Final Outcomes and Deliverables}
+We delivered the integrated web app, background services, reproducible prompts/model versions, and a grade export flow compatible with LMS import. Documentation includes an instructor guide and technical deployment notes.
+
+\section{Lessons Learned and Future Work}
+\begin{compactitem}
+  \item Visual pre-processing (downscale/tiling) mattered more for stability than minor prompt tuning.
+  \item Instructors preferred neutral group names and an explicit \emph{Ungrouped} bin.
+  \item Future: domain-tuned prompts for math diagrams, adaptive thresholding for faint pencil, pre-clustering to cut LLM calls, regrade workflow, and CSV/Excel export automation to specific LMS formats.
+\end{compactitem}
+
+\chapter{Ethics, Privacy, and Compliance}
+We minimize student-data exposure by: (1) processing only identity regions with OCR; (2) sending cropped answer images to GPT-4o Vision without student names; (3) restricting access to authenticated instructors; and (4) logging access for audit. The design aligns with FERPA expectations\cite{FERPA1974}. We also monitor for potential bias by auditing cluster assignments across demographic-neutral cohorts and provide full instructor override mechanisms.
+
+% ===================== Appendix =====================
+\appendix
+
+\chapter{Configuration and Deployment}\label{app:config}
+
+This appendix captures the minimum configuration to run the system on a fresh machine.
+Replace placeholders (the ALL-CAPS bits) with values for your environment.
+
+% Keep code within margins
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible}
+
+\section{Prerequisites}
+\begin{compactitem}
+  \item Windows 11 / Ubuntu 22.04 / macOS (developed \& tested on all three).
+  \item \textbf{.NET SDK} (web app).
+  \item \textbf{Python 3.10+} (FastAPI grouping service).
+  \item \textbf{MySQL/MariaDB}.
+  \item \textbf{Ghostscript} (PDF rasterization) available on \texttt{PATH} or via \texttt{GHOSTSCRIPT\_EXE}.
+  \item \textbf{Tesseract OCR} (install language data \texttt{eng} at minimum).
+  \item Vision LLM API access set via \texttt{OPENAI\_API\_KEY}.
+\end{compactitem}
+
+\section{FastAPI Service: \texttt{.env}}
+Create a \texttt{.env} file in the FastAPI project root:
+\begin{lstlisting}
+# --- OpenAI / Vision LLM ---
+OPENAI_API_KEY=YOUR_OPENAI_KEY
+
+# --- Database used by the service ---
+DB_HOST=YOUR_DB_HOST
+DB_NAME=OICLearning
+DB_USER=YOUR_DB_USER
+DB_PASSWORD=YOUR_DB_PASSWORD
+
+# --- Optional service bind (defaults shown) ---
+HOST=0.0.0.0
+PORT=8000
+\end{lstlisting}
+
+\noindent Start the service:
+\begin{lstlisting}
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --host 0.0.0.0 --port 8000
+\end{lstlisting}
+
+\section{Web App: \texttt{appsettings.json}}
+Use this structure for both \texttt{appsettings.json} and \texttt{appsettings.Development.json}.
+Only update the hostnames, passwords, folders, and API base URL; keep DB name and UID as shown.
+
+\begin{lstlisting}[language=json]
+{
+  "ConnectionStrings": {
+    "MySqlConnection":
+      "Server=YOUR_DB_HOST;Database=OICLearning;Uid=www_oiclearning;Pwd=YOUR_DB_PASSWORD",
+    "MySQLTestSite":
+      "Server=YOUR_TEST_DB_HOST;Database=OICLearning;Uid=www_oiclearning;Pwd=YOUR_TEST_DB_PASSWORD"
+  },
+
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+
+  "AllowedHosts": "*",
+
+  "RoleStrings": {
+    "Teacher": ["Admin", "Teacher"],
+    "Admin":   ["Admin"],
+    "Student": ["Student"]
+  },
+
+  "FileRepository": {
+    "SubmissionFolder": "/path/to/submissions",
+    "AutoGraderFolder": "/path/to/autograders"
+  },
+
+  "PythonApi": {
+    "BaseUrl": "http://YOUR_FASTAPI_HOST:8000"
+  }
+}
+\end{lstlisting}
+
+\subsection*{Point the callers at \texttt{PythonApi:BaseUrl}}
+Update the two callers to use \texttt{PythonApi:BaseUrl} \emph{without} a localhost fallback.
+
+\paragraph{CourseService.cs (snippet)}
+\begin{lstlisting}[language={[Sharp]C}]
+var client  = _httpClientFactory.CreateClient();
+var baseUrl = _configuration.GetValue<string>("PythonApi:BaseUrl");
+client.BaseAddress = new Uri(baseUrl);
+
+var response = await client.PostAsJsonAsync("/autogroup", requestBody);
+response.EnsureSuccessStatusCode();
+\end{lstlisting}
+
+\paragraph{GroupingService.cs (snippet)}
+\begin{lstlisting}[language={[Sharp]C}]
+var client  = _httpClientFactory.CreateClient();
+var baseUrl = _configuration.GetValue<string>("PythonApi:BaseUrl");
+client.BaseAddress = new Uri(baseUrl);
+
+// ...status polling / error handling continues...
+\end{lstlisting}
+
+\section{Ghostscript Location}
+If Ghostscript is not on \texttt{PATH}, set \texttt{GHOSTSCRIPT\_EXE}.
+
+\noindent macOS (Homebrew):
+\begin{lstlisting}
+export GHOSTSCRIPT_EXE=/opt/homebrew/bin/gs
+\end{lstlisting}
+
+\noindent Ubuntu/Debian:
+\begin{lstlisting}
+export GHOSTSCRIPT_EXE=/usr/bin/gs
+\end{lstlisting}
+
+\noindent Windows (PowerShell):
+\begin{lstlisting}
+$env:GHOSTSCRIPT_EXE="C:\Program Files\gs\gs10.03.0\bin\gswin64c.exe"
+\end{lstlisting}
+
+\noindent The extractor prefers the env var and falls back if needed:
+\begin{lstlisting}[language={[Sharp]C}]
+var gsExe = Environment.GetEnvironmentVariable("GHOSTSCRIPT_EXE")
+           ?? "/opt/homebrew/bin/gs"; // adjust per OS
+\end{lstlisting}
+
+\section{Tesseract on macOS (dev builds)}
+If you hit dylib resolution issues with Homebrew installs, use this post-build step:
+
+\begin{lstlisting}
+<!-- OICLearning.csproj (snippet) -->
+<Target Name="link_deps" AfterTargets="AfterBuild">
+  <Exec Command="ln -sf /opt/homebrew/lib/libleptonica.dylib
+                 $(OutDir)x64/libleptonica-1.82.0.dylib" />
+  <Exec Command="ln -sf /opt/homebrew/lib/libtesseract.dylib
+                 $(OutDir)x64/libtesseract50.dylib" />
+</Target>
+\end{lstlisting}
+
+\section{Build and Run (Web App)}
+\begin{compactenum}
+  \item Restore NuGet packages and build.
+  \item Apply EF Core migrations:
+\begin{lstlisting}
+dotnet tool restore
+dotnet ef database update
+\end{lstlisting}
+  \item Launch the app:
+\begin{lstlisting}
+dotnet run
+\end{lstlisting}
+  \item Ensure \texttt{FileRepository.SubmissionFolder} exists and is writable.
+\end{compactenum}
+
+\section{Operational Notes}
+\begin{compactitem}
+  \item Re-uploads are idempotent; crops use stable names (e.g., \texttt{Q27a.png}).
+  \item Only identity regions are OCR’d; answer crops go to the vision model.
+  \item Groupings are editable; an \textit{Ungrouped} bucket catches outliers.
+  \item Grades appear in an on-screen table; CSV/Excel export is available.
+\end{compactitem}
+
+
+% ===================== Back Matter ====================
+\backmatter
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,42 @@
+% sequence-autogroup.tikz  — compact, tidy layout that fits on the page
+\begin{tikzpicture}[
+  font=\small,
+  lifeline/.style={draw,rounded corners,align=center,minimum width=32mm,minimum height=8mm,fill=white},
+  msg/.style={-Latex,thick},
+  ret/.style={Latex-,densely dashed}
+]
+% fixed spacing so it stays inside \textwidth
+\def\xsep{38mm}
+\def\H{80mm}
+
+% lifeline headers
+\node[lifeline] (ui)  at (0,0)               {Web App UI};
+\node[lifeline] (api) at (\xsep,0)           {FastAPI Service};
+\node[lifeline] (gpt) at ({2*\xsep},0)       {GPT-4o Vision};
+\node[lifeline] (db)  at ({3*\xsep},0)       {MySQL};
+
+% vertical lifelines
+\foreach \n in {ui,api,gpt,db} \draw (\n.south) -- ++(0,-\H);
+
+% helpers (avoid repeated coordinate math)
+\newcommand{\msg}[5][.5]{%% normal call
+  \path (#2.south) ++(0,-#3) coordinate (mstart#3);
+  \path (#4.south |- mstart#3) coordinate (mend#3);
+  \draw[msg] (mstart#3) -- (mend#3) node[pos=#1,above]{#5};}
+\newcommand{\ret}[5][.5]{%% dashed return
+  \path (#2.south) ++(0,-#3) coordinate (rstart#3);
+  \path (#4.south |- rstart#3) coordinate (rend#3);
+  \draw[ret] (rstart#3) -- (rend#3) node[pos=#1,below]{#5};}
+
+% messages — y positions staggered so labels never collide
+\msg{ui}{10mm}{api}{POST /autogroup}
+\ret{api}{18mm}{ui}{job\_id}
+
+\msg{api}{30mm}{gpt}{images + prompt}
+\ret{gpt}{40mm}{api}{clusters JSON}
+
+\msg{api}{52mm}{db}{UPSERT GroupingResults}
+
+\msg{ui}{64mm}{api}{GET /status/{job}}
+\ret{api}{72mm}{ui}{processing / completed}
+\end{tikzpicture}

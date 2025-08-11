@@ -1,0 +1,51 @@
+% architecture.tikz — de-cluttered, no overlaps
+\begin{tikzpicture}[
+  font=\small,
+  node distance=12mm and 22mm,
+  box/.style={draw,rounded corners,align=center,minimum width=42mm,minimum height=10mm,fill=white},
+  ext/.style={box,dashed},
+  store/.style={draw,align=center,minimum width=42mm,minimum height=10mm,fill=white},
+  zone/.style={draw,rounded corners,thick,dashed,inner sep=7mm,fit=#1},
+  arrow/.style={-Latex,thick,shorten >=2pt,shorten <=2pt},
+  lbl/.style={midway,fill=white,inner sep=1pt}
+]
+
+% --- Nodes (grid layout) ---
+\node[ext]                            (ui)     {Instructor\\Browser (Razor Pages)};
+\node[box,   right=22mm of ui]        (web)    {.NET Web App\\(Auth, Rubrics, UI)};
+\node[box,   right=22mm of web]       (api)    {Python FastAPI\\(Auto-group Service)};
+\node[store, right=22mm of api]       (db)     {MySQL\\(GroupingResults, GroupScore)};
+
+\node[box,   below=16mm of web]       (worker) {Extraction Worker\\(Ghostscript / PdfPig / SkiaSharp)};
+\node[ext,   below=16mm of worker]    (tess)   {Tesseract OCR};
+\node[store, below=16mm of db]        (fs)     {File Storage\\(crops, exports)};
+\node[ext,   above=14mm of api]       (openai) {OpenAI GPT-4o Vision};
+
+% --- Flows (labels sit on white so they don't collide) ---
+\draw[arrow] (ui)  -- node[lbl,above]{HTTPS} (web);
+\draw[arrow] (web) -- node[lbl,above]{queue /autogroup} (api);
+\draw[arrow] (api) -- node[lbl,above]{read/write} (db);
+\draw[arrow] (api) -- node[lbl,right]{JPEG + prompts} (openai);
+
+\draw[arrow] (web)    -- node[lbl,right]{invoke} (worker);
+\draw[arrow] (worker) -- node[lbl,right]{OCR on ID} (tess);
+
+\draw[arrow] (worker) -- node[lbl,above]{crops} (fs.west);
+\draw[arrow] (web.east) to[out=0,in=180] node[lbl,below]{serve images} (fs.west);
+
+% (Optional) If you *must* show direct app DB access, uncomment:
+% \draw[arrow] (web) to[out=-10,in=180] node[lbl,above]{RW} (db.west);
+
+% --- Zones (moved out a bit) ---
+\node[zone={(web) (worker)}] (zoneapp) {};
+\node[anchor=west,fill=white,inner sep=1pt]
+  at ([xshift=1mm]zoneapp.north east) {Application Server};
+
+\node[zone={(api) (openai)}] (zoneai) {};
+\node[anchor=west,fill=white,inner sep=1pt]
+  at ([xshift=1mm]zoneai.north east) {AI Service Layer};
+
+\node[zone={(db) (fs)}] (zonedata) {};
+\node[anchor=west,fill=white,inner sep=1pt]
+  at ([xshift=1mm]zonedata.north east) {Data \& Storage};
+\end{tikzpicture}

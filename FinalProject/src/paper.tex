@@ -10,36 +10,43 @@
 \usepackage{paralist}
 \usepackage{graphicx}
 \usepackage{xcolor}
-\usepackage{float}        % for [H] placement if desired
-\usepackage{tikz}         % Diagrams
+\usepackage{float} % for [H] placement if desired
+\usepackage{tikz} % Diagrams
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,matrix}
-\usepackage{siunitx}      % Optional but useful
+\usepackage{siunitx} % Optional but useful
 \sisetup{detect-all}
 \PassOptionsToPackage{hyphens}{url} % Make long URLs break better in refs (must come before hyperref)
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[nameinlink,capitalize,noabbrev]{cleveref}
-\usepackage{bookmark}     % better PDF outlines
-\usepackage{csquotes}     % for \enquote
-\usepackage{tabularx}     % better tables that auto-wrap
+\usepackage{bookmark} % better PDF outlines
+\usepackage{csquotes} % for \enquote
+\usepackage{tabularx} % better tables that auto-wrap
 \urlstyle{same}
 \usepackage{listings}
 \usepackage{lstautogobble} % trims common indent
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{makecell}
+\usepackage{subcaption} % defines the subfigure environment
 \lstset{
   basicstyle=\ttfamily\footnotesize,
   breaklines=true,
-  breakatwhitespace=true,
-  columns=fullflexible,
+  breakatwhitespace=false, % Allow breaks anywhere (fixes long strings like connection URLs)
+  breakindent=20pt, % Indent wrapped lines for better readability in .cs files
+  postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}}, % Subtle continuation arrow for wrapped lines
+  columns=fixed, % Changed to fixed for true monospace and even frame lines (prevents uneven extensions)
   keepspaces=true,
   showstringspaces=false,
   frame=single,
+  framerule=0.5pt, % Thinner frame rule to reduce visual emphasis on any minor irregularities
+  rulecolor=\color{gray}, % Gray frame for subtlety
+  framesep=5pt, % Inner padding to keep content from edges
   autogobble=true,
-  xleftmargin=1ex,
-  xrightmargin=1ex,
+  xleftmargin=5pt, % Slightly wider left margin to prevent hugging
+  xrightmargin=5pt, % Matching right margin
+  tabsize=4 % Standardize tabs (fixes potential "weird" alignment in .cs code)
 }
 
 % Minimal JSON + YAML languages (pretty enough, no external deps)
@@ -65,18 +72,63 @@
   morestring=[b]',
   morestring=[b]"
 }
+% C# language definition for better syntax handling
+\lstdefinelanguage{CSharp}{
+  morekeywords={abstract, as, base, bool, break, byte, case, catch, char, checked, class, const, continue, decimal, default, delegate, do, double, else, enum, event, explicit, extern, false, finally, fixed, float, for, foreach, goto, if, implicit, in, int, interface, internal, is, lock, long, namespace, new, null, object, operator, out, override, params, private, protected, public, readonly, ref, return, sbyte, sealed, short, sizeof, stackalloc, static, string, struct, switch, this, throw, true, try, typeof, uint, ulong, unchecked, unsafe, ushort, using, virtual, void, volatile, while},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  literate=
+   *{0}{{{\color{black}0}}}{1}
+    {1}{{{\color{black}1}}}{1}
+    {2}{{{\color{black}2}}}{1}
+    {3}{{{\color{black}3}}}{1}
+    {4}{{{\color{black}4}}}{1}
+    {5}{{{\color{black}5}}}{1}
+    {6}{{{\color{black}6}}}{1}
+    {7}{{{\color{black}7}}}{1}
+    {8}{{{\color{black}8}}}{1}
+    {9}{{{\color{black}9}}}{1},
+}
+\lstset{
+  language=CSharp,  % Set default to CSharp for .cs files
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!60!black},
+  stringstyle=\color{red},
+  numbers=none % Remove line numbers to match original setup and avoid extra left space that could offset frames
+}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 % --- Safe placeholders + brand names ---
 \newcommand{\ph}[1]{\textit{<#1>}} % use like \ph{value}, never triggers math mode
-\newcommand{\Brand}[1]{\mbox{#1}}  % keep vendor names from awkward hyphenation
-
+\newcommand{\Brand}[1]{\mbox{#1}} % keep vendor names from awkward hyphenation
 % Colors for links
 \definecolor{dark-red}{rgb}{0.6,0,0}
 \definecolor{dark-green}{rgb}{0,0.6,0}
 \definecolor{dark-blue}{rgb}{0,0,0.6}
 \interfootnotelinepenalty=10000 % Prevent breaking footnotes across pages
-
+% --- SAFE MaybeImage macro (replaces the old one) ---
+\newcommand{\MaybeImage}[2][\linewidth]{%
+\begingroup
+\def\imgA{#2}%
+\def\imgB{images/#2}%
+\IfFileExists{\imgA}{%
+\includegraphics[width=#1]{\imgA}%
+  }{%
+\IfFileExists{\imgB}{%
+\includegraphics[width=#1]{\imgB}%
+    }{%
+\fbox{%
+\parbox[c][0.25\textheight][c]{#1}{\centering
+\small Placeholder (file missing)\\[2pt]\texttt{\detokenize{#2}}\\[2pt]
+          Add this image to \texttt{images/}}
+      }%
+    }%
+  }%
+\endgroup
+}
 % Graphics path
 \graphicspath{{images/}}
 
@@ -402,13 +454,132 @@ Data retention & Oversharing over time & Rotation policy; per-course retention c
   \item \textbf{Human factors:} Instructor trust varies; we surface why/where groups changed and keep full override tools.
 \end{compactitem}
 
-% -----------------------------------------------------------------------------------------------
-
+% --------------------------------------------------------------------------------
 \chapter{Testing and Evaluation Plan}\label{chap:evalplan}
+
+\section{Objectives}
+We will provide concise, visual evidence that the system:
+(i) processes submissions end-to-end,
+(ii) groups answer \emph{images} by semantic similarity (no answer OCR),
+(iii) isolates outliers for review,
+(iv) applies rubrics and propagates score changes consistently, and
+(v) supports clipboard-based grade transfer (\emph{Copy Table}) into external systems.
+
+\section{Test Data}
+A small gold-labeled set (12–20 pages) mixing typed and handwritten responses.
+Known-correct exemplars are used only to \emph{interpret} cluster coherence; the system does not OCR answer content.
+
+\section{Planned Tests \& Evidence}
+\textbf{A. Basic Flow.} Upload \(\rightarrow\) process \(\rightarrow\) results; rubric application updates totals.  
+\emph{Evidence:} one multi-panel figure combining upload/process, results view, and rubric before/after.
+
+\textbf{B. Vision-Based Semantic Recognition (No Answer OCR).}
+GPT-4o Vision groups answer \emph{images} by meaning.  
+\emph{Evidence:} one compact figure with (a) Cluster~A gallery (similar idea), (b) Cluster~B gallery (different idea), and (c) Outliers gallery (heterogeneous/suspect).
+
+\textbf{C. Rubric Propagation \& Clipboard Interop.}
+Totals update after a rubric edit; the on-screen grade table can be copied to the clipboard and pasted into an LMS/spreadsheet.  
+\emph{Evidence:} a figure showing the \emph{Copy Table} UI and the pasted result.
+
+\section{Execution (Concise)}
+(1) Upload a multi-page PDF and capture upload/process. 
+(2) Open a representative question and capture results.
+(3) Apply a rubric item and capture before/after.
+(4) Capture Cluster~A, Cluster~B, and Outliers as tiled galleries;
+(5) Use \emph{Copy Table}; paste into a spreadsheet or LMS text area; capture both the source table and the pasted result.
+
+\section{Acceptance (Visual)}
+An end-to-end success notice; coherent clusters with visually similar answers grouped together; clear outlier separation; visible rubric propagation; and successful clipboard transfer of grades (rows/columns preserved) into an external target.
 
 
 % -------------------------------------------------
 \chapter{Results}\label{chap:results}
+
+\section{Basic Flow and Rubric Application}
+Figure~\ref{fig:basic-flow} shows the end-to-end path from upload to results,
+and that applying a rubric immediately updates affected totals.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.49\linewidth}
+    \MaybeImage[0.99\linewidth]{basic_upload.png}
+    \caption{Upload \& processing complete}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.49\linewidth}
+    \MaybeImage[0.99\linewidth]{basic_results.png}
+    \caption{Results view (groups \& scores)}
+  \end{subfigure}
+
+  \vspace{0.5em}
+  \begin{subfigure}{0.49\linewidth}
+    \MaybeImage[0.99\linewidth]{rubric_before.png}
+    \caption{Before applying rubric}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.49\linewidth}
+    \MaybeImage[0.99\linewidth]{rubric_after.png}
+    \caption{After applying rubric (totals updated)}
+  \end{subfigure}
+  \caption{End-to-end processing and rubric application.}
+  \label{fig:basic-flow}
+\end{figure}
+
+\section{Vision-Based Semantic Grouping (No Answer OCR)}
+The system does not OCR answer text; instead, GPT-4o Vision groups \emph{answer crops}
+by semantic similarity. Figure~\ref{fig:vision-groups} shows two coherent clusters
+and an outlier set. Each gallery tile is a raw answer crop; the visual consistency
+within a cluster indicates similar meaning, while the outlier gallery aggregates
+heterogeneous or non-matching answers.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_A_gallery.png}
+    \caption{Cluster A (same idea)}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_B_gallery.png}
+    \caption{Cluster B (different idea)}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_outliers.png}
+    \caption{Outliers (mixed/unclear)}
+  \end{subfigure}
+
+  \vspace{0.75em}
+
+  \MaybeImage[0.6\linewidth]{grouping_scatter.png}
+
+  \caption{Vision-led semantic grouping from images only: coherent clusters (left, middle) and outliers (right).}
+  \label{fig:vision-groups}
+\end{figure}
+
+\section{Rubric Propagation \& Clipboard Interoperability}
+After editing a rubric item, totals are recomputed across affected answers.
+Rather than exporting a file, instructors click \emph{Copy Table} to copy grades
+to the clipboard and then paste into an external system (e.g., LMS gradebook or spreadsheet).
+Figure~\ref{fig:copy-table} shows the copyable grade table and the pasted result.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.6\linewidth}
+    \MaybeImage[0.99\linewidth]{copy_table.png}
+    \caption{Copyable grade table in the app}
+  \end{subfigure}
+
+  \vspace{0.5em}
+  \begin{subfigure}{0.6\linewidth}
+    \MaybeImage[0.99\linewidth]{paste_example.png}
+    \caption{Pasted result in a spreadsheet/LMS text area}
+  \end{subfigure}
+  \caption{Clipboard-based grade transfer using \emph{Copy Table}.}
+  \label{fig:copy-table}
+\end{figure}
+
+\section{Summary}
+Across these compact figures, we visually confirm correct end-to-end processing,
+vision-based semantic grouping with isolated outliers,
+consistent rubric propagation, and successful clipboard transfer of grades via \emph{Copy Table}.
+
 
 
 % -------------------------------------------------
@@ -416,20 +587,22 @@ Data retention & Oversharing over time & Rotation policy; per-course retention c
 \section{Summary of Problem and Goals}
 We addressed the effort and inconsistency of grading open-ended work by building an instructor-in-the-loop system that extracts regions, assigns identity via OCR, groups answers with a vision LLM, and enables rubric-first grading with auditability.
 
-\section{Evaluation Summary (Aligned to Proposal Tests)}
+\section{Evaluation Summary}
+Our visual tests demonstrated end-to-end processing, coherent semantic grouping (no answer OCR), consistent rubric propagation, and reliable clipboard-based grade transfer using \emph{Copy Table}.
 
 \section{Final Outcomes and Deliverables}
-We delivered the integrated web app, background services, reproducible prompts/model versions, and a grade export flow compatible with LMS import. Documentation includes an instructor guide and technical deployment notes.
+We delivered the integrated web app, background services, reproducible prompts/model versions, and a \emph{Copy Table} flow that enables fast pasting of grades into external systems (e.g., LMS/Sheets). Documentation includes an instructor guide and technical deployment notes.
 
 \section{Lessons Learned and Future Work}
 \begin{compactitem}
   \item Visual pre-processing (downscale/tiling) mattered more for stability than minor prompt tuning.
   \item Instructors preferred neutral group names and an explicit \emph{Ungrouped} bin.
-  \item Future: domain-tuned prompts for math diagrams, adaptive thresholding for faint pencil, pre-clustering to cut LLM calls, regrade workflow, and CSV/Excel export automation to specific LMS formats.
+  \item Future: direct CSV/Excel export in addition to \emph{Copy Table}; domain-tuned prompts for math diagrams; adaptive thresholding for faint pencil; pre-clustering to cut LLM calls; regrade workflow.
 \end{compactitem}
 
 \chapter{Ethics, Privacy, and Compliance}
 We minimize student-data exposure by: (1) processing only identity regions with OCR; (2) sending cropped answer images to GPT-4o Vision without student names; (3) restricting access to authenticated instructors; and (4) logging access for audit. The design aligns with FERPA expectations\cite{FERPA1974}. We also monitor for potential bias by auditing cluster assignments across demographic-neutral cohorts and provide full instructor override mechanisms.
+
 
 % ===================== Appendix =====================
 \appendix
@@ -520,25 +693,27 @@ Only update the hostnames, passwords, folders, and API base URL; keep DB name an
 
 \subsection*{Point the callers at \texttt{PythonApi:BaseUrl}}
 Update the two callers to use \texttt{PythonApi:BaseUrl} \emph{without} a localhost fallback.
-
-\paragraph{CourseService.cs (snippet)}
-\begin{lstlisting}[language={[Sharp]C}]
-var client  = _httpClientFactory.CreateClient();
+\noindent
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=CSharp,title=CourseService.cs (snippet)]
+var client = _httpClientFactory.CreateClient();
 var baseUrl = _configuration.GetValue<string>("PythonApi:BaseUrl");
 client.BaseAddress = new Uri(baseUrl);
 
 var response = await client.PostAsJsonAsync("/autogroup", requestBody);
 response.EnsureSuccessStatusCode();
 \end{lstlisting}
-
-\paragraph{GroupingService.cs (snippet)}
-\begin{lstlisting}[language={[Sharp]C}]
-var client  = _httpClientFactory.CreateClient();
+\end{minipage}
+\noindent
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[language=CSharp,title=GroupingService.cs (snippet)]
+var client = _httpClientFactory.CreateClient();
 var baseUrl = _configuration.GetValue<string>("PythonApi:BaseUrl");
 client.BaseAddress = new Uri(baseUrl);
 
 // ...status polling / error handling continues...
 \end{lstlisting}
+\end{minipage}
 
 \section{Ghostscript Location}
 If Ghostscript is not on \texttt{PATH}, set \texttt{GHOSTSCRIPT\_EXE}.
@@ -607,3 +782,4 @@ dotnet run
 \bibliography{references}
 
 \end{document}
+

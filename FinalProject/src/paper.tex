@@ -166,7 +166,7 @@
 \maketitle
 
 \begin{abstract}
-We present a grading system that accelerates evaluation of open-ended student work across scanned and digital workflows. The system crops answer regions from PDFs, assigns submissions via OCR on identity regions only, and groups answers by visual semantics using a vision LLM. Instructors review and edit groups, apply rubric items once per group, and export grades from an on-screen table. The solution integrates Ghostscript rasterization, PdfPig page orchestration, SkiaSharp region extraction, Tesseract identity OCR, and GPT-4o Vision for grouping\cite{ghostscript,pdfpig,skiasharp,tesseract,openai-gpt4o}. We detail the architecture, token-budgeted batching strategy, and persistence design, then describe testing results for grouping quality, time-on-task, and usability. The approach avoids brittle handwriting OCR while preserving instructor control, fairness, and auditability.
+We present a grading system that accelerates evaluation of open-ended student work across scanned and digital workflows. The system crops answer regions from PDFs, assigns submissions via OCR on identity regions only, and groups answers by visual semantics using a vision LLM. Instructors review and edit groups, apply rubric items once per group, and export grades from an on-screen table. The solution integrates Ghostscript rasterization, PdfPig page orchestration, SkiaSharp region extraction, Tesseract identity OCR, and GPT-4o Vision for grouping~\cite{ghostscript,pdfpig,skiasharp,tesseract,openai-gpt4o}. We detail the architecture, token-budgeted batching strategy, and persistence design, then describe testing results for grouping quality, time-on-task, and usability. The approach avoids brittle handwriting OCR while preserving instructor control, fairness, and auditability.
 \end{abstract}
 
 \setcounter{tocdepth}{2}
@@ -183,16 +183,20 @@ We present a grading system that accelerates evaluation of open-ended student wo
 Grading open-ended student work (handwritten or typed) is time-consuming, repetitive, and error-prone under deadline pressure. In large classes, feedback latency diminishes learning value. Typical bottlenecks include: (i) organizing mixed-format submissions (bulk scans vs.\ individual PDFs), (ii) locating answer regions for consistent review, and (iii) repeatedly applying identical rubric deductions to similar mistakes. Handwriting OCR is brittle, often forcing manual review even for simple cases.
 
 \section{Specific Project Goals/Requirements}
-This project delivers a practical, instructor-in-the-loop grading system that:
-\begin{compactitem}
-  \item \textit{Bulk Scans (Filled-form):} PDFs are split by known page counts. Ghostscript rasterizes pages; PdfPig validates page counts; SkiaSharp crops defined regions to PNGs.
-  \item \textit{Identity OCR (filled-form only):} Tesseract extracts name/ID from a designated identity region to auto-assign submissions; unresolved items fall back to a manual pick-list. No OCR is performed on answers; grouping uses GPT-4o Vision directly on the cropped images.
-  \item \textit{Identity Matching:} (filled-form) identity text is matched to the class roster; (free-form) uploads are automatically tied to the uploader's account.
-  \item \textit{Editable AI Assistance:} Vision LLM proposes semantic groups; instructors can merge/split groups, move answers, and apply rubric items per-group.
-  \item \textit{Traceability:} All actions and groupings are persisted with timestamps for audit; grades are summarized in an on-screen table for review/copy.
-\end{compactitem}
+This project delivers a practical, instructor-in-the-loop grading system that provides the several features. 
+
+Bulk Scanned \textit{Filled-form} PDFs are split by known page counts. Ghostscript rasterizes pages; PdfPig validates page counts; SkiaSharp crops defined regions to PNGs. We call these regions \textit{crops}. Crops are used in several different ways throughout this project. The Tesseract OCR library provides the ability to extract name or ID from a designated identity region which the system uses to auto-assign submissions to students. Unresolved items fall back to a manual pick-list. No OCR is performed on answers; grouping uses GPT-4o Vision directly on the cropped images. Identity text crops are matched to the class roster.
+
+Students directly upload \textit{free-form} assignments which are automatically tied to the uploader's account, and therefore, need no identity extraction. In these assignments, students identify crops that contain their answers. But beyond that, submissions are handled similarly to Filled-form submissions. 
+
+In both cases, the \textit{Editable AI Assistance} proposes semantic groups using a Vision LLM. Instructors can merge/split groups, move answers, and apply rubric items per-group.
+
+The final feature is \textit{Traceability:} All actions and groupings are persisted with timestamps for auditability. Grades are summarized in an on-screen table for review and/or copy.
 
 \section{Motivation and Benefits}
+
+The motivation for adoption by instructors is time-saving. If instructors do not see significant time savings, they are unlikely to adopt a new technology regardless of the other benefits. Never-the-less, additional benefits often factor into decisions once teachers realize time-saving benefits. These benefits include:
+
 \begin{compactitem}
   \item \textbf{Faster feedback:} Instructors grade clusters of similar answers once, reducing turnaround time.
   \item \textbf{Consistency:} Per-group rubric application reduces drift across similar answers and sessions.
@@ -202,6 +206,9 @@ This project delivers a practical, instructor-in-the-loop grading system that:
 \end{compactitem}
 
 \section{Contributions}
+
+To achieve these benefits, we provide the following contributions:
+
 \begin{compactitem}
   \item An \textbf{OCR-minimal}, vision-first pipeline that uses OCR only for identity assignment.
   \item A \textbf{token-budgeted batching} strategy (downscale + tiling) to bound latency/cost at class scale.
@@ -210,29 +217,35 @@ This project delivers a practical, instructor-in-the-loop grading system that:
 \end{compactitem}
 
 \section{Assumptions and Scope}
-We target short-answer problems with recognizable visual structure (boxes/lines). Free-form essays are supported via uploaded PDFs but are not auto-scored; the system focuses on grouping to speed human grading. We assume class rosters are available and that instructors can define answer regions once per assignment.
+
+We target short-answer problems with recognizable visual structure (boxes/lines). Free-form essays are supported via uploaded PDFs but are not auto-scored; the system focuses on grouping to speed human grading. We assume class rosters are available, that instructors can define crops once per assignment for filled-form assignments, and that students can define crops for Free-form assignments.
+
+The scope includes the AI grouping assistance, and workflow to grade both Filled-form and Free-form assignments. 
 
 \section{Report Organization}
+
 \Cref{chap:bg} reviews related work and context. \Cref{chap:solution} details the system, \Cref{chap:evalplan} presents the evaluation plan, \Cref{chap:results} reports results, and the final chapter concludes with future work.
 
 % -------------------------------------------------
 \chapter{Background and Context}\label{chap:bg}
+
 \section{AI in Education}
-AI has long promised efficiency gains and personalization in education, from adaptive tutoring to analytics that help instructors intervene earlier. Reviews highlight benefits such as individualized practice, faster feedback, and administrative automation when deployed with appropriate oversight\cite{Alto2023,Chen2020,Luckin2016,Zawacki2019}. Ensuring teachers can review and revise AI-generated grades—and retain final say to confirm fairness—is essential for trust and real learning gains.
+
+AI has long promised efficiency gains and personalization in education, from adaptive tutoring to analytics that help instructors intervene earlier. Reviews highlight benefits such as individualized practice, faster feedback, and administrative automation when deployed with appropriate oversight~\cite{Alto2023,Chen2020,Luckin2016,Zawacki2019}. Ensuring teachers can review and revise AI-generated grades—and retain final say to confirm fairness—is essential for trust and real learning gains.
 
 \section{Automated Grading of Short Answers and Essays}
-Pre-LLM systems typically relied on feature engineering, keyword overlap, or supervised models trained on labeled answers. These reduce load but struggle with paraphrase and reasoning variance\cite{Weegar2022,Konnecke2020}. Clustering similar answers to grade in batches is a recurring theme: once clusters form, instructors can assign rubrics at the group level.
+Pre-LLM systems typically relied on feature engineering, keyword overlap, or supervised models trained on labeled answers. These reduce load but struggle with paraphrase and reasoning variance~\cite{Weegar2022,Konnecke2020}. Clustering similar answers to grade in batches is a recurring theme: once clusters form, instructors can assign rubrics at the group level.
 
 \section{LLMs and GPT-4/4o for Assessment}
-Recent work investigates LLMs for grading and feedback across STEM and writing tasks. Studies report promising alignment with human graders for mathematical reasoning and physics solutions when prompts focus evaluation criteria and preserve human oversight\cite{Liu2023,Kortemeyer2023,Kortemeyer2023b}. LLMs can also aid instructional design and rubric drafting\cite{Lund2023}. We leverage GPT-4o Vision for grouping by meaning from images, bypassing handwriting OCR.
+Recent work investigates LLMs for grading and feedback across STEM and writing tasks. Studies report promising alignment with human graders for mathematical reasoning and physics solutions when prompts focus evaluation criteria and preserve human oversight~\cite{Liu2023,Kortemeyer2023,Kortemeyer2023b}. LLMs can also aid instructional design and rubric drafting~\cite{Lund2023}. We leverage GPT-4o Vision for grouping by meaning from images, bypassing handwriting OCR.
 
 \section{Bias, Fairness, and Student Perceptions}
-Bias can propagate into grading unless monitored and mitigated\cite{Mehrabi2021}. Student acceptance depends on clear processes, and fairness\cite{Tossell2023}. Effective formative feedback principles—timely, specific, actionable—remain central whether drafted by AI or humans\cite{Nicol2006}.
+Bias can propagate into grading unless monitored and mitigated~\cite{Mehrabi2021}. Student acceptance depends on clear processes, and fairness~\cite{Tossell2023}. Effective formative feedback principles—timely, specific, actionable—remain central whether drafted by AI or humans~\cite{Nicol2006}.
 
 \section{Similar Implementations}
 To situate this project, we survey adjacent tools and how our system compares. In short,
 \emph{we have not found public documentation of a production system that groups handwritten
-short answers directly from images using a general-purpose vision LLM without first OCRing the
+short answers directly from images using a general-purpose vision LLM without first using OCR on the
 answer content}. Existing offerings fall into four families:
 
 \subsection{Commercial paper-exam graders (e.g., \Brand{Gradescope}, \Brand{Crowdmark})}
@@ -243,8 +256,8 @@ grouping method is not publicly documented and is presented at a high level as s
 student matching via OCR on cover pages) and can auto-grade multiple choice, but does not claim
 semantic grouping of open-ended answers. \textbf{Similarity:} our work also supports fixed templates,
 grouping, and rubrics-first grading. \textbf{Difference:} we group from \emph{images only} (no handwriting
-OCR of answers), use a token-budgeted vision-LLM pipeline to bound cost/latency, and archive
-prompts + model versions for auditability.
+OCR of answers), use a token-budgeted vision-LLM pipeline to bound cost/latency, archive
+prompts, and model versions for auditability.
 
 \subsection{OMR/MCQ scanning (e.g., \Brand{Akindi}, \Brand{ZipGrade})}
 \Brand{Akindi}~\cite{akindi} and \Brand{ZipGrade}~\cite{zipgrade} excel at high-throughput multiple-choice grading from
@@ -267,12 +280,14 @@ rubric pass.
 
 \subsection{Positioning}
 Our system is closest in spirit to the \enquote{answer grouping} idea in commercial paper-graders, but
-our distinctives are: (1) \textbf{image-only} grouping of handwritten content to avoid brittle OCR,
-(2) a \textbf{cost/latency–bounded} vision-LLM pipeline (downscale + tiling + batching), and
-(3) an explicitly \textbf{auditable, instructor-in-the-loop} workflow (merge/split/move, neutral labels,
-review status), integrated end-to-end with our site.
+our distinctives are: 
+\begin{compactenum}
+  \item \textbf{image-only} grouping of handwritten content to avoid brittle OCR,
+  \item a \textbf{cost/latency–bounded} vision-LLM pipeline (downscale + tiling + batching), and
+  \item an explicitly \textbf{auditable, instructor-in-the-loop} workflow (merge/split/move, neutral labels, review status), integrated end-to-end with our site.
+\end{compactenum}
 
-\section{Conclusions from Research}
+\section{Research Conclusions}
 (1) Group-based grading is an effective accelerator; (2) LLMs help when auditable and editable; (3) OCR of handwriting is fragile—visual grouping bypasses failure modes; (4) fairness and oversight practices must be designed-in.
 
 \chapter{Project Solution and Approach}\label{chap:solution}
@@ -283,11 +298,12 @@ The system comprises an ASP.NET Razor Pages app (instructor workflow), a Python 
 \section{High-Level Architecture}
 At a glance, the platform is organized into three dashed \emph{zones} that separate concerns and scaling boundaries: the \emph{Application Server} (Razor Pages web app and extraction worker), the \emph{AI Service Layer} (FastAPI microservice and the GPT-4o Vision endpoint), and \emph{Data \& Storage} (MySQL and the file store). Instructors interact via a browser over HTTPS with the Razor Pages app, which handles authentication, rubric management, and the grading UI. The app invokes an extraction worker that orchestrates Ghostscript, PdfPig, and SkiaSharp to render pages and cut out per-answer crops; Tesseract OCR is used narrowly to read identifying fields (e.g., student ID) and is deliberately decoupled from semantic grouping. Crops and downstream exports are written to the file store while the web app serves these images directly to the UI.
 
-Auto-grouping requests are queued from the web app to a Python FastAPI service (\texttt{POST /autogroup}). The service packages each question’s crops, converts them to compact JPEGs, and sends them with prompt instructions to GPT-4o Vision. Proposed clusters are normalized server-side (stable UUIDs, neutral names, small-group collapse) and persisted to MySQL. The UI polls a job status endpoint and, when complete, renders groups for human review, edits, and grading. This arrangement keeps the web tier largely stateless, allows the extraction worker and AI service to scale independently, and localizes persistent state to MySQL and the file store. The overall topology and data flow are depicted in Figure~\ref{fig:architecture}.
+Auto-grouping requests are queued from the web app to a Python FastAPI service (\texttt{POST /autogroup}). The service packages each question’s crops, converts them to compact JPEGs, and sends them with prompt instructions to GPT-4o Vision. Proposed clusters are normalized server-side (stable UUIDs, neutral names, small-group collapse) and persisted to MySQL. The UI polls a job status endpoint and, when complete, renders groups for human review, edits, and grading. This arrangement keeps the web tier largely stateless, allows the extraction worker and AI service to scale independently, and localizes persistent state to MySQL and the file store. Figure~\ref{fig:architecture} depicts the overall topology and data flow.
 
 \begin{figure}[htb]
   \centering
-  \resizebox{\textwidth}{!}{\input{images/architecture.tikz}}
+  \includegraphics[width=\linewidth]{images/architecture.drawio.pdf}
+  %\resizebox{\textwidth}{!}{\input{images/architecture.pdf}}
   \caption{High-level components and data flow.}
   \label{fig:architecture}
 \end{figure}
@@ -359,10 +375,14 @@ After crops are generated, the grouping page proposes semantic clusters; instruc
   \label{fig:ui-grouping}
 \end{figure}
 
+\FloatBarrier %Ensures that the preceding images are not placed after anything that comes after this directive.
+
 \section{Region Extraction and File Lifecycle}
+
 For \textbf{filled-form} assignments, instructors define identity and answer regions once per assignment using the cropping widget (Figure~\ref{fig:ui-crops}); the worker then applies those regions to every scanned booklet and enforces stable filenames (e.g., \texttt{Q27a.png}) for reproducibility and idempotent re-uploads. For \textbf{free-form} assignments, students upload a PDF and mark their own answer regions in the same tool (Figure~\ref{fig:ui-crops}); the saved boxes are used to generate per-question crops that populate the grouping interface (Figure~\ref{fig:ui-grouping}) for review and rubric-first grading. Debug images are suppressed outside development builds. Re-uploads replace prior crops and metadata to avoid stale data, and the updated crops reappear in the grouping view (Figure~\ref{fig:ui-grouping}) so that any instructor edits remain aligned with the latest artifacts.
 
 \section{Identity Assignment}
+
 Filled-form batches use Tesseract~\cite{tesseract} to extract roster identifiers from the pre-defined \emph{identity} region (see Figure~\ref{fig:ui-crops}). Low-confidence or malformed results are flagged for manual resolution with a roster pick-list and a thumbnail preview. Free-form uploads are tied to the uploader’s account; therefore no OCR is needed. Identity OCR is used only for roster linkage—semantic grouping operates directly on cropped answer images (Section~\ref{chap:solution}, Figures~\ref{fig:architecture} and~\ref{fig:sequence}).
 
 \section{Grouping Heuristics}
@@ -396,7 +416,9 @@ Auto-grouping results are persisted as a \emph{single row per question}, providi
 \end{table}
 
 \paragraph{Prompting \& JSON schema.}
-The service uses concise grouping rules (favor fewer, larger clusters; neutral labels; unreadable/singletons $\rightarrow$ \emph{Ungrouped}). Prompts and model/version are archived with each \texttt{job\_id}. The model returns JSON in the following abbreviated form:
+The service uses concise grouping rules (favor fewer, larger clusters; neutral labels; unreadable/singletons $\rightarrow$ \emph{Ungrouped}). Prompts and model/version are archived with each \texttt{job\_id}. The model returns JSON shown in Figure~\ref{fig:json_model} in abbreviated form.
+
+\begin{figure}[htb]
 \begin{lstlisting}[language=json]
 {
   "groups": [
@@ -419,6 +441,11 @@ The service uses concise grouping rules (favor fewer, larger clusters; neutral l
   ]
 }
 \end{lstlisting}
+\caption{JSON Model in abbreviated form.}
+\label{fig:json_model}
+\end{figure}
+
+\FloatBarrier
 
 \section{Token Budget, Cost \& Rate Limiting}
 For an image of width $w$ and height $h$, the service estimates tokens after a 50\% downscale: $w' = \lfloor w/2 \rfloor$, $h' = \lfloor h/2 \rfloor$. The number of 512$\times$512 tiles is $T=\lceil w'/512 \rceil\cdot\lceil h'/512 \rceil$, and the cost estimate is $85 + 170\,T$ tokens/image. Batches exceeding a threshold are split. On rate limits, the client retries up to 10 times with exponential backoff. For a representative $768\times 768$ downscaled image ($T=3$), the estimate is $\sim595$ tokens/image.
@@ -434,7 +461,7 @@ In production, the FastAPI auto-grouping service runs inside the same Docker Com
 Students reach an assignment-specific page that adapts to the configured layout:
 
 \paragraph{Filled-form (read-only).}
-Students cannot upload; they can download the submitted booklet (when present) and view the grade once posted. The page shows \texttt{Directions} and a simple status panel.
+Students cannot upload Filled-form assignments. They can download the submitted booklet (when present) and view the grade once posted. Figure~\ref{fig:ui-student} shows a snippet of the page \texttt{Directions} and a simple status panel.
 
 \paragraph{Free-form (student upload).}
 Students upload a single PDF, then are routed to a \texttt{DefineAnswerRegions} step to mark answer boxes. When submissions are open (\texttt{DueDate}/\texttt{AllowLateWork}/\texttt{CutoffDate} enforced via \texttt{CanSubmit()}), they can resubmit; otherwise the page displays a \enquote{Resubmissions have closed} notice. \emph{Note:} The region-marking widget for free-form uploads reuses the same cropping interface shown in \Cref{fig:ui-crops}; we avoid duplicating the screenshot here.

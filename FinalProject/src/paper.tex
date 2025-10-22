@@ -198,11 +198,11 @@ The final feature is \textit{Traceability:} All actions and groupings are persis
 The motivation for adoption by instructors is time-saving. If instructors do not see significant time savings, they are unlikely to adopt a new technology regardless of the other benefits. Never-the-less, additional benefits often factor into decisions once teachers realize time-saving benefits. These benefits include:
 
 \begin{compactitem}
-  \item \textbf{Faster feedback:} Instructors grade clusters of similar answers once, reducing turnaround time.
-  \item \textbf{Consistency:} Per-group rubric application reduces drift across similar answers and sessions.
-  \item \textbf{Lower cognitive load:} The system automates extraction, grouping suggestions, and grade totals; instructors focus on assessment.
-  \item \textbf{Reduced brittleness:} Avoiding handwriting OCR on answers eliminates a major failure mode.
-  \item \textbf{Privacy-aware:} Only identity crops contain PII; answer crops are devoid of names or IDs.
+  \item \emph{Faster feedback:} Instructors grade clusters of similar answers once, reducing turnaround time.
+  \item \emph{Consistency:} Per-group rubric application reduces drift across similar answers and sessions.
+  \item \emph{Lower cognitive load:} The system automates extraction, grouping suggestions, and grade totals; instructors focus on assessment.
+  \item \emph{Reduced brittleness:} Avoiding handwriting OCR on answers eliminates a major failure mode.
+  \item \emph{Privacy-aware:} Only identity crops contain PII; answer crops are devoid of names or IDs.
 \end{compactitem}
 
 \section{Contributions}
@@ -210,10 +210,10 @@ The motivation for adoption by instructors is time-saving. If instructors do not
 To achieve these benefits, we provide the following contributions:
 
 \begin{compactitem}
-  \item An \textbf{OCR-minimal}, vision-first pipeline that uses OCR only for identity assignment.
-  \item A \textbf{token-budgeted batching} strategy (downscale + tiling) to bound latency/cost at class scale.
-  \item A \textbf{traceable data model \& APIs} with idempotent re-uploads and stable crop filenames.
-  \item An \textbf{instructor-in-the-loop} UX with editable groups, explicit review status, and rubric-first grading.
+  \item An \emph{OCR-minimal}, vision-first pipeline that uses OCR only for identity assignment.
+  \item A \emph{token-budgeted batching} strategy (downscale + tiling) to bound latency/cost at class scale.
+  \item A \emph{traceable data model \& APIs} with idempotent re-uploads and stable crop filenames.
+  \item An \emph{instructor-in-the-loop} UX with editable groups, explicit review status, and rubric-first grading.
 \end{compactitem}
 
 \section{Assumptions and Scope}
@@ -254,27 +254,27 @@ answer content}. Existing offerings fall into four families:
 grouping method is not publicly documented and is presented at a high level as similarity-based.
 \Brand{Crowdmark}~\cite{crowdmark} provides strong scanning workflows (QR-coded booklets, automated
 student matching via OCR on cover pages) and can auto-grade multiple choice, but does not claim
-semantic grouping of open-ended answers. \textbf{Similarity:} our work also supports fixed templates,
-grouping, and rubrics-first grading. \textbf{Difference:} we group from \emph{images only} (no handwriting
+semantic grouping of open-ended answers. \emph{Similarity:} our work also supports fixed templates,
+grouping, and rubrics-first grading. \emph{Difference:} we group from \emph{images only} (no handwriting
 OCR of answers), use a token-budgeted vision-LLM pipeline to bound cost/latency, archive
 prompts, and model versions for auditability.
 
 \subsection{OMR/MCQ scanning (e.g., \Brand{Akindi}, \Brand{ZipGrade})}
 \Brand{Akindi}~\cite{akindi} and \Brand{ZipGrade}~\cite{zipgrade} excel at high-throughput multiple-choice grading from
-bubble sheets (including mobile scanning) and logistics like sheet sorting. \textbf{Similarity:} we likewise
-handle identity intake for large cohorts. \textbf{Difference:} OMR tools target selected-response scoring,
+bubble sheets (including mobile scanning) and logistics like sheet sorting. \emph{Similarity:} we likewise
+handle identity intake for large cohorts. \emph{Difference:} OMR tools target selected-response scoring,
 not clustering of free-form handwritten work.
 
 \subsection{LMS graders (e.g., \Brand{Canvas} SpeedGrader)}
 Platform-native graders such as \Brand{Canvas} SpeedGrader~\cite{canvas-speedgrader} offer annotation and rubric
-workflows for uploaded files. \textbf{Similarity:} we present rubric-based grading and feedback at scale.
-\textbf{Difference:} LMS graders do not automatically cluster semantically similar answers for batch grading.
+workflows for uploaded files. \emph{Similarity:} we present rubric-based grading and feedback at scale.
+\emph{Difference:} LMS graders do not automatically cluster semantically similar answers for batch grading.
 
 \subsection{Autograding/algorithmic assessment (e.g., \Brand{PrairieLearn}, \Brand{M{\"o}bius}, \Brand{CodeRunner}/\Brand{CodeGrade})}
 Systems like \Brand{PrairieLearn}~\cite{prairielearn}, \Brand{M{\"o}bius}~\cite{mobius}, \Brand{CodeRunner}~\cite{coderunner}, and
 \Brand{CodeGrade}~\cite{codegrade} autograde parameterized or code questions (randomized variants, unit tests,
-CAS checks) with excellent coverage in constrained domains. \textbf{Similarity:} automation reduces
-repetitive grader effort. \textbf{Difference:} their strength is \emph{automatic scoring} of structured
+CAS checks) with excellent coverage in constrained domains. \emph{Similarity:} automation reduces
+repetitive grader effort. \emph{Difference:} their strength is \emph{automatic scoring} of structured
 responses; they do not aim to \emph{group} heterogeneous, handwritten short answers for a human-in-the-loop
 rubric pass.
 
@@ -282,9 +282,9 @@ rubric pass.
 Our system is closest in spirit to the \enquote{answer grouping} idea in commercial paper-graders, but
 our distinctives are: 
 \begin{compactenum}
-  \item \textbf{image-only} grouping of handwritten content to avoid brittle OCR,
-  \item a \textbf{cost/latency–bounded} vision-LLM pipeline (downscale + tiling + batching), and
-  \item an explicitly \textbf{auditable, instructor-in-the-loop} workflow (merge/split/move, neutral labels, review status), integrated end-to-end with our site.
+  \item \emph{image-only} grouping of handwritten content to avoid brittle OCR,
+  \item a \emph{cost/latency–bounded} vision-LLM pipeline (downscale + tiling + batching), and
+  \item an explicitly \emph{auditable, instructor-in-the-loop} workflow (merge/split/move, neutral labels, review status), integrated end-to-end with our site.
 \end{compactenum}
 
 \section{Research Conclusions}
@@ -330,8 +330,8 @@ This section highlights the key instructor workflows with inline references to t
 \paragraph{Assignment creation.}
 Instructors configure the submission layout (\emph{filled-form} vs.\ \emph{free-form}), directions, and dates. As shown in Figure~\ref{fig:assignment-creation}, the authoring adapts to the chosen layout: 
 \begin{compactitem}
-  \item \textbf{Free-form:} the instructor enters \emph{only} the question labels (e.g., \texttt{Q1}, \texttt{Q2a}) and max points per question. No region editor is shown here because students will upload a PDF and \emph{define their own answer regions} in the next step (see also the cropping widget in Figure~\ref{fig:ui-crops}).
-  \item \textbf{Filled-form:} in addition to questions/points, the instructor binds an exam template and draws the \emph{identity} and \emph{answer} regions once. Those regions are then used to crop all submissions automatically (the same widget used here is illustrated in Figure~\ref{fig:ui-crops}).
+  \item \emph{Free-form:} the instructor enters \emph{only} the question labels (e.g., \texttt{Q1}, \texttt{Q2a}) and max points per question. No region editor is shown here because students will upload a PDF and \emph{define their own answer regions} in the next step (see also the cropping widget in Figure~\ref{fig:ui-crops}).
+  \item \emph{Filled-form:} in addition to questions/points, the instructor binds an exam template and draws the \emph{identity} and \emph{answer} regions once. Those regions are then used to crop all submissions automatically (the same widget used here is illustrated in Figure~\ref{fig:ui-crops}).
 \end{compactitem}
 
 \begin{figure}[htb]
@@ -379,7 +379,7 @@ After crops are generated, the grouping page proposes semantic clusters; instruc
 
 \section{Region Extraction and File Lifecycle}
 
-For \textbf{filled-form} assignments, instructors define identity and answer regions once per assignment using the cropping widget (Figure~\ref{fig:ui-crops}); the worker then applies those regions to every scanned booklet and enforces stable filenames (e.g., \texttt{Q27a.png}) for reproducibility and idempotent re-uploads. For \textbf{free-form} assignments, students upload a PDF and mark their own answer regions in the same tool (Figure~\ref{fig:ui-crops}); the saved boxes are used to generate per-question crops that populate the grouping interface (Figure~\ref{fig:ui-grouping}) for review and rubric-first grading. Debug images are suppressed outside development builds. Re-uploads replace prior crops and metadata to avoid stale data, and the updated crops reappear in the grouping view (Figure~\ref{fig:ui-grouping}) so that any instructor edits remain aligned with the latest artifacts.
+For \emph{filled-form} assignments, instructors define identity and answer regions once per assignment using the cropping widget (Figure~\ref{fig:ui-crops}); the worker then applies those regions to every scanned booklet and enforces stable filenames (e.g., \texttt{Q27a.png}) for reproducibility and idempotent re-uploads. For \emph{free-form} assignments, students upload a PDF and mark their own answer regions in the same tool (Figure~\ref{fig:ui-crops}); the saved boxes are used to generate per-question crops that populate the grouping interface (Figure~\ref{fig:ui-grouping}) for review and rubric-first grading. Debug images are suppressed outside development builds. Re-uploads replace prior crops and metadata to avoid stale data, and the updated crops reappear in the grouping view (Figure~\ref{fig:ui-grouping}) so that any instructor edits remain aligned with the latest artifacts.
 
 \section{Identity Assignment}
 
@@ -484,7 +484,7 @@ We minimize student-data exposure by limiting OCR strictly to identity regions (
 This section details how identities, images, and grouping results are protected throughout the workflow in Figure~\ref{fig:sequence} and during review in Figure~\ref{fig:ui-grouping}. For a concise summary, see Table~\ref{tab:threats} at the end of this section.
 
 \paragraph{Roles and access scope.}
-\textbf{Students} may upload their own work and view only their own grades; they cannot view other students’ submissions, crops, or groupings. \textbf{Instructors} (course owners/graders) can access assignments, submissions, identity crops for their course, grouping results, and grading tools; their access is scoped per course via ACLs. \textbf{Administrators} handle configuration and support tasks; by policy they do not browse student content unless temporarily granted course-scoped access for incident response.
+\emph{Students} may upload their own work and view only their own grades; they cannot view other students’ submissions, crops, or groupings. \emph{Instructors} (course owners/graders) can access assignments, submissions, identity crops for their course, grouping results, and grading tools; their access is scoped per course via ACLs. \emph{Administrators} handle configuration and support tasks; by policy they do not browse student content unless temporarily granted course-scoped access for incident response.
 
 \paragraph{Unauthorized access.}
 \emph{Risk.} A user without rights could read crops, grouping results, or grades. \emph{Mitigation.} Role-based authorization (student/instructor/admin) plus per-course ACLs are enforced at the server for every endpoint that touches identity crops, answer crops, grouping JSON, or grade records. The UI never embeds direct file paths without an authorization check; URLs are resolved through the web app to ensure policy is applied. Audit logs provide a trail of who saw or changed what, enabling both deterrence and post-hoc review.
@@ -515,10 +515,10 @@ Data retention & Oversharing over time & Course retention settings; purge-on-reu
 
 \section{Limitations \& Risks}
 \begin{compactitem}
-  \item \textbf{Generalization:} Prompts tuned on one course may not transfer perfectly to other subjects; mitigated by neutral labels and editable groups.
-  \item \textbf{Model drift:} Vision model updates can shift behavior; we pin model/version and archive prompts with run IDs.
-  \item \textbf{Edge cases:} Faint pencil, skew, or multiple answers in one crop reduce grouping confidence; flagged to \emph{Ungrouped}.
-  \item \textbf{Human factors:} Instructor trust varies; we look to why/where groups changed and keep full override tools.
+  \item \emph{Generalization:} Prompts tuned on one course may not transfer perfectly to other subjects; mitigated by neutral labels and editable groups.
+  \item \emph{Model drift:} Vision model updates can shift behavior; we pin model/version and archive prompts with run IDs.
+  \item \emph{Edge cases:} Faint pencil, skew, or multiple answers in one crop reduce grouping confidence; flagged to \emph{Ungrouped}.
+  \item \emph{Human factors:} Instructor trust varies; we look to why/where groups changed and keep full override tools.
 \end{compactitem}
 
 % --------------------------------------------------------------------------------
@@ -536,14 +536,14 @@ We provide concise, visual evidence that the system:
 A small gold-labeled set (12–20 pages) mixing typed and handwritten responses. Known-correct exemplars are used only to \emph{interpret} cluster coherence; the system does not OCR answer content for grouping.
 
 \section{Tests \& Evidence}
-\textbf{A. Basic Flow.} Upload~$\rightarrow$ process~$\rightarrow$ results; rubric application updates totals.  
-\emph{Evidence:} one multi-panel figure combining upload/process, results view, and rubric before/after (Figure~\ref{fig:basic-flow}).
+\emph{A. Basic Flow.} Upload~$\rightarrow$ process~$\rightarrow$ results; rubric application updates totals.  
+\emph{Evidence:} one multi-panel figure combining upload/process, results view, and rubric update (Figure~\ref{fig:basic-flow}).
 
-\textbf{B. Vision-Based Semantic Recognition (No Answer OCR).}
+\emph{B. Vision-Based Semantic Recognition (No Answer OCR).}
 GPT-4o Vision groups answer \emph{images} by meaning.  
 \emph{Evidence:} a compact figure with (a) Cluster~A gallery (similar idea), (b) Cluster~B gallery (different idea), and (c) Outliers gallery (heterogeneous/suspect) (Figure~\ref{fig:vision-groups}).
 
-\textbf{C. Rubric Propagation \& Clipboard Interop.}
+\emph{C. Rubric Propagation \& Clipboard Interop.}
 Totals update after a rubric edit; the on-screen grade table can be copied to the clipboard and pasted into an LMS/spreadsheet.  
 \emph{Evidence:} a figure showing the \emph{Copy Table} UI and the pasted result (Figure~\ref{fig:copy-table}).
 
@@ -584,20 +584,16 @@ Audit-friendly identifiers (assignment, question, job id) visible & [ ] &  \\
 
   \vspace{0.5em}
   \begin{subfigure}{0.49\linewidth}
-    \MaybeImage[0.99\linewidth]{rubric_before.png}
-    \caption{Rubric before}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.49\linewidth}
     \MaybeImage[0.99\linewidth]{rubric_after.png}
-    \caption{Rubric after (totals updated)}
+    \caption{Rubric update (totals updated)}
   \end{subfigure}
   \caption{End-to-end processing and rubric application.}
   \label{fig:basic-flow}
 \end{figure}
 
 \section{UX Design Evaluation (Questionnaire)}
-\textbf{Participants.} 3–6 instructors/TAs familiar with grading.  
-\textbf{Scope.} Design/readability only (layout, labels, hierarchy, contrast, discoverability)—\emph{not} speed or task timing.
+\emph{Participants.} 3–6 instructors/TAs familiar with grading.  
+\emph{Scope.} Design/readability only (layout, labels, hierarchy, contrast, discoverability)—\emph{not} speed or task timing.
 
 \paragraph{Likert (1–5) items used.}
 \begin{compactenum}
@@ -624,21 +620,10 @@ Audit-friendly identifiers (assignment, question, job id) visible & [ ] &  \\
 (2) One UI element you would improve and how.  
 (3) Accessibility notes: contrast, text size, color cues, keyboard focus, screen readers.
 
-\section{Model Grouping Accuracy (10-Student Run)}
-\textbf{Setup.} Run one assignment with $\sim$10 students. For a single question, create a \emph{gold} clustering by manually assigning each answer crop to a semantic group (visual meaning).  
-\textbf{Prediction.} Record the model’s shaped output (cluster IDs, memberships, \emph{Ungrouped}).  
-\textbf{Metrics.} Report B-Cubed Precision/Recall/F1, Pairwise F1, \emph{Ungrouped Precision}, and Coverage.
-
-\begin{table}[H]\centering
-\caption{Clustering metrics for one question (10-student run; fill with results).}\label{tab:cluster-metrics}
-\begin{tabularx}{\textwidth}{@{}lcccccc@{}}
-\toprule
-\textbf{Question} & \textbf{B3-P} & \textbf{B3-R} & \textbf{B3-F1} & \textbf{Pair-F1} & \textbf{Ungrp.\ P} & \textbf{Coverage} \\
-\midrule
-Q\# (label) & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\section{Model Grouping Evidence (10-Student Run)}
+\emph{Setup.} Run one assignment with $\sim$10 students. For a single question, create a \emph{gold} clustering by manually assigning each answer crop to a semantic group (visual meaning).  
+\emph{Prediction.} Record the model’s shaped output (cluster IDs, memberships, \emph{Ungrouped}).  
+\emph{Teacher-facing evaluation.} We quantify effort as the number of \emph{manual moves} required to correct groupings to the gold (one move = reassigning a single tile). We additionally report ungrouped size and the presence of a dominant ``correct'' cluster when applicable. Formal clustering scores (e.g., B-Cubed, Pairwise F1) are out of scope for this study and omitted to keep the focus on instructor workload.
 
 \section{Clipboard Interoperability (Evidence)}
 \begin{figure}[H]
@@ -681,25 +666,105 @@ The system groups \emph{answer crops} by visual meaning rather than OCR. Figure~
     \caption{Outliers (mixed/unclear)}
   \end{subfigure}
 
-  \vspace{0.75em}
-  \MaybeImage[0.6\linewidth]{grouping_scatter.png}
-
   \caption{Vision-led semantic grouping from images only: coherent clusters (left, middle) and outliers (right).}
   \label{fig:vision-groups}
 \end{figure}
 
-\section{UX Design Outcomes}
-Report median and IQR per Likert item (1–5) and summarize key themes from free responses (readability, hierarchy, contrast, discoverability). Highlight any accessibility issues and proposed changes (e.g., increasing contrast on disabled controls).
+\subsection{Runtime and Cost}
+On a 200-answer batch (20 questions, 10 students), end-to-end grouping/grading completed in $\sim$10 minutes ($\approx$20 answers/min; $\approx$3.0~s/answer).
 
-\section{Model Grouping Metrics}
-Populate Table~\ref{tab:cluster-metrics} with measured values for the chosen question(s). Summarize notable errors (e.g., near-duplicate answers split across clusters) and whether \emph{Ungrouped} captured true outliers.
+\paragraph{Token use and cost (per run).}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l r r r r@{}}
+\toprule
+\textbf{Model} & \textbf{Answers} & \textbf{Tokens} & \textbf{Cost (USD)} & \textbf{Tokens/answer} \\
+\midrule
+GPT-4o & 200 & 112{,}227 & \$0.79 & 561 \\
+GPT-4o-mini (compact) & 200 & 112{,}220 & \$0.03 & 561 \\
+GPT-4o-mini (verbose) & 200 & 2{,}108{,}335 & \$0.56 & 10{,}542 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Response verbosity drives token variability for GPT-4o-mini; restricting outputs to IDs/memberships yields compact usage comparable to GPT-4o.
+
+\subsection{Workload Reduction: Instructor Actions and Example (Q13a)}
+We measure instructor effort as the number of \emph{manual moves} required to correct the model’s grouping to a gold clustering (visual meaning). A \emph{move} is a single reassign action of one answer tile.
+
+\paragraph{\emph{Q13a (representative vignette).}}
+For Q13a, GPT-4o produced a single coherent correct cluster plus one ungrouped set; GPT-4o-mini fragmented the same responses across multiple clusters.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l c c X c@{}}
+\toprule
+\textbf{Model} & \textbf{\#Clusters} & \textbf{\#Ungrp.} & \textbf{Largest correct cluster} & \textbf{Manual moves} \\
+\midrule
+GPT-4o & 1 & 1 & all correct answers & \emph{2} \\
+GPT-4o-mini & 5 & 1 & fragmented across clusters & \emph{not reliably tallied (substantially higher)} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{\emph{Per-question instructor actions (20Q\texorpdfstring{$\times$}{×}10 students).}}
+\begin{table}[H]\centering
+\caption{Instructor manual moves by question (20 questions; lower is better).}
+\label{tab:instructor-actions}
+\begin{tabularx}{\textwidth}{@{}l r l r@{}}
+\toprule
+\textbf{Q} & \textbf{Moves} & \textbf{Q} & \textbf{Moves} \\
+\midrule
+6a & 4 & 6b & 3 \\
+6c & 2 & 6d & 1 \\
+6e & 2 & 6f & 4 \\
+6g & 2 & 8a & 1 \\
+8b & 1 & 8c & 4 \\
+8d & 4 & 13a & 2 \\
+13b & 5 & 16 & 2 \\
+25a & 1 & 25b & 1 \\
+25c & 2 & 25d & 2 \\
+25e & 4 & 25f & 2 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{\emph{Roll-up metrics (teacher effort).}}
+Across 200 answers, we observed a total of \emph{49} manual moves, i.e., \emph{24.5 moves per 100 answers}. The per-question median was \emph{2} moves (IQR: 1–4).
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l c c X@{}}
+\toprule
+\textbf{Model} & \textbf{Moves / 100 answers} & \textbf{Median moves / Q} & \textbf{Notes} \\
+\midrule
+GPT-4o & \emph{24.5} & \emph{2} & 49 moves over 200 answers \\
+GPT-4o-mini & -- & -- & Substantially higher; not reliably tallied \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{\emph{Estimated time savings (conservative).}}
+Baseline page/PDF flipping at $t_{\text{page}}{=}8$\,s per answer: $200\times 8$\,s $= 26.7$\,min.  
+With clustering:
+\[
+T \approx (\text{clusters per batch})\cdot t_{\text{group}} + (\text{moves})\cdot t_{\text{move}},
+\]
+using $t_{\text{group}}{=}2$\,s and $t_{\text{move}}{=}5$\,s. Assuming two clusters per question on average (correct + ungrouped) $\Rightarrow$ $\sim$40 group actions ($\approx$80\,s) and 49 moves ($\approx$245\,s), giving $T\approx 5.4$\,min, an $\sim$\emph{80\%} reduction vs baseline.
+
+\paragraph{\emph{Note on GPT-4o-mini effort.}}
+During our audit, \emph{GPT-4o-mini required substantially more manual moves than we could reliably tally in-session} due to fragmentation and frequent reassignments. We therefore report 4o-mini effort qualitatively as \emph{higher} rather than providing a potentially misleading count.
+
+\paragraph{\emph{On variability of student answers.}}
+Cluster counts naturally vary with how diverse student responses are for a given question (e.g., multiple valid solution paths or many non-answers increase the number of clusters/ungrouped). \emph{Even when clusters proliferate, presenting all answers for one question on a single screen still reduces handling time versus grading one student at a time or flipping through pages/PDFs}, because instructors can scan, compare, and bulk-apply rubric actions across visually similar answers.
+
+\section{UX Design Outcomes}
+Report median and IQR per Likert item (1–5) and summarize key themes from free responses (readability, hierarchy, contrast, discoverability). Highlight any accessibility issues and proposed changes.
 
 \section{Clipboard Interoperability}
-Figure~\ref{fig:copy-table} shows the source grade table and pasted result. Note any differences (e.g., numeric formatting) and remediation steps if needed.
+Figure~\ref{fig:copy-table} shows the source grade table and pasted result. Note any differences and remediation steps if needed.
 
 \section{Summary}
-Across these tests, we visually confirm end-to-end processing, vision-based semantic grouping with isolated outliers, consistent rubric propagation, and successful clipboard transfer of grades. The UI checklist verifies feature presence; the design-only UX questionnaire gauges readability and clarity; and clustering metrics quantify grouping quality on a 10-student run.
-
+Across these tests, we visually confirm end-to-end processing, vision-based semantic grouping with isolated outliers, consistent rubric propagation, and successful clipboard transfer of grades. The UI checklist verifies feature presence; the design-only UX questionnaire gauges readability and clarity; clustering metrics quantify grouping quality on a 10-student run. Crucially, the system reduces instructor workload: for this 200-answer batch, only \emph{49} manual moves were required (median \emph{2} per question), yielding an estimated \emph{$\sim$80\%} reduction in handling time versus baseline page flipping.
 
 % -------------------------------------------------
 \chapter{Conclusion}
@@ -707,7 +772,7 @@ Across these tests, we visually confirm end-to-end processing, vision-based sema
 We addressed the effort and inconsistency of grading open-ended work by building an instructor-in-the-loop system that extracts regions, assigns identity via OCR, groups answers with a vision LLM, and enables rubric-first grading with auditability.
 
 \section{Evaluation Summary}
-Our visual tests demonstrated end-to-end processing, coherent semantic grouping (no answer OCR), consistent rubric propagation, and reliable clipboard-based grade transfer using \emph{Copy Table}.
+Our visual tests demonstrated end-to-end processing, coherent semantic grouping (no answer OCR), consistent rubric propagation, reliable clipboard-based grade transfer using \emph{Copy Table}, and a tangible reduction in instructor effort (\emph{49} moves over \emph{200} answers; \emph{$\sim$80\%} time savings under conservative assumptions).
 
 \section{Final Outcomes and Deliverables}
 We delivered the integrated web app, background services, reproducible prompts/model versions, and a \emph{Copy Table} flow that enables fast pasting of grades into external systems (e.g., LMS/Sheets). Documentation includes an instructor guide and technical deployment notes.

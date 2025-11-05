@@ -544,7 +544,7 @@ GPT-4o Vision groups answer \emph{images} by meaning.
 \emph{Evidence:} a compact figure with (a) Cluster~A gallery (similar idea), (b) Cluster~B gallery (different idea), and (c) Outliers gallery (heterogeneous/suspect) (Figure~\ref{fig:vision-groups}).
 
 \emph{C. Rubric Propagation \& Clipboard Interop.}
-Totals update after a rubric edit; the on-screen grade table can be copied to the clipboard and pasted into an LMS/spreadsheet.  
+Totals update after a rubric edit; \emph{the rubric panel exposes a brief help tooltip clarifying positive vs.\ negative scoring semantics}; the on-screen grade table can be copied to the clipboard and pasted into an LMS/spreadsheet.
 \emph{Evidence:} a figure showing the \emph{Copy Table} UI and the pasted result (Figure~\ref{fig:copy-table}).
 
 \section{UI Verification Checklist (Feature Presence)}
@@ -566,6 +566,7 @@ Totals update immediately after rubric edit & [ ] &  \\
 Copyable grade table (\emph{Copy Table}) & [ ] &  \\
 Pasted table preserves rows/columns in target app & [ ] &  \\
 Audit-friendly identifiers (assignment, question, job id) visible & [ ] &  \\
+Job status is legible during processing (progress, last update, error/hung states) & [ ] &  \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -758,13 +759,66 @@ During our audit, \emph{GPT-4o-mini required substantially more manual moves tha
 Cluster counts naturally vary with how diverse student responses are for a given question (e.g., multiple valid solution paths or many non-answers increase the number of clusters/ungrouped). \emph{Even when clusters proliferate, presenting all answers for one question on a single screen still reduces handling time versus grading one student at a time or flipping through pages/PDFs}, because instructors can scan, compare, and bulk-apply rubric actions across visually similar answers.
 
 \section{UX Design Outcomes}
-Report median and IQR per Likert item (1–5) and summarize key themes from free responses (readability, hierarchy, contrast, discoverability). Highlight any accessibility issues and proposed changes.
+\emph{Participants.} Four raters. One item (Q13) had a missing value; analyses use available ratings per item.
+
+\paragraph{Central tendency and dispersion.}
+Across all items, ratings were ceilinged at 5: overall mean \(=4.79\), median \(=5.0\) (Q1 \(=5.0\), Q3 \(=5.0\), IQR \(=0\)). 
+
+\paragraph{Per-item medians and IQR.}
+Table~\ref{tab:likert-median-iqr} reports median and IQR per item (1–5), treating missing values as \emph{NA}. Most items show perfect consensus (IQR \(=0\)); localized dispersion appears most notably on Q14.
+
+\begin{table}[H]\centering
+\caption{Per-item medians and IQR (1–5; \emph{NA} excluded). Item labels abridge the list in \S\ref{chap:evalplan}.}
+\label{tab:likert-median-iqr}
+\begin{tabularx}{\textwidth}{@{}r c c X@{}}
+\toprule
+\textbf{Q} & \textbf{Median} & \textbf{IQR} & \textbf{Item (abridged)} \\
+\midrule
+1  & 5.0 & 0.0 & Layout clean/uncluttered \\
+2  & 5.0 & 0.0 & Text legible / sizes appropriate \\
+3  & 5.0 & 0.0 & Color/contrast readable \\
+4  & 4.5 & 1.0 & Visual hierarchy / primary actions \\
+5  & 5.0 & 0.5 & Labels/terminology clear \\
+6  & 5.0 & 0.0 & Icons/buttons clear \\
+7  & 4.5 & 1.0 & Whitespace/scanability \\
+8  & 5.0 & 0.0 & Clusters visually distinguishable \\
+9  & 5.0 & 0.0 & Thumbnails large/crisp \\
+10 & \textbf{4.0} & 0.5 & Edit affordances easy to find \\
+11 & 5.0 & 0.5 & Rubric panel easy to locate/interpret \\
+12 & 5.0 & 0.0 & Score changes/totals clear \\
+13 & 5.0 & 0.5 & Empty/error states understandable \\
+14 & 4.5 & \textbf{1.5} & Loading/progress indicators clear \\
+15 & 5.0 & 0.5 & Keyboard focus / navigation predictable \\
+16 & 5.0 & 0.0 & Color not sole cue \\
+17 & 5.0 & 0.0 & Overall easy to read/understand \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Items needing attention.}
+The lowest median was Q10 (\emph{Edit affordances are easy to find}) with \(\tilde{x}=4.0\) (IQR \(=0.5\)). The widest dispersion was Q14 (\emph{Loading/progress indicators are clear}) with IQR \(=1.5\), despite a high median (4.5). These indicate near-ceiling central tendency with pockets of uncertainty around (a) \emph{where/how to rename/merge/split/reassign} and (b) \emph{runtime feedback/telemetry} during processing.
+
+\paragraph{Free-response themes (anonymized).}
+\begin{itemize}
+  \item \textbf{Scoring polarity help.} Missing or unclear help for negative vs.\ positive scoring semantics.
+  \item \textbf{Job status clarity.} Ambiguity in whether jobs are running, complete, or hung when processing.
+  \item \textbf{Selection feedback.} Highlighting the selected area in a different color was positively noted.
+  \item \textbf{Demo coverage.} Some aspects were “not determinable from the video,” suggesting a documentation/demo gap.
+\end{itemize}
+
+\paragraph{Implications.}
+Given the ceilinged scores, changes should target \emph{discoverability} and \emph{status legibility}, not broad visual redesign: 
+(1) add an inline \emph{grading polarity} tooltip in the rubric panel; 
+(2) strengthen signifiers and empty-state nudges for edit affordances (rename/merge/split/reassign); 
+(3) improve job-status telemetry (progress \%, “active/hung/complete” badges, timestamped last heartbeat); 
+(4) update the demo/video to explicitly show these moments so raters can verify them without inference.
 
 \section{Clipboard Interoperability}
 Figure~\ref{fig:copy-table} shows the source grade table and pasted result. Note any differences and remediation steps if needed.
 
 \section{Summary}
 Across these tests, we visually confirm end-to-end processing, vision-based semantic grouping with isolated outliers, consistent rubric propagation, and successful clipboard transfer of grades. The UI checklist verifies feature presence; the design-only UX questionnaire gauges readability and clarity; clustering metrics quantify grouping quality on a 10-student run. Crucially, the system reduces instructor workload: for this 200-answer batch, only \emph{49} manual moves were required (median \emph{2} per question), yielding an estimated \emph{$\sim$80\%} reduction in handling time versus baseline page flipping.
+Design-only ratings were ceilinged (median \(=5\), IQR \(=0\)) with localized uncertainty around edit-tool discoverability (Q10) and runtime status indicators (Q14), which we address via stronger signifiers, inline scoring-polarity help, and clearer job-status telemetry.
 
 % -------------------------------------------------
 \chapter{Conclusion}

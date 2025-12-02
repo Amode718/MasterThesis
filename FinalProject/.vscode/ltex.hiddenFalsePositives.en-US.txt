@@ -1,0 +1,1 @@
+{"rule":"EN_COMPOUNDS_NEVER_THE_LESS","sentence":"^\\QNever-the-less, additional benefits often factor into decisions once teachers realize time-saving benefits.\\E$"}

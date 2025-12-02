@@ -3,6 +3,7 @@
 
 % ===================== Packages =====================
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage[sc,osf]{mathpazo}
 \usepackage{microtype}
@@ -526,52 +527,70 @@ Data retention & Oversharing over time & Course retention settings; purge-on-reu
 
 \section{Objectives}
 We provide concise, visual evidence that the system:
-(i) processes submissions end-to-end,
-(ii) groups answer \emph{images} by semantic similarity (no answer OCR; therefore none is needed),
-(iii) isolates outliers for review,
-(iv) applies rubrics and propagates score changes consistently, and
-(v) supports clipboard-based grade transfer (\emph{Copy Table}) into external systems.
+\begin{enumerate}
+  \item processes submissions end-to-end,
+  \item groups answer \emph{images} by semantic similarity (no answer OCR\footnote{No answer OCR means that text extracted from the image is not returned in the answer. In this case the answer is a grouping, so text extracted by the AI is not needed.}),
+  \item isolates outliers for review,
+  \item applies rubrics and propagates score changes consistently, and
+  \item supports clipboard-based grade transfer (\emph{Copy Table}) into external systems.
+\end{enumerate}
 
 \section{Test Data}
-A small gold-labeled set (12–20 pages) mixing typed and handwritten responses. Known-correct exemplars are used only to \emph{interpret} cluster coherence; the system does not OCR answer content for grouping.
+We used a small gold-standard set of 20 pages containing mixed typed and handwritten responses. Known-correct examples provide an interpretation of cluster coherence. The system does not rely  on OCR results to group the answers.
 
 \section{Tests \& Evidence}
-\emph{A. Basic Flow.} Upload~$\rightarrow$ process~$\rightarrow$ results; rubric application updates totals.  
-\emph{Evidence:} one multi-panel figure combining upload/process, results view, and rubric update (Figure~\ref{fig:basic-flow}).
 
-\emph{B. Vision-Based Semantic Recognition (No Answer OCR).}
-GPT-4o Vision groups answer \emph{images} by meaning.  
-\emph{Evidence:} a compact figure with (a) Cluster~A gallery (similar idea), (b) Cluster~B gallery (different idea), and (c) Outliers gallery (heterogeneous/suspect) (Figure~\ref{fig:vision-groups}).
+Four tests provide evidence for correctness in the areas of: Basic Flow (objective 1), Vision-based Semantic Recognition (objective 2-3), and Rubric propagation (objective 4). The final objective relies on the format of content copied to the clipboard and relies on a simple check to see if content is copied correctly.
 
-\emph{C. Rubric Propagation \& Clipboard Interop.}
-Totals update after a rubric edit; \emph{the rubric panel exposes a brief help tooltip clarifying positive vs.\ negative scoring semantics}; the on-screen grade table can be copied to the clipboard and pasted into an LMS/spreadsheet.
-\emph{Evidence:} a figure showing the \emph{Copy Table} UI and the pasted result (Figure~\ref{fig:copy-table}).
+\subsection{Basic Flow}
+
+Basic flow tests check the process of Upload~$\rightarrow$ process~$\rightarrow$ results, to make sure that it matches the requirements for application flow. 
+
+\emph{Evidence:} Figure~\ref{fig:basic-flow}~(a) shows a set of papers uploaded and processing. (b) shows the grouping results view, and (c) shows the graded group using the ``Rubric Test''. Testing this under several scenarios demonstrates that the process correctly follows the required flow. 
+
+\subsection{Vision-Based Semantic Recognition (No Answer OCR)}
+
+This tests if GPT-4o Vision groups answers \emph{images} into semantically similar groups.
+
+\emph{Evidence:} Figure~\ref{fig:vision-groups} shows three groups created by GPT-4o. In (a) we see identical answers being grouped together as expected. In (b), GPT-4o clustered answers that are semantically the same, with different amounts of work into the same Cluster. (c) shows diverse answers clustered into an ``Ungrouped Answers'' group as expected. 
+
+\subsection{Rubric Propagation \& Clipboard Interoperability}
+
+For rubric propagation, totals must update after a rubric edit and the rubric panel must expose a brief help tooltip clarifying positive vs.\ negative scoring semantics. 
+
+\emph{Evidence:} Figure~\ref{fig:vision-groups}~(c) shows the results of a change in a rubric value assigned to group 1. Near the top, it clearly shows the correct points value of 0.0. 
+
+For clipboard Interoperability, the on-screen grade table must be able to be copied to the clipboard and pasted into an LMS/spreadsheet.
+
+Figure~\ref{fig:copy-table} shows the results of a copy and paste operation that is correctly converted into XML. Note that real names have been redacted. 
 
 \section{UI Verification Checklist (Feature Presence)}
+
 This checklist is completed once per build to verify that all expected UI elements and flows are present. Evaluators mark \texttt{[X]} or leave blank; notes capture anything missing or confusing.
 
-\begin{table}[H]\centering
+\begin{table}[htb]\centering
 \caption{UI checklist for instructor workflow (presence, not preference).}\label{tab:ui-checklist}
-\begin{tabularx}{\textwidth}{@{}p{6.7cm}p{1.2cm}X@{}}
+\begin{tabularx}{\textwidth}{@{}p{11.5cm}p{1.2cm}X@{}}
 \toprule
 \textbf{Item} & \textbf{OK} & \textbf{Notes} \\
 \midrule
-Assignment creation (free-form + filled-form options) & [ ] &  \\
-Template binding and identity/answer region editor (filled-form) & [ ] &  \\
-Student upload flow; processing status/notifications & [ ] &  \\
-Grouping view with clusters + \emph{Ungrouped} bucket & [ ] &  \\
-Cluster edit tools (rename, merge, split, reassign) & [ ] &  \\
-Rubric panel; apply/remove rubric items per group & [ ] &  \\
-Totals update immediately after rubric edit & [ ] &  \\
-Copyable grade table (\emph{Copy Table}) & [ ] &  \\
-Pasted table preserves rows/columns in target app & [ ] &  \\
-Audit-friendly identifiers (assignment, question, job id) visible & [ ] &  \\
-Job status is legible during processing (progress, last update, error/hung states) & [ ] &  \\
+Assignment creation (free-form + filled-form options) & $\square$ &  \\
+Template binding and identity/answer region editor (filled-form) & $\square$ &  \\
+Student upload flow; processing status/notifications & $\square$ &  \\
+Grouping view with clusters + \emph{Ungrouped} bucket & $\square$ &  \\
+Cluster edit tools (rename, merge, split, reassign) & $\square$ &  \\
+Rubric panel; apply/remove rubric items per group & $\square$ &  \\
+Totals update immediately after rubric edit & $\square$ &  \\
+Copyable grade table (\emph{Copy Table}) & $\square$ &  \\
+Pasted table preserves rows/columns in target app & $\square$ &  \\
+Audit-friendly identifiers (assignment, question, job id) visible & $\square$ &  \\
+Job status is legible during processing (progress, last update, error/hung states) & $\square$ &  \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\paragraph{Suggested UI screenshots (placeholders).}
+%\paragraph{Suggested UI screenshots (placeholders).}
+
 \begin{figure}[H]
   \centering
   \begin{subfigure}{0.49\linewidth}
@@ -592,11 +611,48 @@ Job status is legible during processing (progress, last update, error/hung state
   \label{fig:basic-flow}
 \end{figure}
 
-\section{UX Design Evaluation (Questionnaire)}
-\emph{Participants.} 3–6 instructors/TAs familiar with grading.  
-\emph{Scope.} Design/readability only (layout, labels, hierarchy, contrast, discoverability)—\emph{not} speed or task timing.
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_A_gallery.png}
+    \caption{Cluster A (same idea)}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_B_gallery.png}
+    \caption{Cluster B (different idea)}
+  \end{subfigure}\hfill
+  \begin{subfigure}{0.32\linewidth}
+    \MaybeImage[0.99\linewidth]{cluster_outliers.png}
+    \caption{Outliers (mixed/unclear)}
+  \end{subfigure}
 
-\paragraph{Likert (1–5) items used.}
+  \caption{Vision-led semantic grouping from images only: coherent clusters (left, middle) and outliers (right).}
+  \label{fig:vision-groups}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{0.6\linewidth}
+    \MaybeImage[0.99\linewidth]{copy_table.png}
+    \caption{Copyable grade table in the app}
+  \end{subfigure}
+
+  \vspace{0.5em}
+  \begin{subfigure}{0.6\linewidth}
+    \MaybeImage[0.99\linewidth]{paste_example.png}
+    \caption{Pasted result in external tool}
+  \end{subfigure}
+  \caption{Clipboard-based grade transfer using \emph{Copy Table}.}
+  \label{fig:copy-table}
+\end{figure}
+
+\section{UX Design Evaluation (Questionnaire)}
+
+\emph{Participants} include 3–6 instructors/TAs familiar with grading. The scope of the questionnaire covers Design/readability only, including layout, labels, hierarchy, contrast, discoverability — \emph{not} speed or task timing.
+
+We use the common likert scale for agreement: 1 - Strongly Disagree, 2 - Disagree, 3 - Neutral, 4 - Agree and 5 - Strongly Agree. 
+
+\paragraph{Likert (1–5) items}
 \begin{compactenum}
   \item The layout feels clean and uncluttered.
   \item Text is legible without zooming; font sizes are appropriate.
@@ -622,57 +678,30 @@ Job status is legible during processing (progress, last update, error/hung state
 (3) Accessibility notes: contrast, text size, color cues, keyboard focus, screen readers.
 
 \section{Model Grouping Evidence (10-Student Run)}
+
 \emph{Setup.} Run one assignment with $\sim$10 students. For a single question, create a \emph{gold} clustering by manually assigning each answer crop to a semantic group (visual meaning).  
-\emph{Prediction.} Record the model’s shaped output (cluster IDs, memberships, \emph{Ungrouped}).  
-\emph{Teacher-facing evaluation.} We quantify effort as the number of \emph{manual moves} required to correct groupings to the gold (one move = reassigning a single tile). We additionally report ungrouped size and the presence of a dominant ``correct'' cluster when applicable. Formal clustering scores (e.g., B-Cubed, Pairwise F1) are out of scope for this study and omitted to keep the focus on instructor workload.
+
+\noindent\emph{Prediction.} Record the model’s shaped output (cluster IDs, memberships, \emph{Ungrouped}).  
+
+\noindent\emph{Teacher-facing evaluation.} We quantify effort as the number of \emph{manual moves} required to correct groupings to the gold (one move = reassigning a single tile). We additionally report ungrouped size and the presence of a dominant ``correct'' cluster when applicable. Formal clustering scores (e.g., B-Cubed, Pairwise F1) are out of scope for this study and omitted to keep the focus on instructor workload.
 
 \section{Clipboard Interoperability (Evidence)}
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}{0.6\linewidth}
-    \MaybeImage[0.99\linewidth]{copy_table.png}
-    \caption{Copyable grade table in the app}
-  \end{subfigure}
 
-  \vspace{0.5em}
-  \begin{subfigure}{0.6\linewidth}
-    \MaybeImage[0.99\linewidth]{paste_example.png}
-    \caption{Pasted result in external tool}
-  \end{subfigure}
-  \caption{Clipboard-based grade transfer using \emph{Copy Table}.}
-  \label{fig:copy-table}
-\end{figure}
+
 
 % --------------------------------------------------------------------------------
 \chapter{Results}\label{chap:results}
 
 \section{UI Verification}
-Table~\ref{tab:ui-checklist} was completed for the evaluated build. All required UI elements and flows were present unless noted in the checklist’s \emph{Notes} column. Figure~\ref{fig:basic-flow} illustrates the end-to-end flow and rubric propagation.
 
-\section{Vision-Based Semantic Grouping (No Answer OCR)}
-The system groups \emph{answer crops} by visual meaning rather than OCR. Figure~\ref{fig:vision-groups} shows two coherent clusters and an outlier set; each tile is a raw crop.
+Table~\ref{tab:ui-checklist} was completed for the evaluated build. All required UI elements and flows are present (all boxes checked). These were visually verified by three different individuals. 
 
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}{0.32\linewidth}
-    \MaybeImage[0.99\linewidth]{cluster_A_gallery.png}
-    \caption{Cluster A (same idea)}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.32\linewidth}
-    \MaybeImage[0.99\linewidth]{cluster_B_gallery.png}
-    \caption{Cluster B (different idea)}
-  \end{subfigure}\hfill
-  \begin{subfigure}{0.32\linewidth}
-    \MaybeImage[0.99\linewidth]{cluster_outliers.png}
-    \caption{Outliers (mixed/unclear)}
-  \end{subfigure}
+\section{Vision-Based Semantic Grouping}
 
-  \caption{Vision-led semantic grouping from images only: coherent clusters (left, middle) and outliers (right).}
-  \label{fig:vision-groups}
-\end{figure}
+The system groups \emph{answer crops} by visual meaning rather than OCR. Figure~\ref{fig:vision-groups} shows two coherent clusters and an outlier set; each tile is a raw crop. As you can see, the crops represent not only semantically similar answers, but also the formatting of the answers as well. This has the added benefit of allowing a grader to see answers that are identical. 
 
 \subsection{Runtime and Cost}
-On a 200-answer batch (20 questions, 10 students), end-to-end grouping/grading completed in $\sim$10 minutes ($\approx$20 answers/min; $\approx$3.0~s/answer).
+On a 200-answer batch (20 questions, 10 students), end-to-end grouping/grading completed in approximately 10 minutes ($\approx$20 answers/min; $\approx$3.0~s/answer).
 
 \paragraph{Token use and cost (per run).}
 \begin{center}
@@ -687,16 +716,18 @@ GPT-4o-mini (verbose) & 200 & 2{,}108{,}335 & \$0.56 & 10{,}542 \\
 \bottomrule
 \end{tabularx}
 \end{center}
-Response verbosity drives token variability for GPT-4o-mini; restricting outputs to IDs/memberships yields compact usage comparable to GPT-4o.
+Response verbosity drives token variability for GPT-4o-mini; restricting outputs to IDs/memberships yields compact usage comparable to GPT-4o. As we can easily see, the cost to grade a single assignment of 20 questions for 10 students is insignificant to the cost of having a grader work through these papers even if all it saves is 7 minutes ($\$0.79 \div \$7.25/hour = .11$ hours or 6.6 minutes).
 
-\subsection{Workload Reduction: Instructor Actions and Example (Q13a)}
-We measure instructor effort as the number of \emph{manual moves} required to correct the model’s grouping to a gold clustering (visual meaning). A \emph{move} is a single reassign action of one answer tile.
+\subsection{Workload Reduction: Instructor Actions and Example}
 
-\paragraph{\emph{Q13a (representative vignette).}}
-For Q13a, GPT-4o produced a single coherent correct cluster plus one ungrouped set; GPT-4o-mini fragmented the same responses across multiple clusters.
+We measure instructor effort as the number of \emph{manual moves} required to correct the model's grouping to a gold clustering (visual meaning). A \emph{move} is a single reassign action of one answer tile. The following vignette is taken from an assignment in Networking \#13-a. We analyze this example in terms of workload reduction across different versions of GPT. 
 
-\begin{center}
+Table~\ref{tab:clusteringresults} shows a typical question where GPT-4o produces a single coherent correct cluster plus one ungrouped set. However, GPT-4o-mini fragmented the same responses into multiple groups, where the groups differed from multiple tests on the same sample set. The conclusion is clear, the application cannot rely on the cheaper ``mini'' version to reliably group answers. 
+
+\begin{table}[h]
 \small
+\caption{Clustering using GPT-40 vs. GPT-40-mini.}
+\label{tab:clusteringresults}
 \begin{tabularx}{\textwidth}{@{}l c c X c@{}}
 \toprule
 \textbf{Model} & \textbf{\#Clusters} & \textbf{\#Ungrp.} & \textbf{Largest correct cluster} & \textbf{Manual moves} \\
@@ -705,11 +736,13 @@ GPT-4o & 1 & 1 & all correct answers & \emph{2} \\
 GPT-4o-mini & 5 & 1 & fragmented across clusters & \emph{not reliably tallied (substantially higher)} \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\end{table}
 
-\paragraph{\emph{Per-question instructor actions (20Q\texorpdfstring{$\times$}{×}10 students).}}
+Table~\ref{tab:instructor-actions} shows the number of moves required for each question on the sample assignment. The results were reliably reproduced in subsequent tests. 
+
+%\paragraph{\emph{Per-question instructor actions (20 Questions $\times$ 10 students).}}
 \begin{table}[H]\centering
-\caption{Instructor manual moves by question (20 questions; lower is better).}
+\caption{Instructor manual moves by question (20 questions $\times$ 10 students; lower is better).}
 \label{tab:instructor-actions}
 \begin{tabularx}{\textwidth}{@{}l r l r@{}}
 \toprule
@@ -729,10 +762,12 @@ GPT-4o-mini & 5 & 1 & fragmented across clusters & \emph{not reliably tallied (s
 \end{tabularx}
 \end{table}
 
-\paragraph{\emph{Roll-up metrics (teacher effort).}}
-Across 200 answers, we observed a total of \emph{49} manual moves, i.e., \emph{24.5 moves per 100 answers}. The per-question median was \emph{2} moves (IQR: 1–4).
+Table~\ref{tab:moves-answer} shows results across 200 answers requiring a total of \emph{49} manual moves, i.e., \emph{24.5 moves per 100 answers}. The per-question median was \emph{2} moves with an interquartile range(IQR) of 1--4. This represents a conservative approach to grouping where the majority of moves are from the ungrouped set to another group. 
 
-\begin{center}
+\begin{table}[h]
+%\begin{center}
+\caption{Moves statistics per answer.}
+\label{tab:moves-answer}
 \small
 \begin{tabularx}{\textwidth}{@{}l c c X@{}}
 \toprule
@@ -742,9 +777,11 @@ GPT-4o & \emph{24.5} & \emph{2} & 49 moves over 200 answers \\
 GPT-4o-mini & -- & -- & Substantially higher; not reliably tallied \\
 \bottomrule
 \end{tabularx}
-\end{center}
+%\end{center}
+\end{table}
 
 \paragraph{\emph{Estimated time savings (conservative).}}
+
 Baseline page/PDF flipping at $t_{\text{page}}{=}8$\,s per answer: $200\times 8$\,s $= 26.7$\,min.  
 With clustering:
 \[
@@ -759,13 +796,12 @@ During our audit, \emph{GPT-4o-mini required substantially more manual moves tha
 Cluster counts naturally vary with how diverse student responses are for a given question (e.g., multiple valid solution paths or many non-answers increase the number of clusters/ungrouped). \emph{Even when clusters proliferate, presenting all answers for one question on a single screen still reduces handling time versus grading one student at a time or flipping through pages/PDFs}, because instructors can scan, compare, and bulk-apply rubric actions across visually similar answers.
 
 \section{UX Design Outcomes}
-\emph{Participants.} Four raters. One item (Q13) had a missing value; analyses use available ratings per item.
 
-\paragraph{Central tendency and dispersion.}
-Across all items, ratings were ceilinged at 5: overall mean \(=4.79\), median \(=5.0\) (Q1 \(=5.0\), Q3 \(=5.0\), IQR \(=0\)). 
+\emph{Participants} included four subjects. One item (Q13) had a missing value; analysis uses available ratings per item.
 
-\paragraph{Per-item medians and IQR.}
-Table~\ref{tab:likert-median-iqr} reports median and IQR per item (1–5), treating missing values as \emph{NA}. Most items show perfect consensus (IQR \(=0\)); localized dispersion appears most notably on Q14.
+\paragraph{Central tendency and dispersion:} Across all items, ratings were ceilinged at 5: overall mean \(=4.79\), median \(=5.0\) (Q1 \(=5.0\), Q3 \(=5.0\), IQR \(=0\)). 
+
+\paragraph{Per-item medians and IQR:} Table~\ref{tab:likert-median-iqr} reports median and IQR per item (1--5), treating missing values as \emph{NA}. Most items show perfect consensus (IQR \(=0\)); localized dispersion appears most notably on Q14.
 
 \begin{table}[H]\centering
 \caption{Per-item medians and IQR (1–5; \emph{NA} excluded). Item labels abridge the list in \S\ref{chap:evalplan}.}
@@ -814,10 +850,11 @@ Given the ceilinged scores, changes should target \emph{discoverability} and \em
 (4) update the demo/video to explicitly show these moments so raters can verify them without inference.
 
 \section{Clipboard Interoperability}
-Figure~\ref{fig:copy-table} shows the source grade table and pasted result. Note any differences and remediation steps if needed.
+Figure~\ref{fig:copy-table} shows the source grade table and pasted result. 
 
 \section{Summary}
 Across these tests, we visually confirm end-to-end processing, vision-based semantic grouping with isolated outliers, consistent rubric propagation, and successful clipboard transfer of grades. The UI checklist verifies feature presence; the design-only UX questionnaire gauges readability and clarity; clustering metrics quantify grouping quality on a 10-student run. Crucially, the system reduces instructor workload: for this 200-answer batch, only \emph{49} manual moves were required (median \emph{2} per question), yielding an estimated \emph{$\sim$80\%} reduction in handling time versus baseline page flipping.
+
 Design-only ratings were ceilinged (median \(=5\), IQR \(=0\)) with localized uncertainty around edit-tool discoverability (Q10) and runtime status indicators (Q14), which we address via stronger signifiers, inline scoring-polarity help, and clearer job-status telemetry.
 
 % -------------------------------------------------
@@ -836,7 +873,10 @@ We delivered the integrated web app, background services, reproducible prompts/m
   \item Visual pre-processing (downscale/tiling) mattered more for stability than minor prompt tuning.
   \item Instructors preferred neutral group names and an explicit \emph{Ungrouped} bin.
   \item Future: direct CSV/Excel export in addition to \emph{Copy Table}; domain-tuned prompts for math diagrams; adaptive thresholding for faint pencil; pre-clustering to cut LLM calls; regrade workflow.
+  \item Future: prompting with answers to identify the correct group.
+  \item Future: prompting with rubrics that the AI can assign to individual answers or groups. 
 \end{compactitem}
+
 
 % ===================== Appendix =====================
 \appendix

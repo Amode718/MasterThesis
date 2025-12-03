@@ -188,7 +188,7 @@ This project delivers a practical, instructor-in-the-loop grading system that pr
 
 Bulk Scanned \textit{Filled-form} PDFs are split by known page counts. Ghostscript rasterizes pages; PdfPig validates page counts; SkiaSharp crops defined regions to PNGs. We call these regions \textit{crops}. Crops are used in several different ways throughout this project. The Tesseract OCR library provides the ability to extract name or ID from a designated identity region which the system uses to auto-assign submissions to students. Unresolved items fall back to a manual pick-list. No OCR is performed on answers; grouping uses GPT-4o Vision directly on the cropped images. Identity text crops are matched to the class roster.
 
-Students directly upload \textit{free-form} assignments which are automatically tied to the uploader's account, and therefore, need no identity extraction. In these assignments, students identify crops that contain their answers. But beyond that, submissions are handled similarly to Filled-form submissions. 
+Students directly upload free-form assignments which are automatically tied to the uploader's account and therefore need no identity extraction. In these assignments, students identify crops that contain their answers. But beyond that, submissions are handled similarly to filled-form submissions. 
 
 In both cases, the \textit{Editable AI Assistance} proposes semantic groups using a Vision LLM. Instructors can merge/split groups, move answers, and apply rubric items per-group.
 
@@ -196,7 +196,7 @@ The final feature is \textit{Traceability:} All actions and groupings are persis
 
 \section{Motivation and Benefits}
 
-The motivation for adoption by instructors is time-saving. If instructors do not see significant time savings, they are unlikely to adopt a new technology regardless of the other benefits. Never-the-less, additional benefits often factor into decisions once teachers realize time-saving benefits. These benefits include:
+The motivation for adoption by instructors is time-saving. If instructors do not see significant time savings, they are unlikely to adopt a new technology regardless of the other benefits. Nevertheless, additional benefits often factor into decisions once teachers realize time-saving benefits. These benefits include:
 
 \begin{compactitem}
   \item \emph{Faster feedback:} Instructors grade clusters of similar answers once, reducing turnaround time.
@@ -213,15 +213,15 @@ To achieve these benefits, we provide the following contributions:
 \begin{compactitem}
   \item An \emph{OCR-minimal}, vision-first pipeline that uses OCR only for identity assignment.
   \item A \emph{token-budgeted batching} strategy (downscale + tiling) to bound latency/cost at class scale.
-  \item A \emph{traceable data model \& APIs} with idempotent re-uploads and stable crop filenames.
+  \item A \emph{traceable data model and APIs} with idempotent re-uploads and stable crop filenames.
   \item An \emph{instructor-in-the-loop} UX with editable groups, explicit review status, and rubric-first grading.
 \end{compactitem}
 
 \section{Assumptions and Scope}
 
-We target short-answer problems with recognizable visual structure (boxes/lines). Free-form essays are supported via uploaded PDFs but are not auto-scored; the system focuses on grouping to speed human grading. We assume class rosters are available, that instructors can define crops once per assignment for filled-form assignments, and that students can define crops for Free-form assignments.
+We target short-answer problems with recognizable visual structure (boxes/lines). Free-form essays are supported via uploaded PDFs but are not auto-scored; the system focuses on grouping to speed human grading. We assume class rosters are available, that instructors can define crops once per assignment for filled-form assignments, and that students can define crops for free-form assignments.
 
-The scope includes the AI grouping assistance, and workflow to grade both Filled-form and Free-form assignments. 
+The scope includes the AI grouping assistance, and workflow to grade both filled-form and free-form assignments. 
 
 \section{Report Organization}
 
@@ -241,13 +241,12 @@ Pre-LLM systems typically relied on feature engineering, keyword overlap, or sup
 Recent work investigates LLMs for grading and feedback across STEM and writing tasks. Studies report promising alignment with human graders for mathematical reasoning and physics solutions when prompts focus evaluation criteria and preserve human oversight~\cite{Liu2023,Kortemeyer2023,Kortemeyer2023b}. LLMs can also aid instructional design and rubric drafting~\cite{Lund2023}. We leverage GPT-4o Vision for grouping by meaning from images, bypassing handwriting OCR.
 
 \section{Bias, Fairness, and Student Perceptions}
-Bias can propagate into grading unless monitored and mitigated~\cite{Mehrabi2021}. Student acceptance depends on clear processes, and fairness~\cite{Tossell2023}. Effective formative feedback principles—timely, specific, actionable—remain central whether drafted by AI or humans~\cite{Nicol2006}.
+Bias can propagate into grading unless monitored and mitigated~\cite{Mehrabi2021}. Student acceptance depends on clear processes and fairness~\cite{Tossell2023}. Effective formative feedback principles—timely, specific, actionable—remain central whether drafted by AI or humans~\cite{Nicol2006}.
 
 \section{Similar Implementations}
-To situate this project, we survey adjacent tools and how our system compares. In short,
-\emph{we have not found public documentation of a production system that groups handwritten
+To situate this project, we survey adjacent tools and how our system compares. In short, we have not found public documentation of a production system that groups handwritten
 short answers directly from images using a general-purpose vision LLM without first using OCR on the
-answer content}. Existing offerings fall into four families:
+answer content. Existing offerings fall into four families:
 
 \subsection{Commercial paper-exam graders (e.g., \Brand{Gradescope}, \Brand{Crowdmark})}
 \Brand{Gradescope}~\cite{gradescope} supports fixed-template paper exams with region-based workflows and
@@ -297,7 +296,7 @@ our distinctives are:
 The system comprises an ASP.NET Razor Pages app (instructor workflow), a Python FastAPI microservice (AI grouping), a MySQL database (persistence), and a file store (crops/exports). Tools include Ghostscript (rasterization), PdfPig (PDF orchestration), SkiaSharp (region extraction), and Tesseract (identity OCR). GPT-4o Vision provides semantic grouping over cropped answer images.
 
 \section{High-Level Architecture}
-At a glance, the platform is organized into three dashed \emph{zones} that separate concerns and scaling boundaries: the \emph{Application Server} (Razor Pages web app and extraction worker), the \emph{AI Service Layer} (FastAPI microservice and the GPT-4o Vision endpoint), and \emph{Data \& Storage} (MySQL and the file store). Instructors interact via a browser over HTTPS with the Razor Pages app, which handles authentication, rubric management, and the grading UI. The app invokes an extraction worker that orchestrates Ghostscript, PdfPig, and SkiaSharp to render pages and cut out per-answer crops; Tesseract OCR is used narrowly to read identifying fields (e.g., student ID) and is deliberately decoupled from semantic grouping. Crops and downstream exports are written to the file store while the web app serves these images directly to the UI.
+At a glance, the platform is organized into three dashed \emph{zones} that separate concerns and scaling boundaries (Figure~\ref{fig:architecture}): the \emph{Application Server} (Razor Pages web app and extraction worker), the \emph{AI Service Layer} (FastAPI microservice and the GPT-4o Vision endpoint), and \emph{Data \& Storage} (MySQL and the file store). Instructors interact via a browser over HTTPS with the Razor Pages app, which handles authentication, rubric management, and the grading UI. The app invokes an extraction worker that orchestrates Ghostscript, PdfPig, and SkiaSharp to render pages and cut out per-answer crops; Tesseract OCR is used narrowly to read identifying fields (e.g., student ID) and is deliberately decoupled from semantic grouping. Crops and downstream exports are written to the file store while the web app serves these images directly to the UI.
 
 Auto-grouping requests are queued from the web app to a Python FastAPI service (\texttt{POST /autogroup}). The service packages each question’s crops, converts them to compact JPEGs, and sends them with prompt instructions to GPT-4o Vision. Proposed clusters are normalized server-side (stable UUIDs, neutral names, small-group collapse) and persisted to MySQL. The UI polls a job status endpoint and, when complete, renders groups for human review, edits, and grading. This arrangement keeps the web tier largely stateless, allows the extraction worker and AI service to scale independently, and localizes persistent state to MySQL and the file store. Figure~\ref{fig:architecture} depicts the overall topology and data flow.
 
@@ -449,7 +448,7 @@ The service uses concise grouping rules (favor fewer, larger clusters; neutral l
 \FloatBarrier
 
 \section{Token Budget, Cost \& Rate Limiting}
-For an image of width $w$ and height $h$, the service estimates tokens after a 50\% downscale: $w' = \lfloor w/2 \rfloor$, $h' = \lfloor h/2 \rfloor$. The number of 512$\times$512 tiles is $T=\lceil w'/512 \rceil\cdot\lceil h'/512 \rceil$, and the cost estimate is $85 + 170\,T$ tokens/image. Batches exceeding a threshold are split. On rate limits, the client retries up to 10 times with exponential backoff. For a representative $768\times 768$ downscaled image ($T=3$), the estimate is $\sim595$ tokens/image.
+For an image of width $w$ and height $h$, the service estimates tokens after a 50\% downscale: $w' = \lfloor w/2 \rfloor$, $h' = \lfloor h/2 \rfloor$. The number of 512$\times$512 tiles is $T=\lceil w'/512 \rceil\cdot\lceil h'/512 \rceil$, and the cost estimate is $85 + 170\,T$ tokens/image. Batches exceeding a threshold are split. On rate limits, the client retries up to 10 times with exponential backoff. For a representative $768\times 768$ downscaled image ($T=3$), the estimate is approximately 595 tokens/image.
 
 \section{Integration with ASP.NET}
 The web app calls \texttt{QueueAutoGroupAsync} (server) to POST to \texttt{/autogroup}, records a \texttt{GroupingJob}, and renders a progress UI that polls \texttt{/status/\{job\_id\}}; when the background job completes, the page automatically refreshes into the results view. Subsequent instructor actions (save groups, apply/remove rubric items, scoring method toggles) are persisted in the relational database and mirrored in a \texttt{GroupScore} table; a background grade recalculator keeps submission grades in sync.
@@ -529,7 +528,7 @@ Data retention & Oversharing over time & Course retention settings; purge-on-reu
 We provide concise, visual evidence that the system:
 \begin{enumerate}
   \item processes submissions end-to-end,
-  \item groups answer \emph{images} by semantic similarity (no answer OCR\footnote{No answer OCR means that text extracted from the image is not returned in the answer. In this case the answer is a grouping, so text extracted by the AI is not needed.}),
+  \item groups answer images by semantic similarity (no answer OCR\footnote{No answer OCR means that text extracted from the image is not returned in the answer. In this case the answer is a grouping, so text extracted by the AI is not needed.}),
   \item isolates outliers for review,
   \item applies rubrics and propagates score changes consistently, and
   \item supports clipboard-based grade transfer (\emph{Copy Table}) into external systems.
@@ -685,8 +684,6 @@ We use the common likert scale for agreement: 1 - Strongly Disagree, 2 - Disagre
 
 \noindent\emph{Teacher-facing evaluation.} We quantify effort as the number of \emph{manual moves} required to correct groupings to the gold (one move = reassigning a single tile). We additionally report ungrouped size and the presence of a dominant ``correct'' cluster when applicable. Formal clustering scores (e.g., B-Cubed, Pairwise F1) are out of scope for this study and omitted to keep the focus on instructor workload.
 
-\section{Clipboard Interoperability (Evidence)}
-
 
 
 % --------------------------------------------------------------------------------
@@ -793,7 +790,7 @@ using $t_{\text{group}}{=}2$\,s and $t_{\text{move}}{=}5$\,s. Assuming two clust
 During our audit, \emph{GPT-4o-mini required substantially more manual moves than we could reliably tally in-session} due to fragmentation and frequent reassignments. We therefore report 4o-mini effort qualitatively as \emph{higher} rather than providing a potentially misleading count.
 
 \paragraph{\emph{On variability of student answers.}}
-Cluster counts naturally vary with how diverse student responses are for a given question (e.g., multiple valid solution paths or many non-answers increase the number of clusters/ungrouped). \emph{Even when clusters proliferate, presenting all answers for one question on a single screen still reduces handling time versus grading one student at a time or flipping through pages/PDFs}, because instructors can scan, compare, and bulk-apply rubric actions across visually similar answers.
+Cluster counts naturally vary with how diverse student responses are for a given question (e.g., multiple valid solution paths or many non-answers increase the number of clusters/ungrouped). Even when clusters proliferate, presenting all answers for one question on a single screen still reduces handling time versus grading one student at a time or flipping through pages/PDFs, because instructors can scan, compare, and bulk-apply rubric actions across visually similar answers.
 
 \section{UX Design Outcomes}
 
@@ -866,9 +863,11 @@ We addressed the effort and inconsistency of grading open-ended work by building
 Our visual tests demonstrated end-to-end processing, coherent semantic grouping (no answer OCR), consistent rubric propagation, reliable clipboard-based grade transfer using \emph{Copy Table}, and a tangible reduction in instructor effort (\emph{49} moves over \emph{200} answers; \emph{$\sim$80\%} time savings under conservative assumptions).
 
 \section{Final Outcomes and Deliverables}
-We delivered the integrated web app, background services, reproducible prompts/model versions, and a \emph{Copy Table} flow that enables fast pasting of grades into external systems (e.g., LMS/Sheets). Documentation includes an instructor guide and technical deployment notes.
+We delivered the integrated web app, background services, a reproducible AI configuration (prompts and model settings), and a \emph{Copy Table} flow that enables fast pasting of grades into external systems (e.g., LMSs or Sheets). Documentation includes an instructor guide and technical deployment notes.
 
 \section{Lessons Learned and Future Work}
+Implementing and using the system with instructors surfaced several practical insights about what most affected robustness and instructor experience, as well as concrete opportunities to extend the platform. Below we summarize key lessons and outline directions for future work.
+
 \begin{compactitem}
   \item Visual pre-processing (downscale/tiling) mattered more for stability than minor prompt tuning.
   \item Instructors preferred neutral group names and an explicit \emph{Ungrouped} bin.
